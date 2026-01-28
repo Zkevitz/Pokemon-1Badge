@@ -10,6 +10,16 @@ metadata/_custom_type_script = "uid://3j4rwpwaqwyi"
 
 [sub_resource type="Resource" id="Resource_0uvou"]
 script = ExtResource("1_tihon")
+move_id = 2
+metadata/_custom_type_script = "uid://3j4rwpwaqwyi"
+
+[sub_resource type="Resource" id="Resource_tihon"]
+script = ExtResource("1_tihon")
+move_id = 3
+metadata/_custom_type_script = "uid://3j4rwpwaqwyi"
+
+[sub_resource type="Resource" id="Resource_5m4mj"]
+script = ExtResource("1_tihon")
 move_id = 4
 metadata/_custom_type_script = "uid://3j4rwpwaqwyi"
 
@@ -32,5 +42,5 @@ baseDef = 53
 baseSpeDef = 56
 baseSpd = 40
 base_exp_yield = 68
-learnable_moves = Array[ExtResource("1_tihon")]([SubResource("Resource_l2l2r"), SubResource("Resource_0uvou"), SubResource("Resource_pul10")])
+learnable_moves = Array[ExtResource("1_tihon")]([SubResource("Resource_l2l2r"), SubResource("Resource_0uvou"), SubResource("Resource_tihon"), SubResource("Resource_5m4mj"), SubResource("Resource_pul10")])
 metadata/_custom_type_script = "uid://budev3vnysct5"

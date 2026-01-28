@@ -6,7 +6,6 @@ enum battleState {INTRO, PLAYER_TURN, ENEMY_TURN, MOVE_SELECTION,
 	
 enum actionType {FIGHT, POKEMON, BAG, RUN}
 
-
 #signal battle_started(player_pokemon : PokemonInstance, enemy_pokemon : PokemonInstance)
 signal turn_started(is_player_turn : bool)
 signal move_used(attacker : PokemonInstance, defender : PokemonInstance, move : String) # was dictionnary for claude
@@ -51,6 +50,7 @@ func _physics_process(_delta: float) -> void:
 		print("battle state is on", current_state)
 	
 func _ready() -> void:
+	
 	pass
 	
 func resetBattleManager():
@@ -83,7 +83,7 @@ func start_battle(player_team_data : Array[PokemonInstance], enemy_team_data : A
 	ui_node.move_selected.connect(_on_move_selected)
 	
 	ui_node.setup(player_pokemon, enemy_pokemon)
-	
+	player_pokemon.connect("newLevelupMove", showMoveLearning)
 	current_state = battleState.INTRO
 	#battle_started.emit(player_pokemon, enemy_pokemon)
 	show_intro_animation()
@@ -315,13 +315,22 @@ func _handle_faint(pokemon : PokemonInstance):
 		# gere le cas ou l'ennemy a une team 
 		_handle_victory()
 
+var hasLeveledUp: bool = false
+var newMoveID: int = 0
+
 func _handle_victory():
 	var exp_gained = calculate_exp_gain()
 	_queue_text("%s gagne %d points d'expérience !" % [player_pokemon.pokemon_name, exp_gained])
 	await _process_text_queue()
 	
 	#player_pokemon.gain_exp(exp_gained)
-	ui_node.update_xp_bar(player_pokemon, exp_gained)
+	await ui_node.update_xp_bar(player_pokemon, exp_gained)
+	if hasLeveledUp:
+		_queue_text("%s wants to learn a new move." % player_pokemon.pokemon_name)
+		#_queue_text("" % player_pokemon.pokemon_name)
+		await _process_text_queue()
+		await ui_node.askCustomQuestion("Do you want to learn it ?", player_pokemon, newMoveID)
+		hasLeveledUp = false
 	_end_battle(true)
 
 func pokemon_participant():
@@ -411,3 +420,9 @@ func play_attack_animation(attacker: PokemonInstance, _move: CT_data):
 
 func _process(_delta: float) -> void:
 	pass
+
+func showMoveLearning(_moveID: int) -> void:
+	print("Hello ID: ", _moveID)
+	newMoveID = _moveID
+	hasLeveledUp = true
+	

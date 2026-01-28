@@ -8,12 +8,18 @@ signal move_selected(move_index: int)
 signal pokemon_selected(pokemon_index : int)
 signal item_selected(item_id : int)
 signal text_finished
+signal choice_made(choice : bool)
 
 @onready var player_info := $PlayerInfo
 @onready var enemy_info := $EnemyInfo
 @onready var text_box := $textebox
 @onready var main_menu := $MainMenu
 @onready var move_menu := $movecontainer
+@onready var movecontainerNewMove: GridContainer = $movecontainer2
+@onready var yesNoBox: Panel = $textebox/yes_noBox
+
+
+
 	#@onready var pokemon := A REALISER 
 @onready var battleManager := get_tree().current_scene.get_node("Battlemanager")
 
@@ -26,7 +32,9 @@ var is_displaying_text := false
 func _ready() -> void:
 	print("info panel : ", player_info)
 	move_menu.visible = false
-			
+	movecontainerNewMove.visible = false
+	yesNoBox.visible = false
+	
 	main_menu.get_node("FightButton").pressed.connect(func() : action_selected.emit(actionType.FIGHT))
 	main_menu.get_node("PokemonButton").pressed.connect(func() : action_selected.emit(actionType.POKEMON))
 	main_menu.get_node("BagButton").pressed.connect(func() : action_selected.emit(actionType.BAG))
@@ -115,6 +123,7 @@ func display_text(text : String):
 	text_box.get_node("textLabel").text = ""
 	current_text = text
 	animate_text()
+
 func disable_button():
 	for child in main_menu.get_children():
 		if child is Button :
@@ -217,6 +226,42 @@ func show_move_menu(pokemon : PokemonInstance):
 			button.text = "---"
 			button.disabled = true
 
+func showLevelUpMoveMenu(pokemon : PokemonInstance, newMoveID: int):
+	#hide_all_menu()
+	text_box.visible = false
+	move_menu.visible = false
+	movecontainerNewMove.visible = true
+	
+	#disconnect_move_button()
+	#print("move size 0 ?? :", pokemon.moves.size())
+	for i in range(5):
+		var button = movecontainerNewMove.get_node("Move%dButton" % (i + 1))
+		var move: CT_data
+		if i < pokemon.moves.size():
+			move = pokemon.moves[i]
+			print("new move : ", move)
+			button.text = "%s\nPP: %d/%d" % [move.name, pokemon.movesPP[move.id], move.max_pp]
+		else:
+			move = Game.get_move_data(newMoveID)
+			button.text = "%s\nPP: %d" % [move.name, move.max_pp]
+		#button.pressed.connect(func(): move_selected.emit(i), CONNECT_ONE_SHOT)
+		var style = StyleBoxFlat.new()
+		var color = get_type_color(move.type)
+		style.bg_color = color
+		button.add_theme_stylebox_override("normal", style)
+		
+		var callable = func(): _on_move_button_pressed(i) #TODO: change
+		button.pressed.connect(callable)
+		move_button_connections.append({"button": button, "callable": callable})
+
+func askCustomQuestion(text : String, pokemon: PokemonInstance, moveID: int) :
+	yesNoBox.visible = true
+	display_text("Do you want ?")
+	var choice = await choice_made
+	if choice:
+		showLevelUpMoveMenu(pokemon, moveID)
+	
+
 func _on_move_button_pressed(move_index : int ):
 	move_selected.emit(move_index)
 	
@@ -230,3 +275,11 @@ func _process(_delta: float) -> void:
 func hide_all_menu():
 	main_menu.visible = false
 	move_menu.visible = false
+
+
+func _on_button_pressed() -> void:
+	choice_made.emit(true)
+
+
+func _on_button_2_pressed() -> void:
+	choice_made.emit(false)

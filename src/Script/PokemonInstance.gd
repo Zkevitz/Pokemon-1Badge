@@ -34,6 +34,7 @@ var pokemon_id : int
 signal hp_changed(current : int, maximum : int)
 signal fainted
 signal level_up(new_level : int)
+signal newLevelupMove(move_id: int)
 
 # Called when the node enters the scene tree for the first time.
 func initStats():
@@ -102,7 +103,7 @@ func calculateStat(base : int, lvl : int, is_hp : bool = false ) -> int :
 func CenterHealing():
 	current_hp = max_hp
 	for move in moves : 
-		move["pp"] = move["max_pp"]
+		movesPP[move.id] = move["max_pp"]
 	
 func take_damage(damage : int):
 	current_hp = max(0, current_hp - damage)
@@ -119,7 +120,20 @@ func faint():
 	fainted.emit()
 	#jouer animation de mort du pokemon
 	
+func checkNewMove() -> void:
+	for i in data.learnable_moves.size():
+		if data.learnable_moves[i].LearnType == 1:
+			if level == data.learnable_moves[i].LevelRequired:
+				if moves.size() <= 3:
+					var move = Game.get_move_data(data.learnable_moves[i].move_id)
+					moves.append(move)
+					movesPP[move.id] = move.max_pp
+				else:
+					newLevelupMove.emit(data.learnable_moves[i].move_id)
+					
+	
 func lvl_up():
 	level += 1
 	initStats()
 	level_up.emit(level)
+	checkNewMove()

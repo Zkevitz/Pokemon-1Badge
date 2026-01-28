@@ -20,6 +20,16 @@ var pokemonTeam : Array[PokemonInstance]
 func _ready() -> void:
 	playerManager.player_instance = self
 	global_position = walkgrid.map_to_local(start_position)
+	var pokemon = PokemonInstance.new()
+	pokemon.data = Game.get_data(1)
+	pokemon.level = 5
+	pokemon.initStats()
+	pokemon.current_xp = 70
+	pokemon.moves[0] = Game.get_move_data(1)
+	pokemon.moves.append(Game.get_move_data(2))
+	pokemon.moves.append(Game.get_move_data(3))
+	pokemon.moves.append(Game.get_move_data(4))
+	pokemonTeam.append(pokemon)
 	pass
 	
 func _physics_process(delta: float) -> void:
