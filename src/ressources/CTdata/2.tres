@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="CT_data" load_steps=2 format=3 uid="uid://bbvjgg16d01qw"]
+
+[ext_resource type="Script" uid="uid://khacs4dumku4" path="res://src/ressources/CT_data.gd" id="1_bfxqt"]
+
+[resource]
+script = ExtResource("1_bfxqt")
+name = "Griffe"
+id = 2
+metadata/_custom_type_script = "uid://khacs4dumku4"

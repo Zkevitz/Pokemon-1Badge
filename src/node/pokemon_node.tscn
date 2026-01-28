@@ -1,0 +1,49 @@
+[gd_scene load_steps=8 format=3 uid="uid://dklcl3vkfjfvo"]
+
+[ext_resource type="Script" uid="uid://dtlwfbhkwvrgo" path="res://src/Script/base_pokemon_node.gd" id="1_0i03f"]
+[ext_resource type="Texture2D" uid="uid://bgusobi06egqu" path="res://assets/npc/MPWSP01/sprites/sprite1_idle.png" id="2_v3moo"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8xut3"]
+atlas = ExtResource("2_v3moo")
+region = Rect2(0, 0, 96, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vm1vq"]
+atlas = ExtResource("2_v3moo")
+region = Rect2(96, 0, 96, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_82ys0"]
+atlas = ExtResource("2_v3moo")
+region = Rect2(192, 0, 96, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_k4dkb"]
+atlas = ExtResource("2_v3moo")
+region = Rect2(288, 0, 96, 96)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_j7ayk"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8xut3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vm1vq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_82ys0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_k4dkb")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}]
+
+[node name="basePokemonNode" type="Node2D"]
+script = ExtResource("1_0i03f")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_j7ayk")
+animation = &"idle"
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]

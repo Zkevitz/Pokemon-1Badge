@@ -1,0 +1,28 @@
+[gd_scene load_steps=5 format=3 uid="uid://dc8t668tvfo47"]
+
+[ext_resource type="Script" uid="uid://bo5d77cuy5wis" path="res://src/Script/interact_range.gd" id="1_ai0d2"]
+[ext_resource type="Texture2D" uid="uid://c4px0drletrt7" path="res://assets/npc/environment.png" id="2_ojfww"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_j42e7"]
+size = Vector2(39, 43)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_02hkt"]
+atlas = ExtResource("2_ojfww")
+region = Rect2(128.41806, 768.62103, 15.044769, 31.809692)
+
+[node name="Node2D" type="Area2D"]
+script = ExtResource("1_ai0d2")
+recompense_type = 2
+recompense_id = 0
+question_custom = "Voulez vous soignez vos pokemon ? "
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(8.5, 5.5)
+shape = SubResource("RectangleShape2D_j42e7")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(8, 0)
+texture = SubResource("AtlasTexture_02hkt")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="body_exited" from="." to="." method="_on_body_exited"]

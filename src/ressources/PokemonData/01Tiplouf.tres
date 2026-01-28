@@ -1,0 +1,36 @@
+[gd_resource type="Resource" script_class="PokemonData" load_steps=7 format=3 uid="uid://d1mctp4exnnx"]
+
+[ext_resource type="Script" uid="uid://budev3vnysct5" path="res://src/ressources/Pokemon_data.gd" id="1_by4rc"]
+[ext_resource type="Script" uid="uid://3j4rwpwaqwyi" path="res://src/ressources/LearnMoveData.gd" id="1_tihon"]
+[ext_resource type="SpriteFrames" uid="uid://b11tuatu0cqg8" path="res://src/ressources/PokemonSprite/01Tiplouf.tres" id="2_qgfxr"]
+
+[sub_resource type="Resource" id="Resource_l2l2r"]
+script = ExtResource("1_tihon")
+metadata/_custom_type_script = "uid://3j4rwpwaqwyi"
+
+[sub_resource type="Resource" id="Resource_0uvou"]
+script = ExtResource("1_tihon")
+move_id = 4
+metadata/_custom_type_script = "uid://3j4rwpwaqwyi"
+
+[sub_resource type="Resource" id="Resource_pul10"]
+script = ExtResource("1_tihon")
+move_id = 5
+LearnType = 1
+LevelRequired = 6
+metadata/_custom_type_script = "uid://3j4rwpwaqwyi"
+
+[resource]
+script = ExtResource("1_by4rc")
+pokemon_name = "Tiplouf"
+sprite_frames = ExtResource("2_qgfxr")
+pokemon_type1 = 3
+baseHp = 53
+baseAtk = 51
+baseSpeAtk = 61
+baseDef = 53
+baseSpeDef = 56
+baseSpd = 40
+base_exp_yield = 68
+learnable_moves = Array[ExtResource("1_tihon")]([SubResource("Resource_l2l2r"), SubResource("Resource_0uvou"), SubResource("Resource_pul10")])
+metadata/_custom_type_script = "uid://budev3vnysct5"

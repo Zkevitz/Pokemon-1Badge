@@ -1,0 +1,76 @@
+[gd_scene load_steps=2 format=3 uid="uid://chy6ggwhfdw4l"]
+
+[ext_resource type="Script" uid="uid://dmwvy8muevfp4" path="res://src/Script/dialogue_ui.gd" id="1_bv6mp"]
+
+[node name="DialogueUI" type="CanvasLayer"]
+script = ExtResource("1_bv6mp")
+
+[node name="DialogueBox" type="Panel" parent="."]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -400.0
+offset_top = -200.0
+offset_right = 400.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="MarginContainer" type="MarginContainer" parent="DialogueBox"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -372.0
+offset_top = -86.0
+offset_right = 381.0
+offset_bottom = 86.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="VBoxContainer" type="VBoxContainer" parent="DialogueBox/MarginContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="SpeakerLabel" type="Label" parent="DialogueBox/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.61889625, 0.0002848378, 0.619569, 1)
+
+[node name="textLabel" type="Label" parent="DialogueBox/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(400, 70)
+layout_mode = 2
+size_flags_vertical = 1
+theme_override_font_sizes/font_size = 20
+autowrap_mode = 1
+
+[node name="yes_noBox" type="Panel" parent="."]
+offset_left = 886.0
+offset_top = 340.0
+offset_right = 999.0
+offset_bottom = 430.0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="yes_noBox"]
+layout_mode = 0
+offset_left = 19.0
+offset_top = 18.0
+offset_right = 95.0
+offset_bottom = 68.0
+
+[node name="Button" type="Button" parent="yes_noBox/HBoxContainer"]
+layout_mode = 2
+text = "oui
+"
+
+[node name="Button2" type="Button" parent="yes_noBox/HBoxContainer"]
+layout_mode = 2
+text = "non"
+
+[connection signal="pressed" from="yes_noBox/HBoxContainer/Button" to="." method="_on_buttonyes_pressed"]
+[connection signal="pressed" from="yes_noBox/HBoxContainer/Button2" to="." method="_on_buttonno_pressed"]

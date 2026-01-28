@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="CT_data" load_steps=2 format=3 uid="uid://btwxtu4rr70bj"]
+
+[ext_resource type="Script" uid="uid://khacs4dumku4" path="res://src/ressources/CT_data.gd" id="1_bvch6"]
+
+[resource]
+script = ExtResource("1_bvch6")
+name = "Rugissement"
+id = 3
+category = "STATUS"
+power = 0
+map_pp = 30
+type_effect = 4
+chance = 100
+metadata/_custom_type_script = "uid://khacs4dumku4"

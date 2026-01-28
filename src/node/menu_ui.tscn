@@ -1,0 +1,566 @@
+[gd_scene load_steps=3 format=3 uid="uid://wyqympkr6pbw"]
+
+[ext_resource type="Script" uid="uid://3wunkumt8bu6" path="res://src/Script/menu_ui.gd" id="1_5bvjb"]
+[ext_resource type="Texture2D" uid="uid://bcxhxxiyibyfo" path="res://assets/PokemonSprite/piplup.png" id="2_1rw3a"]
+
+[node name="MenuUi" type="CanvasLayer"]
+script = ExtResource("1_5bvjb")
+
+[node name="fullMenu" type="Panel" parent="."]
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -159.0
+offset_top = -293.5
+offset_right = 159.0
+offset_bottom = 293.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="fullMenu"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -100.0
+offset_top = -300.0
+offset_right = 100.0
+offset_bottom = 300.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="PokemonButton" type="Button" parent="fullMenu/VBoxContainer"]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+text = "Pokemon"
+
+[node name="BagButton" type="Button" parent="fullMenu/VBoxContainer"]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+text = "Bag"
+
+[node name="OptionButton" type="Button" parent="fullMenu/VBoxContainer"]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+text = "Option"
+
+[node name="PokedexButton" type="Button" parent="fullMenu/VBoxContainer"]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+text = "Pokedex "
+
+[node name="PokemonMenu" type="Panel" parent="."]
+visible = false
+offset_left = 257.0
+offset_top = 41.0
+offset_right = 880.0
+offset_bottom = 612.0
+
+[node name="Label" type="Label" parent="PokemonMenu"]
+layout_mode = 0
+offset_left = 136.0
+offset_top = 25.0
+offset_right = 489.0
+offset_bottom = 84.0
+theme_override_font_sizes/font_size = 30
+text = "Pokemon Team"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="MarginContainer" type="MarginContainer" parent="PokemonMenu"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -205.0
+offset_right = 270.0
+offset_bottom = 205.0
+grow_vertical = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 20
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PokemonMenu/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 5
+
+[node name="Pokemon1" type="Button" parent="PokemonMenu/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(250, 120)
+layout_mode = 2
+
+[node name="hpBar" type="ProgressBar" parent="PokemonMenu/MarginContainer/VBoxContainer/Pokemon1"]
+layout_mode = 0
+offset_left = 74.0
+offset_top = 77.5
+offset_right = 219.0
+offset_bottom = 87.5
+show_percentage = false
+
+[node name="lvlLabel" type="Label" parent="PokemonMenu/MarginContainer/VBoxContainer/Pokemon1"]
+layout_mode = 0
+offset_left = 181.0
+offset_top = 11.5
+offset_right = 235.0
+offset_bottom = 34.5
+
+[node name="Pokemon2" type="Button" parent="PokemonMenu/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(250, 120)
+layout_mode = 2
+
+[node name="hpBar" type="ProgressBar" parent="PokemonMenu/MarginContainer/VBoxContainer/Pokemon2"]
+layout_mode = 0
+offset_left = 74.0
+offset_top = 77.5
+offset_right = 219.0
+offset_bottom = 87.5
+show_percentage = false
+
+[node name="lvlLabel" type="Label" parent="PokemonMenu/MarginContainer/VBoxContainer/Pokemon2"]
+layout_mode = 0
+offset_left = 181.0
+offset_top = 11.5
+offset_right = 235.0
+offset_bottom = 34.5
+
+[node name="Pokemon3" type="Button" parent="PokemonMenu/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(250, 120)
+layout_mode = 2
+
+[node name="hpBar" type="ProgressBar" parent="PokemonMenu/MarginContainer/VBoxContainer/Pokemon3"]
+layout_mode = 0
+offset_left = 74.0
+offset_top = 77.5
+offset_right = 219.0
+offset_bottom = 87.5
+step = 1.0
+show_percentage = false
+
+[node name="lvlLabel" type="Label" parent="PokemonMenu/MarginContainer/VBoxContainer/Pokemon3"]
+layout_mode = 0
+offset_left = 181.0
+offset_top = 11.5
+offset_right = 235.0
+offset_bottom = 34.5
+
+[node name="MarginContainer2" type="MarginContainer" parent="PokemonMenu"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -270.0
+offset_top = -205.0
+offset_bottom = 205.0
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 20
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="PokemonMenu/MarginContainer2"]
+layout_mode = 2
+theme_override_constants/separation = 5
+
+[node name="Pokemon1" type="Button" parent="PokemonMenu/MarginContainer2/VBoxContainer2"]
+custom_minimum_size = Vector2(250, 120)
+layout_mode = 2
+
+[node name="hpBar" type="ProgressBar" parent="PokemonMenu/MarginContainer2/VBoxContainer2/Pokemon1"]
+layout_mode = 0
+offset_left = 74.0
+offset_top = 77.5
+offset_right = 219.0
+offset_bottom = 87.5
+show_percentage = false
+
+[node name="lvlLabel" type="Label" parent="PokemonMenu/MarginContainer2/VBoxContainer2/Pokemon1"]
+layout_mode = 0
+offset_left = 181.0
+offset_top = 11.5
+offset_right = 235.0
+offset_bottom = 34.5
+
+[node name="Pokemon2" type="Button" parent="PokemonMenu/MarginContainer2/VBoxContainer2"]
+custom_minimum_size = Vector2(250, 120)
+layout_mode = 2
+
+[node name="hpBar" type="ProgressBar" parent="PokemonMenu/MarginContainer2/VBoxContainer2/Pokemon2"]
+layout_mode = 0
+offset_left = 74.0
+offset_top = 77.5
+offset_right = 219.0
+offset_bottom = 87.5
+show_percentage = false
+
+[node name="lvlLabel" type="Label" parent="PokemonMenu/MarginContainer2/VBoxContainer2/Pokemon2"]
+layout_mode = 0
+offset_left = 181.0
+offset_top = 11.5
+offset_right = 235.0
+offset_bottom = 34.5
+
+[node name="Pokemon3" type="Button" parent="PokemonMenu/MarginContainer2/VBoxContainer2"]
+custom_minimum_size = Vector2(250, 120)
+layout_mode = 2
+
+[node name="hpBar" type="ProgressBar" parent="PokemonMenu/MarginContainer2/VBoxContainer2/Pokemon3"]
+layout_mode = 0
+offset_left = 74.0
+offset_top = 77.5
+offset_right = 219.0
+offset_bottom = 87.5
+step = 1.0
+show_percentage = false
+
+[node name="lvlLabel" type="Label" parent="PokemonMenu/MarginContainer2/VBoxContainer2/Pokemon3"]
+layout_mode = 0
+offset_left = 181.0
+offset_top = 11.5
+offset_right = 235.0
+offset_bottom = 34.5
+
+[node name="BackButton" type="Button" parent="PokemonMenu"]
+layout_mode = 0
+offset_left = 26.0
+offset_top = 491.0
+offset_right = 114.0
+offset_bottom = 520.0
+text = "Retour"
+
+[node name="PokemonStatMenu" type="Panel" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -265.0
+offset_top = -188.0
+offset_right = 265.0
+offset_bottom = 188.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="BackButton" type="Button" parent="PokemonStatMenu"]
+layout_mode = 0
+offset_left = 477.0
+offset_top = 347.0
+offset_right = 525.0
+offset_bottom = 372.0
+theme_override_font_sizes/font_size = 12
+text = "Retour"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PokemonStatMenu"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -266.0
+offset_top = -182.0
+offset_right = -22.0
+offset_bottom = -5.0
+grow_horizontal = 0
+grow_vertical = 2
+
+[node name="CTinfoButton" type="Button" parent="PokemonStatMenu/VBoxContainer"]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+text = "Charge"
+alignment = 0
+
+[node name="PPlabel" type="Label" parent="PokemonStatMenu/VBoxContainer/CTinfoButton"]
+layout_mode = 0
+offset_left = 196.0
+offset_top = 8.0
+offset_right = 238.0
+offset_bottom = 31.0
+theme_override_font_sizes/font_size = 8
+text = "PP 30/30"
+vertical_alignment = 1
+
+[node name="typelabel" type="Label" parent="PokemonStatMenu/VBoxContainer/CTinfoButton"]
+layout_mode = 0
+offset_left = 134.0
+offset_top = 9.0
+offset_right = 176.0
+offset_bottom = 32.0
+theme_override_font_sizes/font_size = 8
+text = "Normal"
+vertical_alignment = 1
+
+[node name="CTinfoButton2" type="Button" parent="PokemonStatMenu/VBoxContainer"]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+
+[node name="CTinfoButton3" type="Button" parent="PokemonStatMenu/VBoxContainer"]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+
+[node name="CTinfoButton4" type="Button" parent="PokemonStatMenu/VBoxContainer"]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+
+[node name="pokemonSprite" type="TextureRect" parent="PokemonStatMenu"]
+layout_mode = 0
+offset_left = 21.0
+offset_top = 12.0
+offset_right = 230.0
+offset_bottom = 217.0
+texture = ExtResource("2_1rw3a")
+
+[node name="GridContainer" type="GridContainer" parent="PokemonStatMenu"]
+layout_mode = 0
+offset_left = 21.0
+offset_top = 223.0
+offset_right = 223.0
+offset_bottom = 363.0
+
+[node name="pokemonName" type="Label" parent="PokemonStatMenu/GridContainer"]
+layout_mode = 2
+text = "Name : Tiplouf"
+
+[node name="pokemonLevel" type="Label" parent="PokemonStatMenu/GridContainer"]
+layout_mode = 2
+text = "lvl : 5"
+
+[node name="pokemonTypes" type="Label" parent="PokemonStatMenu/GridContainer"]
+layout_mode = 2
+text = "type : Glace / Fee"
+
+[node name="pokemonId" type="Label" parent="PokemonStatMenu/GridContainer"]
+layout_mode = 2
+text = "ID :  001"
+
+[node name="pokemonNature" type="Label" parent="PokemonStatMenu/GridContainer"]
+layout_mode = 2
+text = "Nature : Jovial"
+
+[node name="StatPanel" type="Panel" parent="PokemonStatMenu"]
+layout_mode = 0
+offset_left = 243.0
+offset_top = 185.0
+offset_right = 509.0
+offset_bottom = 343.0
+
+[node name="MarginContainer" type="MarginContainer" parent="PokemonStatMenu/StatPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="GridContainer" type="GridContainer" parent="PokemonStatMenu/StatPanel/MarginContainer"]
+layout_mode = 2
+columns = 4
+
+[node name="Label" type="Label" parent="PokemonStatMenu/StatPanel/MarginContainer/GridContainer"]
+custom_minimum_size = Vector2(50, 0)
+layout_mode = 2
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Label2" type="Label" parent="PokemonStatMenu/StatPanel/MarginContainer/GridContainer"]
+custom_minimum_size = Vector2(50, 0)
+layout_mode = 2
+text = "EV"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Label3" type="Label" parent="PokemonStatMenu/StatPanel/MarginContainer/GridContainer"]
+custom_minimum_size = Vector2(50, 0)
+layout_mode = 2
+text = "IV"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Label4" type="Label" parent="PokemonStatMenu/StatPanel/MarginContainer/GridContainer"]
+custom_minimum_size = Vector2(50, 0)
+layout_mode = 2
+text = "STAT"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="HPlabel" type="Label" parent="PokemonStatMenu/StatPanel/MarginContainer/GridContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 10
+text = "HP"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="HPev" type="Label" parent="PokemonStatMenu/StatPanel/MarginContainer/GridContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "0"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="HPiv" type="Label" parent="PokemonStatMenu/StatPanel/MarginContainer/GridContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "0"
+horizontal_alignment = 1
+
+[node name="HPstat" type="Label" parent="PokemonStatMenu/StatPanel/MarginContainer/GridContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "0"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ATKlabel" type="Label" parent="PokemonStatMenu/StatPanel/MarginContainer/GridContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 10
+text = "ATK"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ATKev" type="Label" parent="PokemonStatMenu/StatPanel/MarginContainer/GridContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "0"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ATKiv" type="Label" parent="PokemonStatMenu/StatPanel/MarginContainer/GridContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "0"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ATKstat" type="Label" parent="PokemonStatMenu/StatPanel/MarginContainer/GridContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "0"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ATKSPElabel" type="Label" parent="PokemonStatMenu/StatPanel/MarginContainer/GridContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 10
+text = "ATKSPE"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ATKSPEev" type="Label" parent="PokemonStatMenu/StatPanel/MarginContainer/GridContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "0"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ATKSPEiv" type="Label" parent="PokemonStatMenu/StatPanel/MarginContainer/GridContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "0"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ATKSPEstat" type="Label" parent="PokemonStatMenu/StatPanel/MarginContainer/GridContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "0"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="DEFlabel" type="Label" parent="PokemonStatMenu/StatPanel/MarginContainer/GridContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 10
+text = "DEF"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="DEFev" type="Label" parent="PokemonStatMenu/StatPanel/MarginContainer/GridContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "0"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="DEFiv" type="Label" parent="PokemonStatMenu/StatPanel/MarginContainer/GridContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "0"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="DEFstat" type="Label" parent="PokemonStatMenu/StatPanel/MarginContainer/GridContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "0"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="DEFSPElabel" type="Label" parent="PokemonStatMenu/StatPanel/MarginContainer/GridContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 10
+text = "DEFSPE"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="DEFSPEev" type="Label" parent="PokemonStatMenu/StatPanel/MarginContainer/GridContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "0"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="DEFSPEiv" type="Label" parent="PokemonStatMenu/StatPanel/MarginContainer/GridContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "0"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="DEFSPEstat" type="Label" parent="PokemonStatMenu/StatPanel/MarginContainer/GridContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "0"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="SPEEDlabel" type="Label" parent="PokemonStatMenu/StatPanel/MarginContainer/GridContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 10
+text = "SPEED"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="SPEEDev" type="Label" parent="PokemonStatMenu/StatPanel/MarginContainer/GridContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "0"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="SPEEDiv" type="Label" parent="PokemonStatMenu/StatPanel/MarginContainer/GridContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "0"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="SPEEDstat" type="Label" parent="PokemonStatMenu/StatPanel/MarginContainer/GridContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "0"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[connection signal="pressed" from="fullMenu/VBoxContainer/PokemonButton" to="." method="show_pokemon_menu"]
+[connection signal="pressed" from="PokemonMenu/BackButton" to="." method="hide_pokemon_menu"]

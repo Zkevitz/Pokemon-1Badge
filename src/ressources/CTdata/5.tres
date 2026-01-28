@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="CT_data" load_steps=2 format=3 uid="uid://beoh2bnnion2o"]
+
+[ext_resource type="Script" uid="uid://khacs4dumku4" path="res://src/ressources/CT_data.gd" id="1_u8k2m"]
+
+[resource]
+script = ExtResource("1_u8k2m")
+name = "Pistolet a 0"
+id = 5
+type = 3
+category = "SPECIAL"
+map_pp = 20
+metadata/_custom_type_script = "uid://khacs4dumku4"

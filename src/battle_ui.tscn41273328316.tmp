@@ -1,0 +1,160 @@
+[gd_scene load_steps=2 format=3 uid="uid://bax3oim6110dk"]
+
+[ext_resource type="Script" uid="uid://b5gcui7lhwuem" path="res://battle_ui.gd" id="1_myx3k"]
+
+[node name="BattleUI" type="CanvasLayer"]
+script = ExtResource("1_myx3k")
+
+[node name="PlayerInfo" type="Panel" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 156.0
+offset_top = 90.0
+offset_right = 509.0
+offset_bottom = 166.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="NameLabel" type="Label" parent="PlayerInfo"]
+layout_mode = 0
+offset_left = 13.0
+offset_top = 8.0
+offset_right = 83.0
+offset_bottom = 31.0
+
+[node name="lvlLabel" type="Label" parent="PlayerInfo"]
+layout_mode = 0
+offset_left = 312.0
+offset_top = 1.0
+offset_right = 352.0
+offset_bottom = 24.0
+
+[node name="HpBar" type="ProgressBar" parent="PlayerInfo"]
+layout_mode = 0
+offset_left = 98.0
+offset_top = 29.0
+offset_right = 342.0
+offset_bottom = 56.0
+
+[node name="hpLabel" type="Label" parent="PlayerInfo"]
+layout_mode = 0
+offset_left = 75.0
+offset_top = 31.0
+offset_right = 96.0
+offset_bottom = 54.0
+
+[node name="EnemyInfo" type="Panel" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -514.0
+offset_top = -286.0
+offset_right = -161.0
+offset_bottom = -210.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="NameLabel" type="Label" parent="EnemyInfo"]
+layout_mode = 0
+offset_left = 13.0
+offset_top = 8.0
+offset_right = 83.0
+offset_bottom = 31.0
+
+[node name="lvlLabel" type="Label" parent="EnemyInfo"]
+layout_mode = 0
+offset_left = 312.0
+offset_top = 1.0
+offset_right = 352.0
+offset_bottom = 24.0
+
+[node name="HpBar" type="ProgressBar" parent="EnemyInfo"]
+layout_mode = 0
+offset_left = 98.0
+offset_top = 29.0
+offset_right = 342.0
+offset_bottom = 56.0
+
+[node name="hpLabel" type="Label" parent="EnemyInfo"]
+layout_mode = 0
+offset_left = 75.0
+offset_top = 31.0
+offset_right = 96.0
+offset_bottom = 54.0
+
+[node name="textebox" type="Panel" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -523.0
+offset_top = 185.0
+offset_right = 41.0
+offset_bottom = 303.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="textLabel" type="Label" parent="textebox"]
+layout_mode = 0
+offset_left = 30.0
+offset_top = 17.0
+offset_right = 538.0
+offset_bottom = 102.0
+
+[node name="MainMenu" type="VBoxContainer" parent="."]
+custom_minimum_size = Vector2(50, 50)
+offset_left = 711.0
+offset_top = 501.0
+offset_right = 1113.0
+offset_bottom = 639.0
+
+[node name="FightButton" type="Button" parent="MainMenu"]
+layout_mode = 2
+text = "Fight"
+
+[node name="PokemonButton" type="Button" parent="MainMenu"]
+layout_mode = 2
+text = "Pokemon"
+
+[node name="BagButton" type="Button" parent="MainMenu"]
+layout_mode = 2
+text = "Bag"
+
+[node name="EscapeButton" type="Button" parent="MainMenu"]
+layout_mode = 2
+text = "Escape"
+
+[node name="movecontainer" type="GridContainer" parent="."]
+offset_left = 108.0
+offset_top = 497.0
+offset_right = 594.0
+offset_bottom = 655.0
+theme_override_constants/h_separation = 50
+theme_override_constants/v_separation = 20
+columns = 2
+
+[node name="Move1Button" type="Button" parent="movecontainer"]
+custom_minimum_size = Vector2(200, 60)
+layout_mode = 2
+text = "Move1 Button"
+
+[node name="Move2Button" type="Button" parent="movecontainer"]
+custom_minimum_size = Vector2(200, 60)
+layout_mode = 2
+text = "Move2Button"
+
+[node name="Move3Button" type="Button" parent="movecontainer"]
+custom_minimum_size = Vector2(200, 60)
+layout_mode = 2
+text = "Move3Button"
+
+[node name="Move4Button" type="Button" parent="movecontainer"]
+layout_mode = 2
+text = "Move4Button
+"

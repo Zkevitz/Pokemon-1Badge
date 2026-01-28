@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="CT_data" load_steps=2 format=3 uid="uid://dq3gi7oa8rpl5"]
+
+[ext_resource type="Script" uid="uid://khacs4dumku4" path="res://src/ressources/CT_data.gd" id="1_wu4hc"]
+
+[resource]
+script = ExtResource("1_wu4hc")
+name = "Fouet Lianes"
+id = 6
+type = 4
+power = 45
+map_pp = 20
+metadata/_custom_type_script = "uid://khacs4dumku4"

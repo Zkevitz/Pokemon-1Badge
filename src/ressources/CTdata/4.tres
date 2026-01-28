@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="CT_data" load_steps=2 format=3 uid="uid://c1vx0beqop7pe"]
+
+[ext_resource type="Script" uid="uid://khacs4dumku4" path="res://src/ressources/CT_data.gd" id="1_ly27k"]
+
+[resource]
+script = ExtResource("1_ly27k")
+name = "Mimi-Queu"
+id = 4
+category = "STATUS"
+power = 0
+type_effect = 5
+chance = 100
+metadata/_custom_type_script = "uid://khacs4dumku4"

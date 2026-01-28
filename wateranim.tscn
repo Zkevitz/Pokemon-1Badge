@@ -1,0 +1,21 @@
+[gd_scene load_steps=5 format=3 uid="uid://crd5u2xh3nx7h"]
+
+[ext_resource type="Shader" uid="uid://dim2vhlu4260o" path="res://watershaders.gdshader" id="1_pq7cr"]
+[ext_resource type="Texture2D" uid="uid://b7lpvq8vbrid6" path="res://assets/Water/water_diffuse.png" id="2_rd7ue"]
+[ext_resource type="Script" uid="uid://cdq2doermv1r7" path="res://wateranim.gd" id="3_3g52b"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_lm11e"]
+shader = ExtResource("1_pq7cr")
+shader_parameter/tiled_factor = Vector2(16, 16)
+shader_parameter/aspect_ratio = 0.5
+
+[node name="wateranim" type="Sprite2D"]
+texture_repeat = 2
+material = SubResource("ShaderMaterial_lm11e")
+position = Vector2(0, -1.9073486e-06)
+scale = Vector2(0.9921875, 0.59375)
+texture = ExtResource("2_rd7ue")
+centered = false
+script = ExtResource("3_3g52b")
+
+[connection signal="item_rect_changed" from="." to="." method="calculate_aspect_ratio"]

@@ -1,0 +1,407 @@
+extends Node
+class_name Battlemanager
+
+enum battleState {INTRO, PLAYER_TURN, ENEMY_TURN, MOVE_SELECTION,
+	ANIMATION, DIALOG, CATCH, VICTORY, DEFEAT, ESCAPE}
+	
+enum actionType {FIGHT, POKEMON, BAG, RUN}
+
+
+#signal battle_started(player_pokemon : PokemonInstance, enemy_pokemon : PokemonInstance)
+signal turn_started(is_player_turn : bool)
+signal move_used(attacker : PokemonInstance, defender : PokemonInstance, move : String) # was dictionnary for claude
+signal damage_dealt(target : PokemonInstance, damage : int)
+signal pokemon_fainted(pokemon : PokemonInstance)
+signal battle_ended(player_won : bool)
+
+
+@onready var ui : PackedScene = preload("res://src/node/battle_ui.tscn")
+var ui_node
+var player_pokemon_position := Vector2(342.0, 424.0)
+var enemy_pokemon_position := Vector2(873.0, 203.0)
+var player_pokemon : PokemonInstance
+var enemy_pokemon : PokemonInstance
+var player_team : Array[PokemonInstance]
+var enemy_team : Array[PokemonInstance]
+var is_wild_battle: bool = true
+var player_pokemon_node
+var enemy_pokemon_node
+var current_state : battleState = battleState.INTRO
+var last_state : battleState = battleState.INTRO
+var turn_queue : Array[Dictionary] = []
+var battle_text_queue : Array[String] = []
+
+var is_processing_text := false
+var is_processing_turn := false
+
+const CRITICAL_HIT_CHANCE := 0.0625
+const TYPE_CHART := {
+	# Format: [attaquant][défenseur] = multiplicateur
+	"Feu": {"Plante": 2.0, "Eau": 0.5, "Feu": 0.5},
+	"Eau": {"Feu": 2.0, "Plante": 0.5, "Eau": 0.5},
+	"Plante": {"Eau": 2.0, "Feu": 0.5, "Plante": 0.5},
+	"Electrik": {"Eau": 2.0, "Vol": 2.0, "Electrik": 0.5, "Sol": 0.0},
+	"Normal": {},
+}
+
+func _physics_process(_delta: float) -> void:
+	#debug
+	if current_state != last_state :
+		last_state = current_state
+		print("battle state is on", current_state)
+	
+func _ready() -> void:
+	pass
+	
+func resetBattleManager():
+	current_state = battleState.INTRO
+	turn_queue = []
+	battle_text_queue  = []
+	player_team = []
+	enemy_team = []
+	
+func start_battle(player_team_data : Array[PokemonInstance], enemy_team_data : Array[PokemonInstance], wild : bool = true):
+	ui_node = Game.battle_ui
+	print("start battle")
+	player_team = player_team_data
+	player_pokemon = player_team[0]
+	player_pokemon.be_part_of_combat = true
+	enemy_team = enemy_team_data
+	enemy_pokemon = enemy_team[0]
+	player_pokemon_node = preload("res://src/node/pokemon_node.tscn").instantiate()
+	enemy_pokemon_node = preload("res://src/node/pokemon_node.tscn").instantiate()
+	player_pokemon_node.setup(player_pokemon)
+	enemy_pokemon_node.setup(enemy_pokemon)
+	is_wild_battle = wild
+	
+	ui_node.add_child(player_pokemon_node)
+	ui_node.add_child(enemy_pokemon_node)
+	player_pokemon_node.global_position = player_pokemon_position
+	enemy_pokemon_node.global_position = enemy_pokemon_position
+	print("node ready ? ")
+	ui_node.action_selected.connect(_on_action_selected)
+	ui_node.move_selected.connect(_on_move_selected)
+	
+	ui_node.setup(player_pokemon, enemy_pokemon)
+	
+	current_state = battleState.INTRO
+	#battle_started.emit(player_pokemon, enemy_pokemon)
+	show_intro_animation()
+	
+func show_intro_animation():
+	var enemy_name = enemy_pokemon.pokemon_name
+	if is_wild_battle :
+		_queue_text("Un %s sauvage apparaît !" % enemy_name)
+	else:
+		_queue_text("Le dresseur envoie %s !" % enemy_name)
+	_queue_text("Allez, %s !" % player_pokemon.pokemon_name)
+	await _process_text_queue()
+	turn_started.emit(true)
+	current_state = battleState.PLAYER_TURN
+	ui_node.show_main_menu()
+
+func _start_player_turn():
+	_queue_text("Que va faire %s ?" % player_pokemon.pokemon_name)
+	await _process_text_queue()
+	
+	current_state = battleState.PLAYER_TURN
+	turn_started.emit(true)
+	ui_node.show_main_menu()
+	
+	
+func start_enemy_turn():
+	current_state = battleState.ENEMY_TURN
+	turn_started.emit(false)
+	
+	await get_tree().create_timer(0.5).timeout
+	var available_moves = enemy_pokemon.moves.filter(func(m) : return m.pp > 0)
+	if available_moves.is_empty():
+		use_struggle(enemy_pokemon, player_pokemon)
+	else:
+		var move = available_moves.pick_random()
+		execute_move(enemy_pokemon, player_pokemon, move)
+	
+
+func _on_action_selected(action : actionType):
+	print("currentstate : ", current_state)
+	if current_state != battleState.PLAYER_TURN :
+		return
+	match action:
+		actionType.FIGHT:
+			ui_node.show_move_menu(player_pokemon.moves)
+		actionType.POKEMON:
+			#ui.show_pokemon_menu(player_team)
+			return
+		actionType.BAG:
+			#ui.show_bag_menu()
+			return
+		actionType.RUN :
+			ui_node.hide_move()
+			attempt_escape()
+
+func _on_move_selected(move_index : int):
+		
+	current_state = battleState.MOVE_SELECTION
+	var move = player_pokemon.moves[move_index]
+	
+	if move.pp <= 0:
+		_queue_text("Plus de PP pour cette attaque !")
+		await _process_text_queue()
+		current_state = battleState.PLAYER_TURN
+		ui_node.show_move_menu(player_pokemon.moves)
+		return
+	print("move used : ", move)
+	ui_node.hide_move()
+	ui_node.show_text()
+	turn_queue.clear()
+	_queue_turn(player_pokemon, enemy_pokemon, move)
+	_queue_turn(enemy_pokemon, player_pokemon, {})
+	await _process_turn_queue()
+
+func _queue_turn(attacker: PokemonInstance, defender: PokemonInstance, move: Dictionary):
+	turn_queue.append({
+		"attacker": attacker,
+		"defender": defender,
+		"move": move,
+		"priority": move.get("priority", 0) if move else 0,
+		"speed": attacker.current_speed
+	})
+
+func _process_turn_queue():
+	if turn_queue.is_empty():
+		return
+	turn_queue.sort_custom(func(a, b):
+		if a.priority != b.priority:
+			return a.priority > b.priority
+		return a.speed > b.speed
+	)
+	
+	execute_next_turn()
+	
+func execute_next_turn():
+	#j'aime pas bizarre  ?
+	if turn_queue.is_empty():
+		_start_player_turn()
+		return
+	var turn_data = turn_queue.pop_front()
+	
+	if turn_data.attacker.current_hp <= 0:
+		execute_next_turn()
+		return
+	
+	print("data move du tour : ", turn_data.move)
+	if turn_data.move:
+		execute_move(turn_data.attacker, turn_data.defender, turn_data.move)
+	else:
+		var available_moves = turn_data.attacker.moves.filter(func(m): return m.pp > 0)
+		if available_moves.is_empty():
+			use_struggle(turn_data.attacker, turn_data.defender)
+		else:
+			#logique ia implementer ici 
+			var move = available_moves.pick_random()
+			execute_move(turn_data.attacker, turn_data.defender, move)
+
+func execute_move(attacker : PokemonInstance, defender : PokemonInstance, move : Dictionary):
+	current_state = battleState.ANIMATION
+	move_used.emit(attacker, defender, move)
+	
+	var attacker_name = attacker.pokemon_name
+	_queue_text("%s utilise %s !" % [attacker_name, move.name])
+	
+	move.pp -= 1
+	var accuracy = move.get("accuracy", 100)
+	if randf() * 100 > accuracy:
+		_queue_text("L'attaque échoue !")
+		await _process_text_queue()
+		execute_next_turn()
+		return
+	play_attack_animation(attacker, move)
+	#await animation_player.animation_finished
+	print("move used : ", move)
+	if move.power > 0:
+		print("calcul des degats ??")
+		var damage = calculate_damage(attacker, defender, move)
+		apply_damage(defender, damage)
+		
+		var effectiveness = get_type_effectiveness(type_to_string(move.type), defender.pokemon_type1, defender.pokemon_type2)
+		print("effectiveness : ", effectiveness)
+		if effectiveness > 1.0:
+			_queue_text("C'est super efficace !")
+		elif effectiveness < 1.0 and effectiveness > 0:
+			_queue_text("Ce n'est pas très efficace...")
+		elif effectiveness == 0:
+			_queue_text("Ça n'a aucun effet...")
+	else:
+		# Attaque de statut
+		print("attaque qui fait 0 degats a integré les attaques de statut")
+		#apply_status_effect(defender, move)
+	await _process_text_queue()
+	
+	if defender.current_hp <= 0:
+		_handle_faint(defender)
+	else:
+		execute_next_turn()
+			
+
+# === CALCUL DES DÉGÂTS ===
+func calculate_damage(attacker : PokemonInstance, defender : PokemonInstance, move : Dictionary) -> int :
+	var level = attacker.level
+	var power = move.power
+	var attack_stat = attacker.current_atk if move.get("category", "physical") == "physical" else attacker.current_atkSpe
+	var defense_stat = defender.current_def if move.get("category", "physical") == "physical" else defender.current_defSpe
+	
+	var damage = ((2.0 * level / 5.0 + 2) * power * attack_stat / defense_stat) / 50 + 2.0
+	if move.type == attacker.pokemon_type1 or move.type == attacker.pokemon_type2 :
+		damage *= 1.5
+	
+	var effectiveness = get_type_effectiveness(type_to_string(move.type), defender.pokemon_type1, defender.pokemon_type2)
+	damage *= effectiveness
+	
+	if randf() < CRITICAL_HIT_CHANCE:
+		damage *= 1.5
+		_queue_text("Coup Critique !")
+		
+	damage *= randf_range(0.85, 1.0)
+	return max(1, int(damage))
+func type_to_string(t: PokemonInstance.Type) -> String:
+	if t < 0 or t >= PokemonInstance.Type.size():
+		return "Inconnu"
+	return PokemonInstance.Type.keys()[t].capitalize()
+
+func get_type_effectiveness(attack_type : String, def_type1 : PokemonInstance.Type, def_type2 : PokemonInstance.Type):
+	var multiplier = 1.0
+	print("attack type = ", attack_type)
+	print("def_type 1 : ", def_type1)
+	print("def_type 2 : ", def_type2)
+	var strdef_type1 = type_to_string(def_type1)
+	var strdef_type2 = type_to_string(def_type2)
+	if TYPE_CHART.has(attack_type):
+		if TYPE_CHART[attack_type].has(strdef_type1):
+			multiplier *= TYPE_CHART[attack_type][strdef_type1]
+		if def_type2 and TYPE_CHART[attack_type].has(strdef_type2):
+			multiplier *= TYPE_CHART[attack_type][strdef_type2]
+	return multiplier
+
+func apply_damage(target : PokemonInstance, damage : int):
+	target.take_damage(damage)
+	damage_dealt.emit(target, damage)
+	var allyornot
+	if target == enemy_pokemon :
+		allyornot = false
+	else :
+		allyornot = true
+	ui_node.update_hp_bar(allyornot, target)
+
+func _handle_faint(pokemon : PokemonInstance):
+	pokemon_fainted.emit(pokemon)
+	_queue_text("%s est K.O. !" % pokemon.pokemon_name)
+	
+	play_faint_animation(pokemon)
+	#await animation_player.animation_finished
+	await _process_text_queue()
+	if pokemon == player_pokemon :
+		var available_pokemon = player_team.filter(func(p): return p.current_hp > 0)
+		if available_pokemon.is_empty():
+			_end_battle(false)
+		#else:
+			##up.show_pokemon_menu(available_pokemon, true) #A DEV
+	else:
+		# gere le cas ou l'ennemy a une team 
+		_handle_victory()
+
+func _handle_victory():
+	var exp_gained = calculate_exp_gain()
+	_queue_text("%s gagne %d points d'expérience !" % [player_pokemon.pokemon_name, exp_gained])
+	await _process_text_queue()
+	
+	#player_pokemon.gain_exp(exp_gained)
+	ui_node.update_xp_bar(player_pokemon, exp_gained)
+	_end_battle(true)
+
+func pokemon_participant():
+	var incr = 0
+	for poke in player_team:
+		print("poke part of combat : ? ", poke.be_part_of_combat)
+		if poke.be_part_of_combat == true :
+			incr+=1
+			poke.be_part_of_combat = false
+	return incr
+			
+func calculate_exp_gain()-> int :
+	# ΔEXP=b×L7×1s×e×a×t. 
+	# formule simplifié
+	var base_exp = enemy_pokemon.base_exp_yield
+	var exp_yield =  float(base_exp * enemy_pokemon.level) / 6
+	var share_xp = 1 / pokemon_participant()
+	var is_trainer_pokemon = 1.5 if not enemy_pokemon.is_wild else 1.0
+	return int(exp_yield * share_xp * 1 * is_trainer_pokemon * 1)
+
+func _end_battle(player_won : bool):
+	current_state = battleState.VICTORY if player_won else battleState.DEFEAT
+	battle_ended.emit(player_won)
+	
+	#TRANSITION VERS LA CARTE DU MONDE
+	await get_tree().create_timer(2.0).timeout
+	ui_node.queue_free()
+	resetBattleManager()
+	playerManager.activatePlayer()
+
+func attempt_escape():
+	if not is_wild_battle :
+		_queue_text("Impossible de fuir un combat de dresseur !")
+		await _process_text_queue()
+		return
+	
+	var escape_chance = (player_pokemon.current_speed * 128) / (enemy_pokemon.current_speed + 1) + 30
+	if randf() * 256 < escape_chance:
+		_queue_text("Vous avez réussi à fuir !")
+		await _process_text_queue()
+		_end_battle(false)
+	else:
+		_queue_text("Impossible de fuir !")
+		await _process_text_queue()
+		start_enemy_turn()
+
+func _queue_text(text : String):
+	battle_text_queue.append(text)
+
+func _process_text_queue():
+	print("[PROCESS_TEXT] Starting queue processing. Queue size: %d" % battle_text_queue.size())
+	while not battle_text_queue.is_empty():
+		current_state = battleState.DIALOG
+		var text = battle_text_queue.pop_front()
+		ui_node.display_text(text)
+		await ui_node.text_finished
+
+func use_struggle(attacker: PokemonInstance, defender: PokemonInstance):
+	var struggle_move = {
+		"name": "Lutte",
+		"power": 50,
+		"type": "Normal",
+		"pp": 1,
+		"accuracy": 100
+	}
+	execute_move(attacker, defender, struggle_move)
+	# Dégâts de recul
+	@warning_ignore("integer_division")
+	attacker.take_damage(attacker.max_hp / 4)
+
+func play_faint_animation(pokemon: PokemonInstance):
+	var tween = create_tween()
+	tween.tween_property(pokemon, "modulate:a", 0.0, 0.5)
+
+func play_attack_animation(attacker: PokemonInstance, _move: Dictionary):
+	var current 
+	print(attacker)
+	print("it is wild : ", attacker.is_wild)
+	if attacker.is_wild == true :
+		current = enemy_pokemon_node
+	else :
+		current = player_pokemon_node
+	# Animation simple - à personnaliser
+	var tween = create_tween()
+	tween.tween_property(current, "position:x", current.position.x + 20, 0.1)
+	tween.tween_property(current, "position:x", current.position.x, 0.1)
+
+func _process(_delta: float) -> void:
+	pass

@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="CT_data" load_steps=2 format=3 uid="uid://bxr0mscyrao0m"]
+
+[ext_resource type="Script" uid="uid://khacs4dumku4" path="res://src/ressources/CT_data.gd" id="1_iutfi"]
+
+[resource]
+script = ExtResource("1_iutfi")
+name = "Flammèche"
+id = 7
+type = 2
+category = "SPECIAL"
+type_effect = 1
+chance = 10
+metadata/_custom_type_script = "uid://khacs4dumku4"

@@ -1,0 +1,104 @@
+extends Node
+
+const tileSize := 16
+var tile_center_offset = Vector2.ONE * tileSize * 0.5
+var returnPosition := Vector2.ZERO
+var returnScene : Node2D
+var actualNode : Node2D
+var toggle_timer := 2.0
+var pokemon_by_id: Dictionary = {}
+var move_cache := {}
+@onready var fadeAnim = get_tree().current_scene.get_node("TransitionFade")
+@onready var battleManager = get_tree().current_scene.get_node("Battlemanager")
+var battleui = preload("res://src/node/battle_ui.tscn")
+var battle_ui
+
+enum recompenseType {POKEMON, OBJECT, TEAM_HEALING}
+# Called when the node enters the scene tree for the first time.
+func _ready() -> void:
+	_load_all_pokemon()
+
+func get_move_data(id: int) -> CT_data:
+	if not move_cache.has(id):
+		var path := "res://src/ressources/CTdata/%d.tres" % id
+		move_cache[id] = load(path)
+	return move_cache[id]
+		
+func _load_all_pokemon():
+	var dir := DirAccess.open("res://src/ressources/PokemonData/")
+	if dir == null:
+		push_error("Pokedex: dossier introuvable")
+		return
+
+	dir.list_dir_begin()
+	var file_name := dir.get_next()
+	
+	while file_name != "":
+		if file_name.ends_with(".tres"):
+			var data: PokemonData = load("res://src/ressources/PokemonData/" + file_name)
+			pokemon_by_id[data.pokemon_id] = data
+		file_name = dir.get_next()
+	
+	dir.list_dir_end()
+
+func get_data(id: int) -> PokemonData:
+	if not pokemon_by_id.has(id):
+		print("PokemonData introuvable pour id = %d" % id)
+		return null
+	print("apparement on a les données ?")
+	return pokemon_by_id[id]
+	
+func has_property(node: Object, property_name: String) -> bool:
+	if not node : 
+		return false
+	for prop in node.get_property_list():
+		if prop.name == property_name:
+			return true
+	return false
+
+func toggleWorld(NodetoShow : Node2D, NodetoHide : Node2D):
+	#CA CASSE TOUT ??? 
+	#await fadeAnim.fade_finished
+	
+	playerManager.desacPlayer()
+	fadeAnim.fade_in()
+	
+	playerManager.toggleScene(NodetoHide)
+	NodetoHide.visible = false
+	
+	playerManager.toggleScene(NodetoShow)
+	NodetoShow.visible = true
+	
+	playerManager.player_instance.reparent(NodetoShow.get_node("ysortingnode"))
+	
+	if Game.returnPosition != Vector2.ZERO :
+		playerManager.teleport_to(NodetoShow, Game.returnPosition)
+		Game.returnPosition = Vector2.ZERO
+	elif NodetoShow.SpawnPosition != Vector2.ZERO :
+		Game.returnPosition = Vector2i(playerManager.player_instance.global_position / 16)
+		playerManager.teleport_to(NodetoShow, NodetoShow.SpawnPosition)
+		
+	await get_tree().process_frame
+	fadeAnim.fade_out()	
+	playerManager.activatePlayer()
+func startBattleUi():
+	battle_ui = battleui.instantiate()
+	print(battle_ui)
+	get_tree().root.add_child(battle_ui)
+	
+func start_wild_battle():
+	var p_pokemon = playerManager.player_instance.pokemonTeam
+	print(p_pokemon)
+	var random_encounter = PokemonInstance.new()
+	random_encounter.data = get_data(1)
+	print("data from pokedex :", random_encounter.data)
+	random_encounter.level = (randi() % 5) + 1
+	random_encounter.is_wild = true
+	random_encounter.initStats()
+	print(random_encounter)
+	var enemy_team_typed : Array[PokemonInstance] = [random_encounter]
+	startBattleUi()
+	battleManager.start_battle(p_pokemon, enemy_team_typed, true)
+
+func get_battleUi() -> CanvasLayer :
+	return battle_ui

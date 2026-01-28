@@ -1,0 +1,45 @@
+[gd_scene load_steps=7 format=3 uid="uid://1uakxs0g1ww7"]
+
+[ext_resource type="Script" uid="uid://c3p0uj3l0n0kb" path="res://src/Script/base_pnj.gd" id="1_gcfjo"]
+[ext_resource type="SpriteFrames" uid="uid://vst7mlr383bu" path="res://src/node/profSprite.tres" id="2_sy86w"]
+[ext_resource type="Script" uid="uid://dp6hj764hcaq5" path="res://src/Script/dialogueRange.gd" id="3_otc5f"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_otc5f"]
+size = Vector2(7, 5.75)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_duns4"]
+size = Vector2(53, 57)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_sy86w"]
+size = Vector2(224, 224)
+
+[node name="CharacterBody2D" type="CharacterBody2D" groups=["pnj"]]
+y_sort_enabled = true
+script = ExtResource("1_gcfjo")
+spriteframe = ExtResource("2_sy86w")
+hasToMove = null
+StartPosition = null
+
+[node name="Sprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(0, -11)
+sprite_frames = ExtResource("2_sy86w")
+animation = &"backWalking"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_otc5f")
+
+[node name="interactRange" type="Area2D" parent="."]
+script = ExtResource("3_otc5f")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="interactRange"]
+position = Vector2(0, -0.5)
+shape = SubResource("RectangleShape2D_duns4")
+
+[node name="MovingRange" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="MovingRange"]
+position = Vector2(0, -1)
+shape = SubResource("RectangleShape2D_sy86w")
+
+[connection signal="body_entered" from="interactRange" to="interactRange" method="_on_body_entered"]
+[connection signal="body_exited" from="interactRange" to="interactRange" method="_on_body_exited"]

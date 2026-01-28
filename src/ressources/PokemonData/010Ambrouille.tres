@@ -1,0 +1,28 @@
+[gd_resource type="Resource" script_class="PokemonData" load_steps=6 format=3 uid="uid://dcqt2t2l7qbf2"]
+
+[ext_resource type="Script" uid="uid://3j4rwpwaqwyi" path="res://src/ressources/LearnMoveData.gd" id="1_l12uf"]
+[ext_resource type="Script" uid="uid://budev3vnysct5" path="res://src/ressources/Pokemon_data.gd" id="1_qely7"]
+[ext_resource type="SpriteFrames" uid="uid://dbel06q8y7ji0" path="res://src/ressources/PokemonSprite/010Ambrouille.tres" id="2_lbnty"]
+
+[sub_resource type="Resource" id="Resource_nla74"]
+script = ExtResource("1_l12uf")
+metadata/_custom_type_script = "uid://3j4rwpwaqwyi"
+
+[sub_resource type="Resource" id="Resource_iqojk"]
+script = ExtResource("1_l12uf")
+move_id = 3
+metadata/_custom_type_script = "uid://3j4rwpwaqwyi"
+
+[resource]
+script = ExtResource("1_qely7")
+pokemon_name = "Ambrouille"
+pokemon_id = 10
+sprite_frames = ExtResource("2_lbnty")
+baseHp = 45
+baseAtk = 49
+baseSpeAtk = 29
+baseDef = 42
+baseSpeDef = 35
+baseSpd = 29
+learnable_moves = Array[ExtResource("1_l12uf")]([SubResource("Resource_nla74"), SubResource("Resource_iqojk")])
+metadata/_custom_type_script = "uid://budev3vnysct5"
