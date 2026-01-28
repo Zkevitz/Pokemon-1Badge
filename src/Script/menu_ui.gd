@@ -45,7 +45,7 @@ func setup_button(button : Button, pokemon : PokemonInstance):
 	print("show pokemon stat menu")
 	if button.pressed.is_connected(show_pokemon_stat_menu):
 		button.pressed.disconnect(show_pokemon_stat_menu)
-		
+	print("DEBUG: Pokemon : ", pokemon)
 	button.connect("pressed", show_pokemon_stat_menu.bind(pokemon))
 	var hp_bar = button.get_node("hpBar")
 	var lvlLabel = button.get_node("lvlLabel")
@@ -55,12 +55,14 @@ func setup_button(button : Button, pokemon : PokemonInstance):
 	lvlLabel.text = "Niv. %d" % pokemon.level
 	button.text = pokemon.pokemon_name
 	
-func setup_ct_button(button : Button, move : Dictionary):
+func setup_ct_button(button : Button, move : CT_data, current_pp : int):
 	var pplabel = button.get_node("PPlabel")
+	print("pplabel")
 	var typelabel = button.get_node("typelabel")
 	
 	button.text = move["name"]
-	var current_pp_move = move["pp"]
+	print("Move ", move)
+	var current_pp_move = current_pp
 	var max_pp_move = move["max_pp"]
 	pplabel.text = str(current_pp_move) + "/" + str(max_pp_move)
 	
@@ -87,8 +89,9 @@ func show_pokemon_stat_menu(pokemon : PokemonInstance):
 	var i = 0
 	
 	for button in ctBox.get_children():
+		print("DEBUG: Move size: ", pokemon.moves.size())
 		if button is Button and i < pokemon.moves.size():
-			setup_ct_button(button, pokemon.moves[i])
+			setup_ct_button(button, pokemon.moves[i], pokemon.movesPP[pokemon.moves[i].id])
 		else :
 			button.text = "NONE"
 		i += 1

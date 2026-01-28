@@ -190,24 +190,24 @@ func disconnect_move_button():
 			connection.button.pressed.disconnect(connection.callable)
 	move_button_connections.clear()
 						
-func show_move_menu(moves : Array):
+func show_move_menu(pokemon : PokemonInstance):
 	#hide_all_menu()
 	text_box.visible = false
 	move_menu.visible = true
 
 	disconnect_move_button()
-	print("move size 0 ?? :", moves.size())
+	print("move size 0 ?? :", pokemon.moves.size())
 	for i in range(4):
 		var button = move_menu.get_node("Move%dButton" % (i + 1))
-		if i < moves.size():
-			var move = moves[i]
+		if i < pokemon.moves.size():
+			var move = pokemon.moves[i]
 			print("new move : ", move)
-			button.text = "%s\nPP: %d/%d" % [move.name, move.pp, move.max_pp]
+			button.text = "%s\nPP: %d/%d" % [move.name, pokemon.movesPP[move.id], move.max_pp]
 			var style = StyleBoxFlat.new()
 			var color = get_type_color(move.type)
 			style.bg_color = color
 			button.add_theme_stylebox_override("normal", style)
-			button.disabled = move.pp <= 0
+			button.disabled = pokemon.movesPP[move.id] <= 0
 			
 			var callable = func(): _on_move_button_pressed(i)
 			button.pressed.connect(callable)

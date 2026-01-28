@@ -1,4 +1,4 @@
-[gd_resource type="SpriteFrames" load_steps=6 format=3 uid="uid://b11tuatu0cqg8"]
+[gd_resource type="SpriteFrames" format=3 uid="uid://b11tuatu0cqg8"]
 
 [ext_resource type="Texture2D" uid="uid://b70iw7qhds1cv" path="res://assets/PokemonSprite/piplupBack.png" id="1_0c44m"]
 [ext_resource type="Texture2D" uid="uid://bcxhxxiyibyfo" path="res://assets/PokemonSprite/piplup.png" id="2_r10tg"]

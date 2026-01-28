@@ -4,8 +4,8 @@ var data : PokemonData
 var level := 5
 
 
-var moves : Array[Dictionary] = []
-
+var moves : Array[CT_data] = []
+var movesPP : Dictionary[int, int] = {}
 enum Type { AUCUN, NORMAL, FEU, EAU, PLANTE, ELECTRIQUE, GLACE, COMBAT, POISON, SOL, VOL,
 	 PSY, INSECTE, ROCHE, SPECTRE, DRAGON, TENEBRES, ACIER, FEE}
 var is_wild = false
@@ -47,6 +47,7 @@ func initStats():
 		max_hp = calculateStat(data.baseHp, level, true)
 		current_hp = max_hp
 		load_moves(data.learnable_moves)
+		print("DEBUG: Moves[0] : ", moves[0])
 	else:
 		var old_max_hp = max_hp
 		max_hp = calculateStat(data.baseHp, level, true)
@@ -86,8 +87,9 @@ func load_moves(learnmoves : Array[MoveLearnData]):
 	for i in range(move_count):
 		var loaded_move = base_moves[i]
 		var final_move_data = Game.get_move_data(loaded_move)
-		print("Final_move_DATA :", final_move_data)
+		print("Final_move_DATA :", final_move_data.power)
 		moves.append(final_move_data)
+		movesPP[final_move_data.id] = final_move_data.max_pp
 		
 func calculateStat(base : int, lvl : int, is_hp : bool = false ) -> int :
 	# Formule simplifiée : ((2 * Base + 31) * Level) / 100 + modifier

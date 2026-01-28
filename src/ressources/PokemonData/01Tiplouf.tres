@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="PokemonData" load_steps=7 format=3 uid="uid://d1mctp4exnnx"]
+[gd_resource type="Resource" script_class="PokemonData" format=3 uid="uid://d1mctp4exnnx"]
 
 [ext_resource type="Script" uid="uid://budev3vnysct5" path="res://src/ressources/Pokemon_data.gd" id="1_by4rc"]
 [ext_resource type="Script" uid="uid://3j4rwpwaqwyi" path="res://src/ressources/LearnMoveData.gd" id="1_tihon"]

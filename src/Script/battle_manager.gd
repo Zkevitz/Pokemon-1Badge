@@ -128,7 +128,7 @@ func _on_action_selected(action : actionType):
 		return
 	match action:
 		actionType.FIGHT:
-			ui_node.show_move_menu(player_pokemon.moves)
+			ui_node.show_move_menu(player_pokemon)
 		actionType.POKEMON:
 			#ui.show_pokemon_menu(player_team)
 			return
@@ -144,26 +144,27 @@ func _on_move_selected(move_index : int):
 	current_state = battleState.MOVE_SELECTION
 	var move = player_pokemon.moves[move_index]
 	
-	if move.pp <= 0:
+	if player_pokemon.movesPP[move.id] <= 0:
 		_queue_text("Plus de PP pour cette attaque !")
 		await _process_text_queue()
 		current_state = battleState.PLAYER_TURN
-		ui_node.show_move_menu(player_pokemon.moves)
+		ui_node.show_move_menu(player_pokemon)
 		return
 	print("move used : ", move)
 	ui_node.hide_move()
 	ui_node.show_text()
 	turn_queue.clear()
 	_queue_turn(player_pokemon, enemy_pokemon, move)
-	_queue_turn(enemy_pokemon, player_pokemon, {})
+	_queue_turn(enemy_pokemon, player_pokemon, null)
 	await _process_turn_queue()
 
-func _queue_turn(attacker: PokemonInstance, defender: PokemonInstance, move: Dictionary):
+func _queue_turn(attacker: PokemonInstance, defender: PokemonInstance, move: CT_data):
+	var priority = move.priority if move else 0
 	turn_queue.append({
 		"attacker": attacker,
 		"defender": defender,
 		"move": move,
-		"priority": move.get("priority", 0) if move else 0,
+		"priority": priority,
 		"speed": attacker.current_speed
 	})
 
@@ -193,7 +194,11 @@ func execute_next_turn():
 	if turn_data.move:
 		execute_move(turn_data.attacker, turn_data.defender, turn_data.move)
 	else:
-		var available_moves = turn_data.attacker.moves.filter(func(m): return m.pp > 0)
+		#var available_moves = turn_data.attacker.moves.filter(func(m): return m.pp > 0)
+		var available_moves = []
+		for i in turn_data.attacker.moves.size():
+			if turn_data.attacker.movesPP[turn_data.attacker.moves[i].id] > 0:
+				available_moves.append(turn_data.attacker.moves[i])
 		if available_moves.is_empty():
 			use_struggle(turn_data.attacker, turn_data.defender)
 		else:
@@ -201,15 +206,16 @@ func execute_next_turn():
 			var move = available_moves.pick_random()
 			execute_move(turn_data.attacker, turn_data.defender, move)
 
-func execute_move(attacker : PokemonInstance, defender : PokemonInstance, move : Dictionary):
+func execute_move(attacker : PokemonInstance, defender : PokemonInstance, move : CT_data):
 	current_state = battleState.ANIMATION
 	move_used.emit(attacker, defender, move)
 	
 	var attacker_name = attacker.pokemon_name
 	_queue_text("%s utilise %s !" % [attacker_name, move.name])
 	
-	move.pp -= 1
-	var accuracy = move.get("accuracy", 100)
+	#move.pp -= 1
+	attacker.movesPP[move.id] -= 1
+	var accuracy = move.accuracy
 	if randf() * 100 > accuracy:
 		_queue_text("L'attaque échoue !")
 		await _process_text_queue()
@@ -244,11 +250,11 @@ func execute_move(attacker : PokemonInstance, defender : PokemonInstance, move :
 			
 
 # === CALCUL DES DÉGÂTS ===
-func calculate_damage(attacker : PokemonInstance, defender : PokemonInstance, move : Dictionary) -> int :
+func calculate_damage(attacker : PokemonInstance, defender : PokemonInstance, move : CT_data) -> int :
 	var level = attacker.level
 	var power = move.power
-	var attack_stat = attacker.current_atk if move.get("category", "physical") == "physical" else attacker.current_atkSpe
-	var defense_stat = defender.current_def if move.get("category", "physical") == "physical" else defender.current_defSpe
+	var attack_stat = attacker.current_atk if move.category == "physical" else attacker.current_atkSpe
+	var defense_stat = defender.current_def if move.category == "physical" else defender.current_defSpe
 	
 	var damage = ((2.0 * level / 5.0 + 2) * power * attack_stat / defense_stat) / 50 + 2.0
 	if move.type == attacker.pokemon_type1 or move.type == attacker.pokemon_type2 :
@@ -390,7 +396,7 @@ func play_faint_animation(pokemon: PokemonInstance):
 	var tween = create_tween()
 	tween.tween_property(pokemon, "modulate:a", 0.0, 0.5)
 
-func play_attack_animation(attacker: PokemonInstance, _move: Dictionary):
+func play_attack_animation(attacker: PokemonInstance, _move: CT_data):
 	var current 
 	print(attacker)
 	print("it is wild : ", attacker.is_wild)
