@@ -26,6 +26,7 @@ func _ready() -> void:
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
+
 	if is_typing :
 		typing_timer += delta
 		if typing_timer >= text_speed :
@@ -36,7 +37,12 @@ func _process(delta: float) -> void:
 				text_label.text = full_text.substr(0, current_char_index)
 			else :
 				finish_typing()
-
+	if yes_noBox.visible:
+		if Input.is_action_pressed("ui_left_dir"):
+			yes_button.grab_focus()
+		elif Input.is_action_pressed("ui_right_dir"):
+			no_button.grab_focus()
+		return
 func _on_dialogue_started():
 	dialogue_box.visible = true
 
@@ -101,3 +107,11 @@ func _on_buttonyes_pressed() -> void:
 
 func _on_buttonno_pressed() -> void:
 	choice_made.emit(false)
+
+func _unhandled_input(event):
+	if not yes_noBox.visible:
+		return
+	if event.is_action_pressed("ui_left"):
+		no_button.grab_focus()
+	elif event.is_action_pressed("ui_right"):
+		yes_button.grab_focus()
