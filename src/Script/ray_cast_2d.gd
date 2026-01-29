@@ -1,6 +1,9 @@
 extends RayCast2D
+class_name RayCastComponent
 
+enum eventType {LOCK1, BATTLE}
 @onready var pnj = get_parent()
+@export var EventType : eventType = eventType.LOCK1
 var player_detected = false
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -10,15 +13,16 @@ func _ready() -> void:
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta: float) -> void:
-	pass
 	if is_colliding():
 		var collider = get_collider()
-		
 		if collider.is_in_group("player"):
 			if not player_detected  :
 				player_detected = true
-				if playerManager.player_instance.pokemonTeam.size() == 0:
-					pnj.show_exclamation_mark()
+				if EventType == eventType.LOCK1 :
+					if playerManager.player_instance.pokemonTeam.size() == 0:
+						pnj.show_exclamation_mark(0)
+				elif EventType == eventType.BATTLE :
+					pnj.show_exclamation_mark(1)
 	else:
 		if player_detected:
 			player_detected = false

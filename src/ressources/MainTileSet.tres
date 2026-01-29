@@ -1,4 +1,4 @@
-[gd_resource type="TileSet" format=3 uid="uid://bhqsmdqna6dfj"]
+[gd_resource type="TileSet" load_steps=55 format=3 uid="uid://bhqsmdqna6dfj"]
 
 [ext_resource type="Texture2D" uid="uid://cro2iivu6mc6i" path="res://assets/npc/MPWSP01/tileset/tileset.png" id="1_oi8ef"]
 [ext_resource type="PackedScene" uid="uid://cp6ndud6l2q0f" path="res://src/node/tallGrass.tscn" id="2_mcyro"]

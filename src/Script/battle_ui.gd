@@ -205,7 +205,6 @@ func show_move_menu(pokemon : PokemonInstance):
 	move_menu.visible = true
 
 	disconnect_move_button()
-	print("move size 0 ?? :", pokemon.moves.size())
 	for i in range(4):
 		var button = move_menu.get_node("Move%dButton" % (i + 1))
 		if i < pokemon.moves.size():
@@ -261,6 +260,10 @@ func askCustomQuestion(text : String, pokemon: PokemonInstance, moveID: int) :
 	if choice:
 		showLevelUpMoveMenu(pokemon, moveID)
 	
+func Play_attack_anim(attacker : PokemonNode, defender : PokemonNode, move_used : CT_data):
+	var tween = create_tween()
+	tween.tween_property(attacker, "position:x", attacker.position.x + 20, 0.1)
+	tween.tween_property(attacker, "position:x", attacker.position.x, 0.1)
 
 func _on_move_button_pressed(move_index : int ):
 	move_selected.emit(move_index)

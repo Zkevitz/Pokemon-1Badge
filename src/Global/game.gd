@@ -9,7 +9,7 @@ var toggle_timer := 2.0
 var pokemon_by_id: Dictionary = {}
 var move_cache := {}
 @onready var fadeAnim = get_tree().current_scene.get_node("TransitionFade")
-@onready var battleManager = get_tree().current_scene.get_node("Battlemanager")
+var battleManager : Battlemanager
 var battleui = preload("res://src/node/battle_ui.tscn")
 var battle_ui
 
@@ -85,8 +85,13 @@ func startBattleUi():
 	battle_ui = battleui.instantiate()
 	print(battle_ui)
 	get_tree().root.add_child(battle_ui)
+
+func startBattleManager():
+	battleManager = Battlemanager.new()
+	print(battleManager)
 	
 func start_wild_battle():
+	startBattleManager()
 	var p_pokemon = playerManager.player_instance.pokemonTeam
 	print(p_pokemon)
 	var random_encounter = PokemonInstance.new()
@@ -99,6 +104,24 @@ func start_wild_battle():
 	var enemy_team_typed : Array[PokemonInstance] = [random_encounter]
 	startBattleUi()
 	battleManager.start_battle(p_pokemon, enemy_team_typed, true)
+	var result = await battleManager.battle_ended
+	if result :
+		print("combat gagné")
+	else :
+		#gere la posibilité que le joueur n'a plus de pokemon valide ( tp centre pokemon)
+		print("combat perdu")
+		
 
+func start_Trainer_battle(TrainerTeam : Array[PokemonInstance], Trainer : CharacterBody2D):
+	var p_pokemon = playerManager.player_instance.pokemonTeam
+	startBattleUi()
+	startBattleManager()
+	battleManager.start_battle(p_pokemon, TrainerTeam)
+	var result = await battleManager.battle_ended
+	if result : 
+		Trainer.trainer_defeted = true
+	else : 
+		print("combat perdu")
+	
 func get_battleUi() -> CanvasLayer :
 	return battle_ui

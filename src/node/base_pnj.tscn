@@ -1,9 +1,8 @@
-[gd_scene load_steps=11 format=3 uid="uid://1uakxs0g1ww7"]
+[gd_scene load_steps=10 format=3 uid="uid://1uakxs0g1ww7"]
 
 [ext_resource type="Script" uid="uid://c3p0uj3l0n0kb" path="res://src/Script/base_pnj.gd" id="1_gcfjo"]
 [ext_resource type="SpriteFrames" uid="uid://vst7mlr383bu" path="res://src/ressources/profSprite.tres" id="2_sy86w"]
 [ext_resource type="Script" uid="uid://dp6hj764hcaq5" path="res://src/Script/dialogueRange.gd" id="3_otc5f"]
-[ext_resource type="Script" uid="uid://bd6lu6phc4wxb" path="res://src/node/ray_cast_2d.gd" id="4_cpyut"]
 [ext_resource type="Texture2D" uid="uid://cqn2mcl45tp4f" path="res://assets/exclamationmark2.png" id="4_ssg8f"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_otc5f"]
@@ -116,10 +115,6 @@ script = ExtResource("3_otc5f")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="interactRange"]
 position = Vector2(0, -10)
 shape = SubResource("RectangleShape2D_duns4")
-
-[node name="RayCast2D" type="RayCast2D" parent="."]
-target_position = Vector2(-84, -1)
-script = ExtResource("4_cpyut")
 
 [node name="Marker2D" type="Marker2D" parent="."]
 position = Vector2(0, -35)

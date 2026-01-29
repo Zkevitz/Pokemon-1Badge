@@ -14,7 +14,7 @@ signal pokemon_fainted(pokemon : PokemonInstance)
 signal battle_ended(player_won : bool)
 
 
-@onready var ui : PackedScene = preload("res://src/node/battle_ui.tscn")
+#@onready var ui : PackedScene = preload("res://src/node/battle_ui.tscn")
 var ui_node
 var player_pokemon_position := Vector2(342.0, 424.0)
 var enemy_pokemon_position := Vector2(873.0, 203.0)
@@ -45,12 +45,12 @@ const TYPE_CHART := {
 
 func _physics_process(_delta: float) -> void:
 	#debug
+	print(self)
 	if current_state != last_state :
 		last_state = current_state
 		print("battle state is on", current_state)
 	
 func _ready() -> void:
-	
 	pass
 	
 func resetBattleManager():
@@ -63,6 +63,7 @@ func resetBattleManager():
 func start_battle(player_team_data : Array[PokemonInstance], enemy_team_data : Array[PokemonInstance], wild : bool = true):
 	ui_node = Game.battle_ui
 	print("start battle")
+	print("enemy_team_data : ", enemy_team_data)
 	player_team = player_team_data
 	player_pokemon = player_team[0]
 	player_pokemon.be_part_of_combat = true
@@ -78,14 +79,12 @@ func start_battle(player_team_data : Array[PokemonInstance], enemy_team_data : A
 	ui_node.add_child(enemy_pokemon_node)
 	player_pokemon_node.global_position = player_pokemon_position
 	enemy_pokemon_node.global_position = enemy_pokemon_position
-	print("node ready ? ")
 	ui_node.action_selected.connect(_on_action_selected)
 	ui_node.move_selected.connect(_on_move_selected)
 	
 	ui_node.setup(player_pokemon, enemy_pokemon)
 	player_pokemon.connect("newLevelupMove", showMoveLearning)
 	current_state = battleState.INTRO
-	#battle_started.emit(player_pokemon, enemy_pokemon)
 	show_intro_animation()
 	
 func show_intro_animation():
@@ -303,17 +302,37 @@ func _handle_faint(pokemon : PokemonInstance):
 	_queue_text("%s est K.O. !" % pokemon.pokemon_name)
 	
 	play_faint_animation(pokemon)
-	#await animation_player.animation_finished
-	await _process_text_queue()
+	var checkTeam 
+	var isPlayerTeam : bool = false
 	if pokemon == player_pokemon :
-		var available_pokemon = player_team.filter(func(p): return p.current_hp > 0)
-		if available_pokemon.is_empty():
+		checkTeam = player_team
+		isPlayerTeam = true
+	else :
+		checkTeam = enemy_team
+		isPlayerTeam = false
+	var available_pokemon = checkTeam.filter(func(p): return p.current_hp > 0)
+	if available_pokemon.is_empty():
+		if isPlayerTeam :
 			_end_battle(false)
-		#else:
-			##up.show_pokemon_menu(available_pokemon, true) #A DEV
+			return
+		else :
+			print("handle victory pls ")
+			_handle_victory()
+			return
 	else:
+		if isPlayerTeam :
+			print("player need to choose new pokemon")
+			_end_battle(false)
+			return
+			#ui_node.show_pokemon_menu(available_pokemon, true) #A DEV
+		else:
+			enemy_pokemon = available_pokemon.pick_random()
+			enemy_pokemon_node.setup(enemy_pokemon)
+			execute_next_turn()
+			
+			#logique IA de choix de pokemon a implementer
+			
 		# gere le cas ou l'ennemy a une team 
-		_handle_victory()
 
 var hasLeveledUp: bool = false
 var newMoveID: int = 0
@@ -355,11 +374,13 @@ func _end_battle(player_won : bool):
 	current_state = battleState.VICTORY if player_won else battleState.DEFEAT
 	battle_ended.emit(player_won)
 	
-	#TRANSITION VERS LA CARTE DU MONDE
-	await get_tree().create_timer(2.0).timeout
+	
+	print(self)
+	await Game.get_tree().create_timer(2.0).timeout
 	ui_node.queue_free()
 	resetBattleManager()
 	playerManager.activatePlayer()
+	queue_free()
 
 func attempt_escape():
 	if not is_wild_battle :
@@ -406,14 +427,17 @@ func play_faint_animation(pokemon: PokemonInstance):
 	tween.tween_property(pokemon, "modulate:a", 0.0, 0.5)
 
 func play_attack_animation(attacker: PokemonInstance, _move: CT_data):
-	var current 
+	var current : PokemonNode
+	var other : PokemonNode
 	print(attacker)
 	print("it is wild : ", attacker.is_wild)
-	if attacker.is_wild == true :
-		current = enemy_pokemon_node
-	else :
+	if attacker == player_pokemon:
 		current = player_pokemon_node
-	# Animation simple - à personnaliser
+		other = enemy_pokemon_node
+	else :
+		current = enemy_pokemon_node
+		other = player_pokemon_node
+	ui_node.Play_attack_anim(current, other, _move)
 	var tween = create_tween()
 	tween.tween_property(current, "position:x", current.position.x + 20, 0.1)
 	tween.tween_property(current, "position:x", current.position.x, 0.1)

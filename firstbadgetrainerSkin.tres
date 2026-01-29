@@ -1,4 +1,4 @@
-[gd_resource type="SpriteFrames" format=3 uid="uid://c1a53ynfapj8o"]
+[gd_resource type="SpriteFrames" load_steps=18 format=3 uid="uid://c1a53ynfapj8o"]
 
 [ext_resource type="Texture2D" uid="uid://8tjxx73g4jg6" path="res://assets/npc/MPWSP01/character overworld/ow5.png" id="1_jp87s"]
 

@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://7btg4pxkt4rw"]
+
+[ext_resource type="Script" uid="uid://bd6lu6phc4wxb" path="res://src/Script/ray_cast_2d.gd" id="1_u0tiv"]
+
+[node name="RayCast2D" type="RayCast2D"]
+target_position = Vector2(-84, -1)
+script = ExtResource("1_u0tiv")

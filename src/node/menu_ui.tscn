@@ -1,12 +1,12 @@
-[gd_scene format=3 uid="uid://wyqympkr6pbw"]
+[gd_scene load_steps=3 format=3 uid="uid://wyqympkr6pbw"]
 
 [ext_resource type="Script" uid="uid://3wunkumt8bu6" path="res://src/Script/menu_ui.gd" id="1_5bvjb"]
 [ext_resource type="Texture2D" uid="uid://bcxhxxiyibyfo" path="res://assets/PokemonSprite/piplup.png" id="2_1rw3a"]
 
-[node name="MenuUi" type="CanvasLayer" unique_id=949646256]
+[node name="MenuUi" type="CanvasLayer"]
 script = ExtResource("1_5bvjb")
 
-[node name="fullMenu" type="Panel" parent="." unique_id=720051692]
+[node name="fullMenu" type="Panel" parent="."]
 visible = false
 anchors_preset = 8
 anchor_left = 0.5
@@ -20,7 +20,7 @@ offset_bottom = 293.5
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="fullMenu" unique_id=1637248361]
+[node name="VBoxContainer" type="VBoxContainer" parent="fullMenu"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -35,34 +35,34 @@ grow_horizontal = 2
 grow_vertical = 2
 alignment = 1
 
-[node name="PokemonButton" type="Button" parent="fullMenu/VBoxContainer" unique_id=554949122]
+[node name="PokemonButton" type="Button" parent="fullMenu/VBoxContainer"]
 custom_minimum_size = Vector2(0, 50)
 layout_mode = 2
 text = "Pokemon"
 
-[node name="BagButton" type="Button" parent="fullMenu/VBoxContainer" unique_id=962862424]
+[node name="BagButton" type="Button" parent="fullMenu/VBoxContainer"]
 custom_minimum_size = Vector2(0, 50)
 layout_mode = 2
 text = "Bag"
 
-[node name="OptionButton" type="Button" parent="fullMenu/VBoxContainer" unique_id=1378354466]
+[node name="OptionButton" type="Button" parent="fullMenu/VBoxContainer"]
 custom_minimum_size = Vector2(0, 50)
 layout_mode = 2
 text = "Option"
 
-[node name="PokedexButton" type="Button" parent="fullMenu/VBoxContainer" unique_id=974280617]
+[node name="PokedexButton" type="Button" parent="fullMenu/VBoxContainer"]
 custom_minimum_size = Vector2(0, 50)
 layout_mode = 2
 text = "Pokedex "
 
-[node name="PokemonMenu" type="Panel" parent="." unique_id=1593056168]
+[node name="PokemonMenu" type="Panel" parent="."]
 visible = false
 offset_left = 257.0
 offset_top = 41.0
 offset_right = 880.0
 offset_bottom = 612.0
 
-[node name="Label" type="Label" parent="PokemonMenu" unique_id=1699795316]
+[node name="Label" type="Label" parent="PokemonMenu"]
 layout_mode = 0
 offset_left = 136.0
 offset_top = 25.0
@@ -73,7 +73,7 @@ text = "Pokemon Team"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="MarginContainer" type="MarginContainer" parent="PokemonMenu" unique_id=312265750]
+[node name="MarginContainer" type="MarginContainer" parent="PokemonMenu"]
 layout_mode = 1
 anchors_preset = 4
 anchor_top = 0.5
@@ -87,15 +87,15 @@ theme_override_constants/margin_top = 20
 theme_override_constants/margin_right = 10
 theme_override_constants/margin_bottom = 20
 
-[node name="VBoxContainer" type="VBoxContainer" parent="PokemonMenu/MarginContainer" unique_id=229599930]
+[node name="VBoxContainer" type="VBoxContainer" parent="PokemonMenu/MarginContainer"]
 layout_mode = 2
 theme_override_constants/separation = 5
 
-[node name="Pokemon1" type="Button" parent="PokemonMenu/MarginContainer/VBoxContainer" unique_id=516411244]
+[node name="Pokemon1" type="Button" parent="PokemonMenu/MarginContainer/VBoxContainer"]
 custom_minimum_size = Vector2(250, 120)
 layout_mode = 2
 
-[node name="hpBar" type="ProgressBar" parent="PokemonMenu/MarginContainer/VBoxContainer/Pokemon1" unique_id=168171834]
+[node name="hpBar" type="ProgressBar" parent="PokemonMenu/MarginContainer/VBoxContainer/Pokemon1"]
 layout_mode = 0
 offset_left = 74.0
 offset_top = 77.5
@@ -103,18 +103,18 @@ offset_right = 219.0
 offset_bottom = 87.5
 show_percentage = false
 
-[node name="lvlLabel" type="Label" parent="PokemonMenu/MarginContainer/VBoxContainer/Pokemon1" unique_id=398495896]
+[node name="lvlLabel" type="Label" parent="PokemonMenu/MarginContainer/VBoxContainer/Pokemon1"]
 layout_mode = 0
 offset_left = 181.0
 offset_top = 11.5
 offset_right = 235.0
 offset_bottom = 34.5
 
-[node name="Pokemon2" type="Button" parent="PokemonMenu/MarginContainer/VBoxContainer" unique_id=1303600957]
+[node name="Pokemon2" type="Button" parent="PokemonMenu/MarginContainer/VBoxContainer"]
 custom_minimum_size = Vector2(250, 120)
 layout_mode = 2
 
-[node name="hpBar" type="ProgressBar" parent="PokemonMenu/MarginContainer/VBoxContainer/Pokemon2" unique_id=351258987]
+[node name="hpBar" type="ProgressBar" parent="PokemonMenu/MarginContainer/VBoxContainer/Pokemon2"]
 layout_mode = 0
 offset_left = 74.0
 offset_top = 77.5
@@ -122,18 +122,18 @@ offset_right = 219.0
 offset_bottom = 87.5
 show_percentage = false
 
-[node name="lvlLabel" type="Label" parent="PokemonMenu/MarginContainer/VBoxContainer/Pokemon2" unique_id=941556787]
+[node name="lvlLabel" type="Label" parent="PokemonMenu/MarginContainer/VBoxContainer/Pokemon2"]
 layout_mode = 0
 offset_left = 181.0
 offset_top = 11.5
 offset_right = 235.0
 offset_bottom = 34.5
 
-[node name="Pokemon3" type="Button" parent="PokemonMenu/MarginContainer/VBoxContainer" unique_id=1422659785]
+[node name="Pokemon3" type="Button" parent="PokemonMenu/MarginContainer/VBoxContainer"]
 custom_minimum_size = Vector2(250, 120)
 layout_mode = 2
 
-[node name="hpBar" type="ProgressBar" parent="PokemonMenu/MarginContainer/VBoxContainer/Pokemon3" unique_id=1122500367]
+[node name="hpBar" type="ProgressBar" parent="PokemonMenu/MarginContainer/VBoxContainer/Pokemon3"]
 layout_mode = 0
 offset_left = 74.0
 offset_top = 77.5
@@ -142,14 +142,14 @@ offset_bottom = 87.5
 step = 1.0
 show_percentage = false
 
-[node name="lvlLabel" type="Label" parent="PokemonMenu/MarginContainer/VBoxContainer/Pokemon3" unique_id=1538729012]
+[node name="lvlLabel" type="Label" parent="PokemonMenu/MarginContainer/VBoxContainer/Pokemon3"]
 layout_mode = 0
 offset_left = 181.0
 offset_top = 11.5
 offset_right = 235.0
 offset_bottom = 34.5
 
-[node name="MarginContainer2" type="MarginContainer" parent="PokemonMenu" unique_id=591546245]
+[node name="MarginContainer2" type="MarginContainer" parent="PokemonMenu"]
 layout_mode = 1
 anchors_preset = 6
 anchor_left = 1.0
@@ -166,15 +166,15 @@ theme_override_constants/margin_top = 20
 theme_override_constants/margin_right = 10
 theme_override_constants/margin_bottom = 20
 
-[node name="VBoxContainer2" type="VBoxContainer" parent="PokemonMenu/MarginContainer2" unique_id=959821870]
+[node name="VBoxContainer2" type="VBoxContainer" parent="PokemonMenu/MarginContainer2"]
 layout_mode = 2
 theme_override_constants/separation = 5
 
-[node name="Pokemon1" type="Button" parent="PokemonMenu/MarginContainer2/VBoxContainer2" unique_id=1482816700]
+[node name="Pokemon1" type="Button" parent="PokemonMenu/MarginContainer2/VBoxContainer2"]
 custom_minimum_size = Vector2(250, 120)
 layout_mode = 2
 
-[node name="hpBar" type="ProgressBar" parent="PokemonMenu/MarginContainer2/VBoxContainer2/Pokemon1" unique_id=2124893067]
+[node name="hpBar" type="ProgressBar" parent="PokemonMenu/MarginContainer2/VBoxContainer2/Pokemon1"]
 layout_mode = 0
 offset_left = 74.0
 offset_top = 77.5
@@ -182,18 +182,18 @@ offset_right = 219.0
 offset_bottom = 87.5
 show_percentage = false
 
-[node name="lvlLabel" type="Label" parent="PokemonMenu/MarginContainer2/VBoxContainer2/Pokemon1" unique_id=742533431]
+[node name="lvlLabel" type="Label" parent="PokemonMenu/MarginContainer2/VBoxContainer2/Pokemon1"]
 layout_mode = 0
 offset_left = 181.0
 offset_top = 11.5
 offset_right = 235.0
 offset_bottom = 34.5
 
-[node name="Pokemon2" type="Button" parent="PokemonMenu/MarginContainer2/VBoxContainer2" unique_id=63324510]
+[node name="Pokemon2" type="Button" parent="PokemonMenu/MarginContainer2/VBoxContainer2"]
 custom_minimum_size = Vector2(250, 120)
 layout_mode = 2
 
-[node name="hpBar" type="ProgressBar" parent="PokemonMenu/MarginContainer2/VBoxContainer2/Pokemon2" unique_id=1413835]
+[node name="hpBar" type="ProgressBar" parent="PokemonMenu/MarginContainer2/VBoxContainer2/Pokemon2"]
 layout_mode = 0
 offset_left = 74.0
 offset_top = 77.5
@@ -201,18 +201,18 @@ offset_right = 219.0
 offset_bottom = 87.5
 show_percentage = false
 
-[node name="lvlLabel" type="Label" parent="PokemonMenu/MarginContainer2/VBoxContainer2/Pokemon2" unique_id=157647162]
+[node name="lvlLabel" type="Label" parent="PokemonMenu/MarginContainer2/VBoxContainer2/Pokemon2"]
 layout_mode = 0
 offset_left = 181.0
 offset_top = 11.5
 offset_right = 235.0
 offset_bottom = 34.5
 
-[node name="Pokemon3" type="Button" parent="PokemonMenu/MarginContainer2/VBoxContainer2" unique_id=1796008856]
+[node name="Pokemon3" type="Button" parent="PokemonMenu/MarginContainer2/VBoxContainer2"]
 custom_minimum_size = Vector2(250, 120)
 layout_mode = 2
 
-[node name="hpBar" type="ProgressBar" parent="PokemonMenu/MarginContainer2/VBoxContainer2/Pokemon3" unique_id=937336205]
+[node name="hpBar" type="ProgressBar" parent="PokemonMenu/MarginContainer2/VBoxContainer2/Pokemon3"]
 layout_mode = 0
 offset_left = 74.0
 offset_top = 77.5
@@ -221,14 +221,14 @@ offset_bottom = 87.5
 step = 1.0
 show_percentage = false
 
-[node name="lvlLabel" type="Label" parent="PokemonMenu/MarginContainer2/VBoxContainer2/Pokemon3" unique_id=1626572057]
+[node name="lvlLabel" type="Label" parent="PokemonMenu/MarginContainer2/VBoxContainer2/Pokemon3"]
 layout_mode = 0
 offset_left = 181.0
 offset_top = 11.5
 offset_right = 235.0
 offset_bottom = 34.5
 
-[node name="BackButton" type="Button" parent="PokemonMenu" unique_id=1667592836]
+[node name="BackButton" type="Button" parent="PokemonMenu"]
 layout_mode = 0
 offset_left = 26.0
 offset_top = 491.0
@@ -236,7 +236,7 @@ offset_right = 114.0
 offset_bottom = 520.0
 text = "Retour"
 
-[node name="PokemonStatMenu" type="Panel" parent="." unique_id=66327918]
+[node name="PokemonStatMenu" type="Panel" parent="."]
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
@@ -249,7 +249,7 @@ offset_bottom = 188.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="BackButton" type="Button" parent="PokemonStatMenu" unique_id=384815382]
+[node name="BackButton" type="Button" parent="PokemonStatMenu"]
 layout_mode = 0
 offset_left = 477.0
 offset_top = 347.0
@@ -258,7 +258,7 @@ offset_bottom = 372.0
 theme_override_font_sizes/font_size = 12
 text = "Retour"
 
-[node name="VBoxContainer" type="VBoxContainer" parent="PokemonStatMenu" unique_id=565135073]
+[node name="VBoxContainer" type="VBoxContainer" parent="PokemonStatMenu"]
 layout_mode = 1
 anchors_preset = 6
 anchor_left = 1.0
@@ -272,13 +272,13 @@ offset_bottom = -5.0
 grow_horizontal = 0
 grow_vertical = 2
 
-[node name="CTinfoButton" type="Button" parent="PokemonStatMenu/VBoxContainer" unique_id=2108618626]
+[node name="CTinfoButton" type="Button" parent="PokemonStatMenu/VBoxContainer"]
 custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
 text = "Charge"
 alignment = 0
 
-[node name="PPlabel" type="Label" parent="PokemonStatMenu/VBoxContainer/CTinfoButton" unique_id=1508027399]
+[node name="PPlabel" type="Label" parent="PokemonStatMenu/VBoxContainer/CTinfoButton"]
 layout_mode = 0
 offset_left = 196.0
 offset_top = 8.0
@@ -288,7 +288,7 @@ theme_override_font_sizes/font_size = 8
 text = "PP 30/30"
 vertical_alignment = 1
 
-[node name="typelabel" type="Label" parent="PokemonStatMenu/VBoxContainer/CTinfoButton" unique_id=179672748]
+[node name="typelabel" type="Label" parent="PokemonStatMenu/VBoxContainer/CTinfoButton"]
 layout_mode = 0
 offset_left = 134.0
 offset_top = 9.0
@@ -298,11 +298,13 @@ theme_override_font_sizes/font_size = 8
 text = "Normal"
 vertical_alignment = 1
 
-[node name="CTinfoButton2" type="Button" parent="PokemonStatMenu/VBoxContainer" unique_id=387319217]
+[node name="CTinfoButton2" type="Button" parent="PokemonStatMenu/VBoxContainer"]
 custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
+text = "Test"
+alignment = 0
 
-[node name="PPlabel" type="Label" parent="PokemonStatMenu/VBoxContainer/CTinfoButton2" unique_id=53790248]
+[node name="PPlabel" type="Label" parent="PokemonStatMenu/VBoxContainer/CTinfoButton2"]
 layout_mode = 0
 offset_left = 196.0
 offset_top = 8.0
@@ -312,7 +314,7 @@ theme_override_font_sizes/font_size = 8
 text = "PP 30/30"
 vertical_alignment = 1
 
-[node name="typelabel" type="Label" parent="PokemonStatMenu/VBoxContainer/CTinfoButton2" unique_id=1561954761]
+[node name="typelabel" type="Label" parent="PokemonStatMenu/VBoxContainer/CTinfoButton2"]
 layout_mode = 0
 offset_left = 134.0
 offset_top = 9.0
@@ -322,11 +324,12 @@ theme_override_font_sizes/font_size = 8
 text = "Normal"
 vertical_alignment = 1
 
-[node name="CTinfoButton3" type="Button" parent="PokemonStatMenu/VBoxContainer" unique_id=1884848310]
+[node name="CTinfoButton3" type="Button" parent="PokemonStatMenu/VBoxContainer"]
 custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
+alignment = 0
 
-[node name="PPlabel" type="Label" parent="PokemonStatMenu/VBoxContainer/CTinfoButton3" unique_id=732881510]
+[node name="PPlabel" type="Label" parent="PokemonStatMenu/VBoxContainer/CTinfoButton3"]
 layout_mode = 0
 offset_left = 196.0
 offset_top = 8.0
@@ -336,7 +339,7 @@ theme_override_font_sizes/font_size = 8
 text = "PP 30/30"
 vertical_alignment = 1
 
-[node name="typelabel" type="Label" parent="PokemonStatMenu/VBoxContainer/CTinfoButton3" unique_id=674021869]
+[node name="typelabel" type="Label" parent="PokemonStatMenu/VBoxContainer/CTinfoButton3"]
 layout_mode = 0
 offset_left = 134.0
 offset_top = 9.0
@@ -346,11 +349,12 @@ theme_override_font_sizes/font_size = 8
 text = "Normal"
 vertical_alignment = 1
 
-[node name="CTinfoButton4" type="Button" parent="PokemonStatMenu/VBoxContainer" unique_id=890917624]
+[node name="CTinfoButton4" type="Button" parent="PokemonStatMenu/VBoxContainer"]
 custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
+alignment = 0
 
-[node name="PPlabel" type="Label" parent="PokemonStatMenu/VBoxContainer/CTinfoButton4" unique_id=936023969]
+[node name="PPlabel" type="Label" parent="PokemonStatMenu/VBoxContainer/CTinfoButton4"]
 layout_mode = 0
 offset_left = 196.0
 offset_top = 8.0
@@ -360,7 +364,7 @@ theme_override_font_sizes/font_size = 8
 text = "PP 30/30"
 vertical_alignment = 1
 
-[node name="typelabel" type="Label" parent="PokemonStatMenu/VBoxContainer/CTinfoButton4" unique_id=1309196529]
+[node name="typelabel" type="Label" parent="PokemonStatMenu/VBoxContainer/CTinfoButton4"]
 layout_mode = 0
 offset_left = 134.0
 offset_top = 9.0
@@ -370,7 +374,7 @@ theme_override_font_sizes/font_size = 8
 text = "Normal"
 vertical_alignment = 1
 
-[node name="pokemonSprite" type="TextureRect" parent="PokemonStatMenu" unique_id=1524031670]
+[node name="pokemonSprite" type="TextureRect" parent="PokemonStatMenu"]
 layout_mode = 0
 offset_left = 21.0
 offset_top = 12.0
@@ -378,41 +382,41 @@ offset_right = 230.0
 offset_bottom = 217.0
 texture = ExtResource("2_1rw3a")
 
-[node name="GridContainer" type="GridContainer" parent="PokemonStatMenu" unique_id=1505381084]
+[node name="GridContainer" type="GridContainer" parent="PokemonStatMenu"]
 layout_mode = 0
 offset_left = 21.0
 offset_top = 223.0
 offset_right = 223.0
 offset_bottom = 363.0
 
-[node name="pokemonName" type="Label" parent="PokemonStatMenu/GridContainer" unique_id=781229101]
+[node name="pokemonName" type="Label" parent="PokemonStatMenu/GridContainer"]
 layout_mode = 2
 text = "Name : Tiplouf"
 
-[node name="pokemonLevel" type="Label" parent="PokemonStatMenu/GridContainer" unique_id=123456924]
+[node name="pokemonLevel" type="Label" parent="PokemonStatMenu/GridContainer"]
 layout_mode = 2
 text = "lvl : 5"
 
-[node name="pokemonTypes" type="Label" parent="PokemonStatMenu/GridContainer" unique_id=867765852]
+[node name="pokemonTypes" type="Label" parent="PokemonStatMenu/GridContainer"]
 layout_mode = 2
 text = "type : Glace / Fee"
 
-[node name="pokemonId" type="Label" parent="PokemonStatMenu/GridContainer" unique_id=1554872028]
+[node name="pokemonId" type="Label" parent="PokemonStatMenu/GridContainer"]
 layout_mode = 2
 text = "ID :  001"
 
-[node name="pokemonNature" type="Label" parent="PokemonStatMenu/GridContainer" unique_id=1128107025]
+[node name="pokemonNature" type="Label" parent="PokemonStatMenu/GridContainer"]
 layout_mode = 2
 text = "Nature : Jovial"
 
-[node name="StatPanel" type="Panel" parent="PokemonStatMenu" unique_id=1097707401]
+[node name="StatPanel" type="Panel" parent="PokemonStatMenu"]
 layout_mode = 0
 offset_left = 243.0
 offset_top = 185.0
 offset_right = 509.0
 offset_bottom = 343.0
 
-[node name="MarginContainer" type="MarginContainer" parent="PokemonStatMenu/StatPanel" unique_id=1388587101]
+[node name="MarginContainer" type="MarginContainer" parent="PokemonStatMenu/StatPanel"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -424,198 +428,198 @@ theme_override_constants/margin_top = 4
 theme_override_constants/margin_right = 4
 theme_override_constants/margin_bottom = 4
 
-[node name="GridContainer" type="GridContainer" parent="PokemonStatMenu/StatPanel/MarginContainer" unique_id=1480623900]
+[node name="GridContainer" type="GridContainer" parent="PokemonStatMenu/StatPanel/MarginContainer"]
 layout_mode = 2
 columns = 4
 
-[node name="Label" type="Label" parent="PokemonStatMenu/StatPanel/MarginContainer/GridContainer" unique_id=1893612881]
+[node name="Label" type="Label" parent="PokemonStatMenu/StatPanel/MarginContainer/GridContainer"]
 custom_minimum_size = Vector2(50, 0)
 layout_mode = 2
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Label2" type="Label" parent="PokemonStatMenu/StatPanel/MarginContainer/GridContainer" unique_id=339600408]
+[node name="Label2" type="Label" parent="PokemonStatMenu/StatPanel/MarginContainer/GridContainer"]
 custom_minimum_size = Vector2(50, 0)
 layout_mode = 2
 text = "EV"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Label3" type="Label" parent="PokemonStatMenu/StatPanel/MarginContainer/GridContainer" unique_id=1954530658]
+[node name="Label3" type="Label" parent="PokemonStatMenu/StatPanel/MarginContainer/GridContainer"]
 custom_minimum_size = Vector2(50, 0)
 layout_mode = 2
 text = "IV"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Label4" type="Label" parent="PokemonStatMenu/StatPanel/MarginContainer/GridContainer" unique_id=1367597901]
+[node name="Label4" type="Label" parent="PokemonStatMenu/StatPanel/MarginContainer/GridContainer"]
 custom_minimum_size = Vector2(50, 0)
 layout_mode = 2
 text = "STAT"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="HPlabel" type="Label" parent="PokemonStatMenu/StatPanel/MarginContainer/GridContainer" unique_id=1514272567]
+[node name="HPlabel" type="Label" parent="PokemonStatMenu/StatPanel/MarginContainer/GridContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 10
 text = "HP"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="HPev" type="Label" parent="PokemonStatMenu/StatPanel/MarginContainer/GridContainer" unique_id=1152995245]
+[node name="HPev" type="Label" parent="PokemonStatMenu/StatPanel/MarginContainer/GridContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 12
 text = "0"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="HPiv" type="Label" parent="PokemonStatMenu/StatPanel/MarginContainer/GridContainer" unique_id=137662981]
+[node name="HPiv" type="Label" parent="PokemonStatMenu/StatPanel/MarginContainer/GridContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 12
 text = "0"
 horizontal_alignment = 1
 
-[node name="HPstat" type="Label" parent="PokemonStatMenu/StatPanel/MarginContainer/GridContainer" unique_id=433002629]
+[node name="HPstat" type="Label" parent="PokemonStatMenu/StatPanel/MarginContainer/GridContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 12
 text = "0"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="ATKlabel" type="Label" parent="PokemonStatMenu/StatPanel/MarginContainer/GridContainer" unique_id=295691795]
+[node name="ATKlabel" type="Label" parent="PokemonStatMenu/StatPanel/MarginContainer/GridContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 10
 text = "ATK"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="ATKev" type="Label" parent="PokemonStatMenu/StatPanel/MarginContainer/GridContainer" unique_id=1210629730]
+[node name="ATKev" type="Label" parent="PokemonStatMenu/StatPanel/MarginContainer/GridContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 12
 text = "0"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="ATKiv" type="Label" parent="PokemonStatMenu/StatPanel/MarginContainer/GridContainer" unique_id=1813605147]
+[node name="ATKiv" type="Label" parent="PokemonStatMenu/StatPanel/MarginContainer/GridContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 12
 text = "0"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="ATKstat" type="Label" parent="PokemonStatMenu/StatPanel/MarginContainer/GridContainer" unique_id=895449069]
+[node name="ATKstat" type="Label" parent="PokemonStatMenu/StatPanel/MarginContainer/GridContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 12
 text = "0"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="ATKSPElabel" type="Label" parent="PokemonStatMenu/StatPanel/MarginContainer/GridContainer" unique_id=1896550750]
+[node name="ATKSPElabel" type="Label" parent="PokemonStatMenu/StatPanel/MarginContainer/GridContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 10
 text = "ATKSPE"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="ATKSPEev" type="Label" parent="PokemonStatMenu/StatPanel/MarginContainer/GridContainer" unique_id=1556695076]
+[node name="ATKSPEev" type="Label" parent="PokemonStatMenu/StatPanel/MarginContainer/GridContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 12
 text = "0"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="ATKSPEiv" type="Label" parent="PokemonStatMenu/StatPanel/MarginContainer/GridContainer" unique_id=1834886919]
+[node name="ATKSPEiv" type="Label" parent="PokemonStatMenu/StatPanel/MarginContainer/GridContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 12
 text = "0"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="ATKSPEstat" type="Label" parent="PokemonStatMenu/StatPanel/MarginContainer/GridContainer" unique_id=188925678]
+[node name="ATKSPEstat" type="Label" parent="PokemonStatMenu/StatPanel/MarginContainer/GridContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 12
 text = "0"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="DEFlabel" type="Label" parent="PokemonStatMenu/StatPanel/MarginContainer/GridContainer" unique_id=246224876]
+[node name="DEFlabel" type="Label" parent="PokemonStatMenu/StatPanel/MarginContainer/GridContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 10
 text = "DEF"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="DEFev" type="Label" parent="PokemonStatMenu/StatPanel/MarginContainer/GridContainer" unique_id=6755809]
+[node name="DEFev" type="Label" parent="PokemonStatMenu/StatPanel/MarginContainer/GridContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 12
 text = "0"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="DEFiv" type="Label" parent="PokemonStatMenu/StatPanel/MarginContainer/GridContainer" unique_id=1660032919]
+[node name="DEFiv" type="Label" parent="PokemonStatMenu/StatPanel/MarginContainer/GridContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 12
 text = "0"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="DEFstat" type="Label" parent="PokemonStatMenu/StatPanel/MarginContainer/GridContainer" unique_id=753128469]
+[node name="DEFstat" type="Label" parent="PokemonStatMenu/StatPanel/MarginContainer/GridContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 12
 text = "0"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="DEFSPElabel" type="Label" parent="PokemonStatMenu/StatPanel/MarginContainer/GridContainer" unique_id=304005706]
+[node name="DEFSPElabel" type="Label" parent="PokemonStatMenu/StatPanel/MarginContainer/GridContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 10
 text = "DEFSPE"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="DEFSPEev" type="Label" parent="PokemonStatMenu/StatPanel/MarginContainer/GridContainer" unique_id=1136930393]
+[node name="DEFSPEev" type="Label" parent="PokemonStatMenu/StatPanel/MarginContainer/GridContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 12
 text = "0"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="DEFSPEiv" type="Label" parent="PokemonStatMenu/StatPanel/MarginContainer/GridContainer" unique_id=2139523642]
+[node name="DEFSPEiv" type="Label" parent="PokemonStatMenu/StatPanel/MarginContainer/GridContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 12
 text = "0"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="DEFSPEstat" type="Label" parent="PokemonStatMenu/StatPanel/MarginContainer/GridContainer" unique_id=116130754]
+[node name="DEFSPEstat" type="Label" parent="PokemonStatMenu/StatPanel/MarginContainer/GridContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 12
 text = "0"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="SPEEDlabel" type="Label" parent="PokemonStatMenu/StatPanel/MarginContainer/GridContainer" unique_id=744222753]
+[node name="SPEEDlabel" type="Label" parent="PokemonStatMenu/StatPanel/MarginContainer/GridContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 10
 text = "SPEED"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="SPEEDev" type="Label" parent="PokemonStatMenu/StatPanel/MarginContainer/GridContainer" unique_id=1553544170]
+[node name="SPEEDev" type="Label" parent="PokemonStatMenu/StatPanel/MarginContainer/GridContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 12
 text = "0"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="SPEEDiv" type="Label" parent="PokemonStatMenu/StatPanel/MarginContainer/GridContainer" unique_id=1858454143]
+[node name="SPEEDiv" type="Label" parent="PokemonStatMenu/StatPanel/MarginContainer/GridContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 12
 text = "0"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="SPEEDstat" type="Label" parent="PokemonStatMenu/StatPanel/MarginContainer/GridContainer" unique_id=253468062]
+[node name="SPEEDstat" type="Label" parent="PokemonStatMenu/StatPanel/MarginContainer/GridContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 12
 text = "0"

@@ -23,6 +23,8 @@ var directions = [
 @export var hasDialogue : bool = true
 @export var has_to_be_interactive : bool = true
 @export var startDirection : Vector2 = Vector2.DOWN
+@export var is_trainer : bool = false
+@export var pokemonteamdata : Array[TrainerPokemonData]
 
 @onready var anim := $Sprite2D
 @onready var interactRange := $interactRange
@@ -31,6 +33,7 @@ var directions = [
 @onready var exclamation_sprite := $Marker2D/Sprite2D
 @onready var exclamation_anim := $Marker2D/AnimationPlayer
 
+var pokemonTeam : Array[PokemonInstance]
 var mouvement_timer := 0.0
 var return_pos := Vector2.ZERO
 var currentState = animState.IDLE
@@ -39,6 +42,7 @@ var last_direction := Vector2.RIGHT
 var target_position : Vector2
 var AreaSize : Rect2
 var player_detected := false
+var trainer_defeted := false
 
 func _ready():
 	exclamation_sprite.visible = false
@@ -63,6 +67,9 @@ func _ready():
 		remove_child(raycast)
 	if has_to_be_interactive == false : 
 		interactRange.monitoring = false
+	print("is trainer : ", is_trainer)
+	if is_trainer :
+		load_pokemon_team(pokemonteamdata)
 	
 func _physics_process(delta: float) -> void:
 	match currentState:
@@ -73,13 +80,23 @@ func _physics_process(delta: float) -> void:
 		animState.MOVE_TO_PLAYER :
 			handle_moving(delta)
 
-	
+func load_pokemon_team(pokemonTeamdata : Array[TrainerPokemonData]):
+	for i in range(pokemonTeamdata.size()) :
+		var pokemonid = pokemonTeamdata[i].PokemonIds
+		var tmp_poke = PokemonInstance.new()
+		tmp_poke.data = Game.get_data(pokemonid) 
+		tmp_poke.level = pokemonTeamdata[i].PokemonLevel
+		tmp_poke.initStats()
+		print("pokemon added to trainer team : ", tmp_poke)
+		pokemonTeam.append(tmp_poke)
+		
+		
 func get_position_in_front_of_player() -> Vector2:
 	var player = playerManager.player_instance
 	return player.global_position - (-player.current_direction) * Game.tileSize
 
 	
-func show_exclamation_mark():
+func show_exclamation_mark(event : int):
 	print("=== DEBUT show_exclamation_mark ===")
 	playerManager.desacPlayer(true)
 	currentState = animState.NONE
@@ -109,20 +126,25 @@ func show_exclamation_mark():
 		DialogueManager.startDialogue(interactRange.dialogue_id)
 		await DialogueManager.dialogue_ended
 	
-	# Retour à la position initiale
-	target_position = return_pos
-	currentState = animState.MOVE_TO_PLAYER
-	set_physics_process(true)
+	if event == 0 : # STORY EVENT
+		target_position = return_pos
+		currentState = animState.MOVE_TO_PLAYER
+		set_physics_process(true)
 	
 	# Attendre le retour
-	while currentState == animState.MOVE_TO_PLAYER:
-		await get_tree().process_frame
+		while currentState == animState.MOVE_TO_PLAYER:
+			await get_tree().process_frame
 	
 	# Nettoyage final (TOUJOURS exécuté)
-	playerManager.player_instance.cancel_last_move()
-	interactRange.monitoring = false
-	interactRange.player_nearby = false
-	playerManager.activatePlayer()
+		playerManager.player_instance.cancel_last_move()
+		interactRange.monitoring = false
+		interactRange.player_nearby = false
+		playerManager.activatePlayer()
+	
+	elif event == 1 :
+		await Game.start_Trainer_battle(pokemonTeam, self)
+		if trainer_defeted == true : 
+			remove_child(raycast)
 	
 func handle_idle(delta : float ) :
 	mouvement_timer -= delta
@@ -154,14 +176,6 @@ func _is_inside_area(candidate : Vector2, areaRect : Rect2) -> bool :
 
 func handle_path_moving(delta : float ) -> bool:
 	var motion = target_position - global_position
-	
-	#print("motion = :", motion)
-	#if motion.length() < 0.1:
-		#move_direction = last_direction
-	#else :
-		#var dir = motion.normalized()
-		#last_direction = dir 
-		#move_direction = dir
 	
 	if motion.length() > SPEED * delta:
 		motion = motion.normalized() * SPEED * delta
