@@ -2,14 +2,22 @@ extends Node
 class_name MoveEffectManager
 
 const STAT_STAGES := [0.33, 0.37, 0.42, 0.5, 0.6, 0.75, 1.0, 1.33, 1.66, 2.0, 2.3, 2.6, 3.0]
+var battleManager : Battlemanager
 
-func _ready() -> void:
-	pass # Replace with function body.
+func set_battleManager(battle_manager : Battlemanager):
+	battleManager = battle_manager
 
 
-func _process(delta: float) -> void:
-	pass
+func process_end_of_turn_effect(player_pokemon : PokemonInstance, enemy_pokemon : PokemonInstance):
+	if player_pokemon.status != null : 
+		process_damage_effect(player_pokemon, player_pokemon.status)
 
+
+func process_damage_effect(pokemon : PokemonInstance, statusType : String):
+	match statusType :
+		"BURN" :
+			battleManager.apply_damage(pokemon, (pokemon.max_hp / 16))
+			battleManager._queue_text("%s souffre de sa brulure !" % pokemon.pokemon_name)
 func apply_burn(target_pokemon : PokemonInstance):
 	target_pokemon.status = "BRN"
 	target_pokemon.pokemon_node.apply_status_in_Ui(target_pokemon.status)

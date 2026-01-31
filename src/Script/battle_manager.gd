@@ -64,6 +64,7 @@ func resetBattleManager():
 func start_battle(player_team_data : Array[PokemonInstance], enemy_team_data : Array[PokemonInstance], Trainer : CharacterBody2D = null):
 	ui_node = Game.battle_ui
 	move_effect_manager = MoveEffectManager.new()
+	move_effect_manager.set_battleManager(self)
 
 	player_team = player_team_data
 	player_pokemon = player_team[0]
@@ -271,6 +272,9 @@ func apply_move_effect(move : CT_data, attacker : PokemonInstance, defender : Po
 	#REVOIR POUR ADMETTRE LES TARGETS DE MANIERE PLUS REFLECHIS
 	match move.type_effect :
 		CT_data.Effect.BURN :
+			if defender.status == "BURN" :
+				_queue_text("%s est deja victime de brulure" % defender.pokemon_name)
+				return false
 			move_effect_manager.apply_burn(defender)
 			_queue_text("%s est desormais brulé : " % defender.pokemon_name)
 		CT_data.Effect.LOWER_ENEMY_ATK :
