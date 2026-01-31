@@ -405,9 +405,11 @@ func _handleLvlUpNewMoveUI() -> void:
 		print("DEBUG : CHOICE : ", choice)
 		if choice[0] == true:
 			hasLeveledUp = false
+			ui_node.text_box.visible = true
 		else:
 			ui_node.text_box.visible = true
 			ui_node.move_menu.visible = true
+			ui_node.text_box.visible = true
 	if choice[0] == true:
 		if choice[1] != null:
 			_queue_text("%s a apris %s et ..." % [player_pokemon.pokemon_name, move.name])

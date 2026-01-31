@@ -312,10 +312,11 @@ func askCustomQuestionForLvlUp(text : String, pokemon: PokemonInstance, moveID: 
 		var moveArray = await moveReplacementSelected
 		var moveIndex = moveArray[0]
 		var goBack = moveArray[1]
-		oldMove = pokemon.moves[moveIndex]
 		if goBack == 1:
+			disconnect_move_button()
 			lvlUpMoveContainer.visible = false
 			return [false, oldMove]
+		oldMove = pokemon.moves[moveIndex]
 		pokemon.learnMove(moveID, moveIndex)
 		lvlUpMoveContainer.visible = false
 		return [true, oldMove]
