@@ -45,7 +45,7 @@ shape = SubResource("RectangleShape2D_7v234")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 texture_filter = 1
 sprite_frames = SubResource("SpriteFrames_ttlte")
-animation = &"down"
+animation = &"up"
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
 [connection signal="body_exited" from="." to="." method="_on_body_exited"]

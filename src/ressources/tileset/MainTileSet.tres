@@ -1,4 +1,4 @@
-[gd_resource type="TileSet" load_steps=55 format=3 uid="uid://bhqsmdqna6dfj"]
+[gd_resource type="TileSet" format=3 uid="uid://bhqsmdqna6dfj"]
 
 [ext_resource type="Texture2D" uid="uid://cro2iivu6mc6i" path="res://assets/npc/MPWSP01/tileset/tileset.png" id="1_oi8ef"]
 [ext_resource type="PackedScene" uid="uid://cp6ndud6l2q0f" path="res://src/node/tallGrass.tscn" id="2_mcyro"]
@@ -328,9 +328,11 @@ texture = ExtResource("1_oi8ef")
 4:4/0 = 0
 5:4/0 = 0
 6:4/0 = 0
+<<<<<<< HEAD
 6:4/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 0.8992939, -0.5076275, 1.0152559, -8, -2.6978807)
+=======
+>>>>>>> parent of 2193f34 (try to merge work)
 7:4/0 = 0
-7:4/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -5.755479, 8, -5.935337, 8, -0.8992939, -8, 0)
 8:4/0 = 0
 9:4/0 = 0
 10:4/0 = 0
@@ -379,10 +381,8 @@ texture = ExtResource("1_oi8ef")
 1:5/0 = 0
 2:5/0 = 0
 3:5/0 = 0
-3:5/0/physics_layer_0/polygon_0/points = PackedVector2Array(1.4388695, -8, 6.4749146, -8, 6.4749146, 8, 6.4749146, 8, 2.3381634, 8)
 4:5/0 = 0
 5:5/0 = 0
-5:5/0/physics_layer_0/polygon_0/points = PackedVector2Array(-6.2950554, -8, -1.2590122, -8, -1.2590122, 8, -6.2950554, 8)
 6:5/0 = 0
 7:5/0 = 0
 8:5/0 = 0
@@ -432,11 +432,8 @@ texture = ExtResource("1_oi8ef")
 1:6/0 = 0
 2:6/0 = 0
 3:6/0 = 0
-3:6/0/physics_layer_0/polygon_0/points = PackedVector2Array(3.5971737, -8, 8, -8, 8, 0.17985916, 3.956892, -1.6187286)
 4:6/0 = 0
-4:6/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -6.115196, 8, -5.935337, 8, -0.17985725, -8, -0.35971642)
 5:6/0 = 0
-5:6/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, -1.7985878, -8, -2.5180225, -1.6187286, -8, -0.35971642)
 6:6/0 = 0
 7:6/0 = 0
 8:6/0 = 0
@@ -5948,11 +5945,6 @@ texture = ExtResource("4_vcdnr")
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_sri0r"]
 resource_name = "leftsidesandwater"
 texture = ExtResource("20_fqpvn")
-0:0/animation_columns = 4
-0:0/animation_frame_0/duration = 1.0
-0:0/animation_frame_1/duration = 1.0
-0:0/animation_frame_2/duration = 1.0
-0:0/animation_frame_3/duration = 1.0
 0:0/0 = 0
 0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-6.4749146, -8, -2.3381634, -8, -2.6978807, 8, -6.4749146, 8)
 

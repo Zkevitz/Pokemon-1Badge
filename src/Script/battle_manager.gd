@@ -191,7 +191,10 @@ func _process_turn_queue():
 	
 func execute_next_turn():
 	if turn_queue.is_empty():
+<<<<<<< HEAD
 		await move_effect_manager.process_end_of_turn_effect(player_pokemon, enemy_pokemon)
+=======
+>>>>>>> parent of 2193f34 (try to merge work)
 		_start_player_turn()
 		return
 	var turn_data = turn_queue.pop_front()
@@ -235,7 +238,7 @@ func execute_move(attacker : PokemonInstance, defender : PokemonInstance, move :
 		execute_next_turn()
 		return
 	play_attack_animation(attacker, move)
-	#await attacker.pokemon_node.animation_finished
+	#await animation_player.animation_finished
 	print("move used : ", move)
 	if move.category == "PHYSICS" or move.category == "SPECIAL":
 		print("calcul des degats ??")
@@ -271,7 +274,11 @@ func apply_move_effect(move : CT_data, attacker : PokemonInstance, defender : Po
 	#REVOIR POUR ADMETTRE LES TARGETS DE MANIERE PLUS REFLECHIS
 	match move.type_effect :
 		CT_data.Effect.BURN :
+<<<<<<< HEAD
 			if defender.status == "BRN" :
+=======
+			if defender.status == "BURN" :
+>>>>>>> parent of 2193f34 (try to merge work)
 				_queue_text("%s est deja victime de brulure" % defender.pokemon_name)
 				return false
 			move_effect_manager.apply_burn(defender)
@@ -332,6 +339,7 @@ func apply_damage(target : PokemonInstance, damage : int):
 	else :
 		allyornot = true
 	ui_node.update_hp_bar(allyornot, target)
+<<<<<<< HEAD
 func handle_exp_reward():
 	var exp_gained = calculate_exp_gain()
 	
@@ -340,13 +348,14 @@ func handle_exp_reward():
 	await ui_node.update_xp_bar(player_pokemon, exp_gained)
 	
 	
+=======
+
+>>>>>>> parent of 2193f34 (try to merge work)
 func _handle_faint(pokemon : PokemonInstance):
 	pokemon_fainted.emit(pokemon)
 	_queue_text("%s est K.O. !" % pokemon.pokemon_name)
-	await handle_exp_reward()
 	await _process_text_queue()
 	await play_faint_animation(pokemon)
-	
 	var checkTeam 
 	var isPlayerTeam : bool = false
 	if pokemon == player_pokemon :
@@ -375,7 +384,6 @@ func _handle_faint(pokemon : PokemonInstance):
 			setup_new_pokemon_node(enemy_pokemon, false)
 			_queue_text("Trainer %s envoie %s !" % [EnemyTrainer.interactRange.dialogue_id, enemy_pokemon.pokemon_name])
 			await _process_text_queue()
-			##potentiellement faire proc les effets
 			execute_next_turn()
 			
 			#logique IA de choix de pokemon a implementer
@@ -407,12 +415,25 @@ func setup_new_pokemon_node(pokemoninstance : PokemonInstance, is_ally : bool) :
 var hasLeveledUp: bool = false
 var newMoveID: int = 0
 
+<<<<<<< HEAD
 func _handleLvlUpNewMoveUI() -> void:
 	var choice : Array = []
 	var move : CT_data = Game.get_move_data(newMoveID)
 	while hasLeveledUp:
 		ui_node.move_menu.visible = false
 		_queue_text("%s veut apprendre %s." % [player_pokemon.pokemon_name, move.name])
+=======
+func _handle_victory():
+	var exp_gained = calculate_exp_gain()
+	_queue_text("%s gagne %d points d'expérience !" % [player_pokemon.pokemon_name, exp_gained])
+	await _process_text_queue()
+	
+	#player_pokemon.gain_exp(exp_gained)
+	await ui_node.update_xp_bar(player_pokemon, exp_gained)
+	if hasLeveledUp:
+		_queue_text("%s wants to learn a new move." % player_pokemon.pokemon_name)
+		#_queue_text("" % player_pokemon.pokemon_name)
+>>>>>>> parent of 2193f34 (try to merge work)
 		await _process_text_queue()
 		choice = await ui_node.askCustomQuestionForLvlUp("Veut tu apprendre cette capacite ?", player_pokemon, newMoveID)
 		print("DEBUG : CHOICE : ", choice)
@@ -456,7 +477,7 @@ func calculate_exp_gain()-> int :
 	# formule simplifié
 	var base_exp = enemy_pokemon.base_exp_yield
 	var exp_yield =  float(base_exp * enemy_pokemon.level) / 6
-	var share_xp = 1 / max(pokemon_participant(), 1)
+	var share_xp = 1 / pokemon_participant()
 	var is_trainer_pokemon = 1.5 if not enemy_pokemon.is_wild else 1.0
 	return int(exp_yield * share_xp * 1 * is_trainer_pokemon * 1)
 
@@ -497,7 +518,6 @@ func _process_text_queue():
 		var text = battle_text_queue.pop_front()
 		ui_node.display_text(text)
 		await ui_node.text_finished
-	#await Game.get_tree().create_timer(1).timeout
 
 func use_struggle(attacker: PokemonInstance, defender: PokemonInstance):
 	var struggle_move = {
@@ -528,6 +548,9 @@ func play_attack_animation(attacker: PokemonInstance, _move: CT_data):
 		current = enemy_pokemon_node
 		other = player_pokemon_node
 	ui_node.Play_attack_anim(current, other, _move)
+
+func _process(_delta: float) -> void:
+	pass
 
 func showMoveLearning(_moveID: int) -> void:
 	print("Hello ID: ", _moveID)
