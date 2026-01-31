@@ -38,6 +38,7 @@ func _physics_process(delta: float) -> void:
 	match currentState :
 		animState.IDLE :
 			handle_idle_state(delta)
+			handle_idle_state()
 		animState.MOVING:
 			handle_moving_state(delta)
 
