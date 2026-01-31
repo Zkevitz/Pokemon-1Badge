@@ -1,0 +1,40 @@
+[gd_scene format=3 uid="uid://d86rqhvtr73y"]
+
+[ext_resource type="Texture2D" uid="uid://cro2iivu6mc6i" path="res://assets/npc/MPWSP01/tileset/tileset.png" id="1_plkof"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xobdi"]
+atlas = ExtResource("1_plkof")
+region = Rect2(96, 64, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ko0op"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xobdi")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wiibj"]
+size = Vector2(16, 3)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_1jni2"]
+size = Vector2(16, 6)
+
+[node name="GrassBorderLeft" type="AnimatedSprite2D" unique_id=1626931375]
+texture_filter = 1
+sprite_frames = SubResource("SpriteFrames_ko0op")
+
+[node name="TopCollision" type="Area2D" parent="." unique_id=1876954497]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="TopCollision" unique_id=1451037008]
+position = Vector2(0, -6.5)
+shape = SubResource("RectangleShape2D_wiibj")
+
+[node name="BottomCollision" type="Area2D" parent="." unique_id=120138002]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="BottomCollision" unique_id=1792026005]
+position = Vector2(0, -2)
+shape = SubResource("RectangleShape2D_1jni2")

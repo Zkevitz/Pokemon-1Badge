@@ -414,12 +414,39 @@ func setup_new_pokemon_node(pokemoninstance : PokemonInstance, is_ally : bool) :
 var hasLeveledUp: bool = false
 var newMoveID: int = 0
 
-func _handle_victory():
-	if hasLeveledUp:
-		_queue_text("%s wants to learn a new move." % player_pokemon.pokemon_name)
+func _handleLvlUpNewMoveUI() -> void:
+	var choice : Array = []
+	var move : CT_data = Game.get_move_data(newMoveID)
+	while hasLeveledUp:
+		ui_node.move_menu.visible = false
+		_queue_text("%s veut apprendre %s." % [player_pokemon.pokemon_name, move.name])
 		await _process_text_queue()
-		await ui_node.askCustomQuestion("Do you want to learn it ?", player_pokemon, newMoveID)
-		hasLeveledUp = false
+		choice = await ui_node.askCustomQuestionForLvlUp("Veut tu apprendre cette capacite ?", player_pokemon, newMoveID)
+		print("DEBUG : CHOICE : ", choice)
+		if choice[0] == true:
+			hasLeveledUp = false
+			ui_node.text_box.visible = true
+		else:
+			ui_node.text_box.visible = true
+			ui_node.move_menu.visible = true
+			ui_node.text_box.visible = true
+	if choice[0] == true:
+		if choice[1] != null:
+			_queue_text("%s a apris %s et ..." % [player_pokemon.pokemon_name, move.name])
+			_queue_text("... il a completement oublie %s" % choice[1].name)
+		else:
+			_queue_text("%s n'a pas apris %s." % [player_pokemon.pokemon_name, move.name])
+	else:
+		_queue_text("%s n'a pas apris %s." % [player_pokemon.pokemon_name, move.name])
+	await _process_text_queue()
+
+func _handle_victory():
+	var exp_gained = calculate_exp_gain()
+	_queue_text("%s gagne %d points d'expérience !" % [player_pokemon.pokemon_name, exp_gained])
+	await _process_text_queue()
+	await ui_node.update_xp_bar(player_pokemon, exp_gained)
+	await _handleLvlUpNewMoveUI()
+
 	_end_battle(true)
 
 func pokemon_participant():

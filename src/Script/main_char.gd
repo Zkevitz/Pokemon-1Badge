@@ -23,12 +23,13 @@ func _ready() -> void:
 	playerManager.player_instance = self
 	global_position = walkgrid.map_to_local(start_position)
 	var pokemon = PokemonInstance.new()
-	pokemon.data = Game.get_data(2)
-	pokemon.level = 10
+	pokemon.data = Game.get_data(1)
+	pokemon.level = 5
 	pokemon.initStats()
 	pokemon.learnMove(8, 3)
 	pokemon.learnMove(9, 3)
-	#pokemon.current_xp = 70
+	pokemon.current_xp = 90
+	pokemon.current_atk = 250
 	pokemonTeam.append(pokemon)
 	pass
 	
