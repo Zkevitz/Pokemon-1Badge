@@ -45,8 +45,6 @@ const TYPE_CHART := {
 }
 
 func _physics_process(_delta: float) -> void:
-	#debug
-	print(self)
 	if current_state != last_state :
 		last_state = current_state
 		print("battle state is on", current_state)
@@ -62,6 +60,7 @@ func resetBattleManager():
 	enemy_team = []
 	
 func start_battle(player_team_data : Array[PokemonInstance], enemy_team_data : Array[PokemonInstance], Trainer : CharacterBody2D = null):
+	print("start debug 1 :")
 	ui_node = Game.battle_ui
 	move_effect_manager = MoveEffectManager.new()
 	move_effect_manager.set_battleManager(self)
@@ -75,14 +74,14 @@ func start_battle(player_team_data : Array[PokemonInstance], enemy_team_data : A
 	
 	player_pokemon_node = preload("res://src/node/pokemon_node.tscn").instantiate()
 	enemy_pokemon_node = preload("res://src/node/pokemon_node.tscn").instantiate()
-	
+	print("start debug 2 :")
 	if Trainer :
 		EnemyTrainer = Trainer
 		is_wild_battle = false
 	
 	setup_new_pokemon_node(player_pokemon, true)
 	setup_new_pokemon_node(enemy_pokemon, false)
-	
+	print("start debug 3 :")
 	player_pokemon.pokemon_node = player_pokemon_node
 	enemy_pokemon.pokemon_node = enemy_pokemon_node
 	ui_node.action_selected.connect(_on_action_selected)
@@ -93,6 +92,7 @@ func start_battle(player_team_data : Array[PokemonInstance], enemy_team_data : A
 	current_state = battleState.INTRO
 	
 	show_intro_animation()
+	print("start debug 4 :")
 
 func show_intro_animation():
 	var enemy_name = enemy_pokemon.pokemon_name
@@ -190,9 +190,7 @@ func _process_turn_queue():
 	execute_next_turn()
 	
 func execute_next_turn():
-	#j'aime pas bizarre  ?
 	if turn_queue.is_empty():
-		print("move effect manager pls ??")
 		await move_effect_manager.process_end_of_turn_effect(player_pokemon, enemy_pokemon)
 		_start_player_turn()
 		return
@@ -202,7 +200,6 @@ func execute_next_turn():
 		execute_next_turn()
 		return
 	
-	print("data move du tour : ", turn_data.move)
 	if turn_data.move:
 		execute_move(turn_data.attacker, turn_data.defender, turn_data.move)
 	else:
@@ -274,8 +271,6 @@ func apply_move_effect(move : CT_data, attacker : PokemonInstance, defender : Po
 	#REVOIR POUR ADMETTRE LES TARGETS DE MANIERE PLUS REFLECHIS
 	match move.type_effect :
 		CT_data.Effect.BURN :
-			print("defender status = :", defender.status)
-			print("attacker status = ", attacker.status)
 			if defender.status == "BRN" :
 				_queue_text("%s est deja victime de brulure" % defender.pokemon_name)
 				return false
@@ -287,7 +282,6 @@ func apply_move_effect(move : CT_data, attacker : PokemonInstance, defender : Po
 		CT_data.Effect.BOOST_TARGET_ATK :
 			move_effect_manager.boost_target_atk(attacker, move.power_effect)
 	
-	#await Game.get_tree().create_timer(0.5).timeout
 	return true
 				
 # === CALCUL DES DÉGÂTS ===
@@ -342,7 +336,6 @@ func handle_exp_reward():
 	var exp_gained = calculate_exp_gain()
 	
 	_queue_text("%s gagne %d points d'expérience !" % [player_pokemon.pokemon_name, exp_gained])
-	#await _process_text_queue()
 	
 	await ui_node.update_xp_bar(player_pokemon, exp_gained)
 	
