@@ -174,9 +174,10 @@ func enable_button():
 	for child in main_menu.get_children():
 		if child is Button :
 			child.visible = true
+			
 func animate_text():
 	var label = text_box.get_node("textLabel")
-	print(current_text)
+	print("current TEXTE = : ", current_text)
 	for i in range(current_text.length()):
 		label.text += current_text[i]
 		await get_tree().create_timer(text_speed).timeout

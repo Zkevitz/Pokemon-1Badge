@@ -16,7 +16,7 @@ var pokemonTeam : Array[PokemonInstance]
 @onready var anim := $Sprite2D
 @onready var collision := $CollisionShape2D
 
-const TURN_TIME := 0.08
+const TURN_TIME := 0.14
 var turnTimer := 0.0
 
 func _ready() -> void:

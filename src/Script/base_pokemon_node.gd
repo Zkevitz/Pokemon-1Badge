@@ -37,7 +37,6 @@ func sink_into_ground():
 	await tween.finished
 	animation_finished.emit()
 	await get_tree().create_timer(1.5).timeout
-	var info_panel = get_parent()
 	queue_free()
 
 func apply_status_in_Ui(status : String):
@@ -46,6 +45,7 @@ func apply_status_in_Ui(status : String):
 	var text_label = panel_info.get_node("RichTextLabel")
 	text_label.text = status
 	text_label.visible = true
+	animation_finished.emit()
 	
 func Boost_stat_anim():
 	var mat = animatedSprite.material
@@ -72,6 +72,7 @@ func flash_white():
 	await get_tree().create_timer(0.08).timeout
 
 	mat.set_shader_parameter("white_amount", 0.0)
+	animation_finished.emit()
 	
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta: float) -> void:
