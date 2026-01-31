@@ -1,0 +1,30 @@
+[gd_resource type="Resource" script_class="PokemonData" load_steps=6 format=3 uid="uid://dkhopoepkc6ie"]
+
+[ext_resource type="Script" uid="uid://3j4rwpwaqwyi" path="res://src/ressources/LearnMoveData.gd" id="1_7wmnx"]
+[ext_resource type="Script" uid="uid://budev3vnysct5" path="res://src/ressources/Pokemon_data.gd" id="2_35cmw"]
+[ext_resource type="SpriteFrames" uid="uid://dcaygpbfql011" path="res://src/ressources/PokemonSprite/02prinpluf.tres" id="3_ctg8b"]
+
+[sub_resource type="Resource" id="Resource_gn1ob"]
+script = ExtResource("1_7wmnx")
+metadata/_custom_type_script = "uid://3j4rwpwaqwyi"
+
+[sub_resource type="Resource" id="Resource_058yl"]
+script = ExtResource("1_7wmnx")
+move_id = 5
+metadata/_custom_type_script = "uid://3j4rwpwaqwyi"
+
+[resource]
+script = ExtResource("2_35cmw")
+pokemon_name = "Prinpluf"
+pokemon_id = 2
+sprite_frames = ExtResource("3_ctg8b")
+pokemon_type1 = 3
+baseHp = 64
+baseAtk = 66
+baseSpeAtk = 68
+baseDef = 81
+baseSpeDef = 76
+baseSpd = 50
+base_exp_yield = 142
+learnable_moves = Array[ExtResource("1_7wmnx")]([SubResource("Resource_gn1ob"), SubResource("Resource_058yl")])
+metadata/_custom_type_script = "uid://budev3vnysct5"

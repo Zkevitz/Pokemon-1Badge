@@ -1,7 +1,7 @@
 [gd_scene load_steps=10 format=3 uid="uid://1uakxs0g1ww7"]
 
 [ext_resource type="Script" uid="uid://c3p0uj3l0n0kb" path="res://src/Script/base_pnj.gd" id="1_gcfjo"]
-[ext_resource type="SpriteFrames" uid="uid://vst7mlr383bu" path="res://src/ressources/profSprite.tres" id="2_sy86w"]
+[ext_resource type="SpriteFrames" uid="uid://vst7mlr383bu" path="res://src/ressources/pnj/profSprite.tres" id="2_sy86w"]
 [ext_resource type="Script" uid="uid://dp6hj764hcaq5" path="res://src/Script/dialogueRange.gd" id="3_otc5f"]
 [ext_resource type="Texture2D" uid="uid://cqn2mcl45tp4f" path="res://assets/exclamationmark2.png" id="4_ssg8f"]
 

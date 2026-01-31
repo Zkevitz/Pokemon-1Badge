@@ -7,10 +7,12 @@ extends CanvasLayer
 signal fade_finished
 
 func fade_in():
+	print("layer is number : ", layer)
 	anim.play("fade_in")
 	
 func fade_out():
 	anim.play("fade_out")
+	print("layer is number : ", layer)
 	
 func _ready() -> void:
 	pass # Replace with function body.

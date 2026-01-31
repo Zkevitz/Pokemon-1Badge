@@ -57,6 +57,7 @@ _data = {
 }
 
 [node name="TransitionFade" type="CanvasLayer"]
+layer = 2
 script = ExtResource("1_k6ts2")
 
 [node name="ColorRect" type="ColorRect" parent="."]

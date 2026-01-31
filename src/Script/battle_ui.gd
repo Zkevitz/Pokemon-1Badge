@@ -8,6 +8,7 @@ signal move_selected(move_index: int)
 signal pokemon_selected(pokemon_index : int)
 signal item_selected(item_id : int)
 signal text_finished
+signal animStep()
 signal choice_made(choice : bool)
 
 @onready var player_info := $PlayerInfo
@@ -17,6 +18,9 @@ signal choice_made(choice : bool)
 @onready var move_menu := $movecontainer
 @onready var movecontainerNewMove: GridContainer = $movecontainer2
 @onready var yesNoBox: Panel = $textebox/yes_noBox
+@onready var TransitionAnim := $AnimationPlayer
+@onready var PlayerpokemonContainer := $PlayerInfo/PlayerPokemon
+@onready var EnemypokemonContainer := $EnemyInfo/EnemyPokemon
 
 
 
@@ -26,25 +30,62 @@ signal choice_made(choice : bool)
 var move_button_connections : Array = []
 var current_text = ""
 var text_speed := 0.03
+var setup1 := false
+var setup2 := false
+var fight_ongoing := false
 var is_displaying_text := false
+var start_color_info_panel 
 
-
+	
 func _ready() -> void:
 	print("info panel : ", player_info)
 	move_menu.visible = false
 	movecontainerNewMove.visible = false
 	yesNoBox.visible = false
 	
+	start_color_info_panel = player_info.modulate
 	main_menu.get_node("FightButton").pressed.connect(func() : action_selected.emit(actionType.FIGHT))
 	main_menu.get_node("PokemonButton").pressed.connect(func() : action_selected.emit(actionType.POKEMON))
 	main_menu.get_node("BagButton").pressed.connect(func() : action_selected.emit(actionType.BAG))
 	main_menu.get_node("EscapeButton").pressed.connect(func() : action_selected.emit(actionType.RUN))
 
 func setup(player_pkm : PokemonInstance, enemy_pkm : PokemonInstance):
-	update_pokemon_info(true, player_pkm)
-	update_pokemon_info(false, enemy_pkm)
-	main_menu.visible = false
+	print("POURQUOI TU es APPELÉ deux fois ?")
+	if player_pkm :	
+		update_pokemon_info(true, player_pkm)
+		player_pkm.connect("fainted", remove_pokemon_info.bind(player_info), CONNECT_ONE_SHOT)
+		main_menu.visible = false
+		setup1 = true
+	if enemy_pkm :
+		update_pokemon_info(false, enemy_pkm)
+		enemy_pkm.connect("fainted", remove_pokemon_info.bind(enemy_info), CONNECT_ONE_SHOT)
+		setup2 = true
+	if not fight_ongoing and setup1 and setup2:
+		TransitionAnim.play("Enter_fight")
+		fight_ongoing = true
+	elif fight_ongoing and setup1 and setup2 :
+		player_info.visible = true
+		enemy_info.visible = true
 
+func remove_pokemon_info(pokemonInfo : Control):
+	if pokemonInfo == enemy_info :
+		await EnemypokemonContainer.get_child(0).animation_finished
+	else :
+		await PlayerpokemonContainer.get_child(0).animation_finished
+	print("EnemyPokemonContainer child --> ", EnemypokemonContainer.get_child(0))
+	var start_color = pokemonInfo.modulate
+	var end_color = start_color
+	end_color.a = 0.0
+
+	var tween = create_tween()
+	tween.tween_property(pokemonInfo, "modulate", end_color, 1.0)
+	await tween.finished
+	pokemonInfo.visible = false
+	pokemonInfo.modulate = start_color
+	
+func sendAnimStep():
+	animStep.emit()
+		
 func update_pokemon_info(isally : bool, pokemon_info : PokemonInstance):
 	var info_panel
 	if isally == true :
@@ -264,6 +305,7 @@ func Play_attack_anim(attacker : PokemonNode, defender : PokemonNode, move_used 
 	var tween = create_tween()
 	tween.tween_property(attacker, "position:x", attacker.position.x + 20, 0.1)
 	tween.tween_property(attacker, "position:x", attacker.position.x, 0.1)
+	defender.flash_white()
 
 func _on_move_button_pressed(move_index : int ):
 	move_selected.emit(move_index)

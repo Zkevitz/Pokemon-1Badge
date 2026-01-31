@@ -56,12 +56,20 @@ func has_property(node: Object, property_name: String) -> bool:
 			return true
 	return false
 
+func start_transition():
+	fadeAnim.fade_in()
+	await fadeAnim.fade_finished
+
+func stop_transition():
+	fadeAnim.fade_out()
+	await fadeAnim.fade_finished
+	
 func toggleWorld(NodetoShow : Node2D, NodetoHide : Node2D):
 	#CA CASSE TOUT ??? 
 	#await fadeAnim.fade_finished
 	
 	playerManager.desacPlayer()
-	fadeAnim.fade_in()
+	start_transition()
 	
 	playerManager.toggleScene(NodetoHide)
 	NodetoHide.visible = false
@@ -79,7 +87,7 @@ func toggleWorld(NodetoShow : Node2D, NodetoHide : Node2D):
 		playerManager.teleport_to(NodetoShow, NodetoShow.SpawnPosition)
 		
 	await get_tree().process_frame
-	fadeAnim.fade_out()	
+	stop_transition()
 	playerManager.activatePlayer()
 func startBattleUi():
 	battle_ui = battleui.instantiate()
@@ -102,26 +110,31 @@ func start_wild_battle():
 	random_encounter.initStats()
 	print(random_encounter)
 	var enemy_team_typed : Array[PokemonInstance] = [random_encounter]
+	#start_transition()
 	startBattleUi()
-	battleManager.start_battle(p_pokemon, enemy_team_typed, true)
+	battleManager.start_battle(p_pokemon, enemy_team_typed)
 	var result = await battleManager.battle_ended
 	if result :
 		print("combat gagné")
 	else :
 		#gere la posibilité que le joueur n'a plus de pokemon valide ( tp centre pokemon)
 		print("combat perdu")
-		
+	playerManager.player_instance.Snap_to_grid()
 
 func start_Trainer_battle(TrainerTeam : Array[PokemonInstance], Trainer : CharacterBody2D):
+	var player_position = Vector2i(playerManager.player_instance.global_position / 16)
 	var p_pokemon = playerManager.player_instance.pokemonTeam
 	startBattleUi()
 	startBattleManager()
-	battleManager.start_battle(p_pokemon, TrainerTeam)
+	battleManager.start_battle(p_pokemon, TrainerTeam, Trainer)
 	var result = await battleManager.battle_ended
+	print("result of the fight : ", result)
 	if result : 
 		Trainer.trainer_defeted = true
+		playerManager.teleport_to(playerManager.player_instance.get_parent().get_parent(), player_position)
 	else : 
 		print("combat perdu")
+	playerManager.player_instance.Snap_to_grid()
 	
 func get_battleUi() -> CanvasLayer :
 	return battle_ui

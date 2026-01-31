@@ -1,49 +1,54 @@
-[gd_scene load_steps=8 format=3 uid="uid://dklcl3vkfjfvo"]
+[gd_scene load_steps=9 format=3 uid="uid://dklcl3vkfjfvo"]
 
 [ext_resource type="Script" uid="uid://dtlwfbhkwvrgo" path="res://src/Script/base_pokemon_node.gd" id="1_0i03f"]
-[ext_resource type="Texture2D" uid="uid://bgusobi06egqu" path="res://assets/npc/MPWSP01/sprites/sprite1_idle.png" id="2_v3moo"]
+[ext_resource type="Shader" uid="uid://ce8n11boii112" path="res://src/node/pokemon_hit_shaders.gdshader" id="2_v3moo"]
+[ext_resource type="SpriteFrames" uid="uid://b11tuatu0cqg8" path="res://src/ressources/PokemonSprite/01Tiplouf.tres" id="3_f67i6"]
+[ext_resource type="Texture2D" uid="uid://blx1tyrhnq858" path="res://assets/boostupTexture.png" id="3_rrdv8"]
+[ext_resource type="Texture2D" uid="uid://ccqaiikyuqj1n" path="res://assets/droptexture.png" id="4_rrdv8"]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_8xut3"]
-atlas = ExtResource("2_v3moo")
-region = Rect2(0, 0, 96, 96)
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_rrdv8"]
+resource_local_to_scene = true
+shader = ExtResource("2_v3moo")
+shader_parameter/boost_texture = ExtResource("3_rrdv8")
+shader_parameter/drop_texture = ExtResource("4_rrdv8")
+shader_parameter/boost_speed = 1.0
+shader_parameter/boost_strength = 0.0
+shader_parameter/drop_speed = 1.0
+shader_parameter/drop_strength = 0.0
+shader_parameter/white_amount = 0.0
+shader_parameter/sink_in_ground = 0.0
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_vm1vq"]
-atlas = ExtResource("2_v3moo")
-region = Rect2(96, 0, 96, 96)
+[sub_resource type="Animation" id="Animation_hccg0"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite2D:animation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [&"idle"]
+}
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_82ys0"]
-atlas = ExtResource("2_v3moo")
-region = Rect2(192, 0, 96, 96)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_k4dkb"]
-atlas = ExtResource("2_v3moo")
-region = Rect2(288, 0, 96, 96)
-
-[sub_resource type="SpriteFrames" id="SpriteFrames_j7ayk"]
-animations = [{
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_8xut3")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_vm1vq")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_82ys0")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_k4dkb")
-}],
-"loop": true,
-"name": &"idle",
-"speed": 5.0
-}]
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_b7q5w"]
+_data = {
+&"RESET": SubResource("Animation_hccg0")
+}
 
 [node name="basePokemonNode" type="Node2D"]
 script = ExtResource("1_0i03f")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-sprite_frames = SubResource("SpriteFrames_j7ayk")
+texture_filter = 1
+texture_repeat = 2
+material = SubResource("ShaderMaterial_rrdv8")
+sprite_frames = ExtResource("3_f67i6")
 animation = &"idle"
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_b7q5w")
+}

@@ -19,7 +19,9 @@ func desacPlayer(visible : bool = false):
 			child.disabled = true
 	
 func teleport_to(NodeToGo : Node2D, pos : Vector2):
+	print("Node to Go :", NodeToGo)
 	var SnappingLayer = NodeToGo.get_node("floor")
+	
 	player_instance.global_position = SnappingLayer.map_to_local(pos)
 	
 func activatePlayer():

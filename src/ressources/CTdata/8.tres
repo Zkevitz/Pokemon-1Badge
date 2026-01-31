@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="CT_data" load_steps=2 format=3 uid="uid://dknvh5d64k6c6"]
+
+[ext_resource type="Script" uid="uid://khacs4dumku4" path="res://src/ressources/CT_data.gd" id="1_me2s4"]
+
+[resource]
+script = ExtResource("1_me2s4")
+name = "Danse Lames"
+id = 8
+category = "STATUS"
+power = 0
+max_pp = 15
+type_effect = 9
+power_effect = 2
+chance = 100
+metadata/_custom_type_script = "uid://khacs4dumku4"

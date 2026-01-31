@@ -1,0 +1,44 @@
+[gd_resource type="SpriteFrames" load_steps=7 format=3 uid="uid://dcaygpbfql011"]
+
+[ext_resource type="Texture2D" uid="uid://cfxrjwui48o62" path="res://assets/PokemonSprite/prinplupBack.png" id="1_pbnkd"]
+[ext_resource type="Texture2D" uid="uid://u2ha0qodiy3u" path="res://assets/PokemonSprite/prinplup.png" id="2_vdqhg"]
+[ext_resource type="Texture2D" uid="uid://bjj77gq4ou8y7" path="res://assets/PokemonSprite/prinplupMenu.png" id="3_34edx"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hhwdb"]
+atlas = ExtResource("1_pbnkd")
+region = Rect2(0, 0, 96, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_oo1op"]
+atlas = ExtResource("2_vdqhg")
+region = Rect2(0, 0, 96, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dk0x6"]
+atlas = ExtResource("3_34edx")
+region = Rect2(0, 0, 32, 32)
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hhwdb")
+}],
+"loop": true,
+"name": &"back",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_oo1op")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dk0x6")
+}],
+"loop": true,
+"name": &"menu",
+"speed": 5.0
+}]

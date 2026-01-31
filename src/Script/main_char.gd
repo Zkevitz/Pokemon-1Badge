@@ -19,12 +19,14 @@ var pokemonTeam : Array[PokemonInstance]
 func _ready() -> void:
 	playerManager.player_instance = self
 	global_position = walkgrid.map_to_local(start_position)
-	#var pokemon = PokemonInstance.new()
-	#pokemon.data = Game.get_data(1)
-	#pokemon.level = 5
-	#pokemon.initStats()
+	var pokemon = PokemonInstance.new()
+	pokemon.data = Game.get_data(2)
+	pokemon.level = 10
+	pokemon.initStats()
+	pokemon.learnMove(8, 3)
+	pokemon.learnMove(9, 3)
 	#pokemon.current_xp = 70
-	#pokemonTeam.append(pokemon)
+	pokemonTeam.append(pokemon)
 	pass
 	
 func _physics_process(delta: float) -> void:
@@ -36,6 +38,12 @@ func _physics_process(delta: float) -> void:
 		animState.MOVING:
 			handle_moving_state(delta)
 
+#ne marche pas comme je le souhaiterais 
+func Snap_to_grid():
+	var tilePosition = walkgrid.map_to_local(global_position)
+	tilePosition.y -= 1
+	walkgrid.map_to_local(tilePosition)
+	
 func cancel_last_move():
 	var backDirection = -current_direction
 	

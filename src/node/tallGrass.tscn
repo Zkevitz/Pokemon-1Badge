@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://c4px0drletrt7" path="res://assets/npc/environment.png" id="2_aqj7i"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_7v234"]
-size = Vector2(8, 8)
+size = Vector2(4.4444447, 4.4444447)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_slpit"]
 atlas = ExtResource("2_aqj7i")
@@ -34,13 +34,16 @@ animations = [{
 }]
 
 [node name="Node2D" type="Area2D"]
+texture_filter = 1
 script = ExtResource("1_6oykh")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+texture_filter = 1
 scale = Vector2(0.9, 0.9)
 shape = SubResource("RectangleShape2D_7v234")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+texture_filter = 1
 sprite_frames = SubResource("SpriteFrames_ttlte")
 animation = &"up"
 

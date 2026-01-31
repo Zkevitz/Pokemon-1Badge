@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=4 uid="uid://bmaugydt4grgs"]
 
-[ext_resource type="TileSet" uid="uid://bhqsmdqna6dfj" path="res://src/ressources/MainTileSet.tres" id="1_noaac"]
+[ext_resource type="TileSet" uid="uid://bhqsmdqna6dfj" path="res://src/ressources/tileset/MainTileSet.tres" id="1_noaac"]
 
 [node name="floor" type="TileMapLayer"]
 z_as_relative = false

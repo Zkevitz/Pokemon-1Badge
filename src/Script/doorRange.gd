@@ -19,7 +19,7 @@ func _process(_delta: float) -> void:
 		enter_building()
 
 func enter_building() -> void :
-	#Game.returnPosition = Vector2i(playerManager.player_instance.global_position / 16)
+	
 	print("Game returnpos : ", Game.returnPosition)
 	Game.returnScene = get_tree().current_scene.get_node(closeScene)
 	var destination_Node = get_tree().current_scene.get_node(destinationScene)

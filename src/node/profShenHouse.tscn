@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://cro2iivu6mc6i" path="res://assets/npc/MPWSP01/tileset/tileset.png" id="2_jpo0k"]
 [ext_resource type="Texture2D" uid="uid://lxuk18l186wi" path="res://assets/blackTile16x16.png" id="3_2ivi2"]
 [ext_resource type="Script" uid="uid://dpomcdbye8roo" path="res://src/Script/exitRange.gd" id="4_mdmxa"]
-[ext_resource type="TileSet" uid="uid://bhqsmdqna6dfj" path="res://src/ressources/MainTileSet.tres" id="5_0wjqe"]
+[ext_resource type="TileSet" uid="uid://bhqsmdqna6dfj" path="res://src/ressources/tileset/MainTileSet.tres" id="5_0wjqe"]
 [ext_resource type="Texture2D" uid="uid://di2aqo4ggd1n0" path="res://assets/npc/MPWSP01/AxulArt´s_Basic-Top-down-interior_ALL_By_AxulArt.png" id="5_7l5ek"]
 [ext_resource type="PackedScene" uid="uid://1uakxs0g1ww7" path="res://src/node/base_pnj.tscn" id="5_jpo0k"]
 [ext_resource type="Texture2D" uid="uid://baydk2of0ewu5" path="res://assets/npc/MPWSP01/AxulArt´s_Basic-Top-down-interior_By_AxulArt.png" id="6_0wjqe"]

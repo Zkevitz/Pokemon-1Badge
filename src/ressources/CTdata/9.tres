@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="CT_data" load_steps=2 format=3 uid="uid://kav4it3wpekt"]
+
+[ext_resource type="Script" uid="uid://khacs4dumku4" path="res://src/ressources/CT_data.gd" id="1_tap2x"]
+
+[resource]
+script = ExtResource("1_tap2x")
+name = "Feu Follet"
+id = 9
+type = 2
+category = "STATUS"
+power = 0
+accuracy = 85
+max_pp = 15
+type_effect = 1
+chance = 100
+metadata/_custom_type_script = "uid://khacs4dumku4"

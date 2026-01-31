@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cxbli32gnqqga"
-path="res://.godot/imported/piplupBack.png-095140b96bd66d462c0641df862fabd4.ctex"
+uid="uid://u2ha0qodiy3u"
+path="res://.godot/imported/prinplup.png-9de9fa0732a3a76dc40c906ceeb5edd4.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/PokemonSprite/piplupBack.png"
-dest_files=["res://.godot/imported/piplupBack.png-095140b96bd66d462c0641df862fabd4.ctex"]
+source_file="res://assets/PokemonSprite/prinplup.png"
+dest_files=["res://.godot/imported/prinplup.png-9de9fa0732a3a76dc40c906ceeb5edd4.ctex"]
 
 [params]
 

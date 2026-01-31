@@ -12,16 +12,26 @@ var is_wild = false
 var pokemon_name : String
 var current_hp :int 
 var max_hp : int
-var current_atk : int 
+var current_atk : int
+var atk_ratio : float = 1
 var max_atk : int
+
 var current_atkSpe : int
+var atkSpe_ratio : float = 1
 var max_atkSpe : int 
-var current_def : int 
+
+var current_def : int
+var def_ratio : float = 1
 var max_def : int 
+
 var current_defSpe : int
+var defSpe_ratio : float = 1
 var max_defSpe : int 
+
 var current_speed : int
+var speed_ratio : float = 1
 var max_speed : int
+
 var base_exp_yield : int
 var current_xp : int
 var xp_to_next_level : int
@@ -30,6 +40,7 @@ var pokemon_type2
 var pokemon_node : PokemonNode
 var be_part_of_combat : bool = false
 var pokemon_id : int
+var status = null
 
 signal hp_changed(current : int, maximum : int)
 signal fainted
@@ -91,11 +102,22 @@ func load_moves(learnmoves : Array[MoveLearnData]):
 		print("Final_move_DATA :", final_move_data.power)
 		moves.append(final_move_data)
 		movesPP[final_move_data.id] = final_move_data.max_pp
-		
+
+func learnMove(moveidx : int, idx : int):
+	var final_move_data = Game.get_move_data(moveidx)
+	print("Final_move_DATA :!!!!!", final_move_data.power)
+	if moves.size() >= 4 :
+		moves[idx] = final_move_data
+		movesPP[idx] = final_move_data.max_pp
+	else :
+		moves.append(final_move_data)
+		movesPP[final_move_data.id] = final_move_data.max_pp
+	
 func calculateStat(base : int, lvl : int, is_hp : bool = false ) -> int :
 	# Formule simplifiée : ((2 * Base + 31) * Level) / 100 + modifier
 	
 	var stat = ((2 * base + 31) * lvl) / 100
+	
 	if is_hp :
 		return stat + lvl + 10
 	return stat + 5
@@ -118,7 +140,8 @@ func heal(amount : int):
 
 func faint():
 	fainted.emit()
-	#jouer animation de mort du pokemon
+	if pokemon_node :
+		pokemon_node.sink_into_ground()
 	
 func checkNewMove() -> void:
 	for i in data.learnable_moves.size():
