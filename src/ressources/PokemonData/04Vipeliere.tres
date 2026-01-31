@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="PokemonData" load_steps=6 format=3 uid="uid://c7de2ef2argjh"]
+[gd_resource type="Resource" script_class="PokemonData" format=3 uid="uid://c7de2ef2argjh"]
 
 [ext_resource type="Script" uid="uid://budev3vnysct5" path="res://src/ressources/Pokemon_data.gd" id="1_4re8n"]
 [ext_resource type="Script" uid="uid://3j4rwpwaqwyi" path="res://src/ressources/LearnMoveData.gd" id="1_ujj7l"]
@@ -13,6 +13,13 @@ script = ExtResource("1_ujj7l")
 move_id = 4
 metadata/_custom_type_script = "uid://3j4rwpwaqwyi"
 
+[sub_resource type="Resource" id="Resource_ujj7l"]
+script = ExtResource("1_ujj7l")
+move_id = 4
+LearnType = 1
+LevelRequired = 6
+metadata/_custom_type_script = "uid://3j4rwpwaqwyi"
+
 [resource]
 script = ExtResource("1_4re8n")
 pokemon_name = "Vipeliere"
@@ -25,5 +32,5 @@ baseSpeAtk = 45
 baseDef = 55
 baseSpeDef = 55
 baseSpd = 63
-learnable_moves = Array[ExtResource("1_ujj7l")]([SubResource("Resource_r8bkj"), SubResource("Resource_nv70r")])
+learnable_moves = Array[ExtResource("1_ujj7l")]([SubResource("Resource_r8bkj"), SubResource("Resource_nv70r"), SubResource("Resource_ujj7l")])
 metadata/_custom_type_script = "uid://budev3vnysct5"

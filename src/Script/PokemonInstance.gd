@@ -108,7 +108,7 @@ func learnMove(moveidx : int, idx : int):
 	print("Final_move_DATA :!!!!!", final_move_data.power)
 	if moves.size() >= 4 :
 		moves[idx] = final_move_data
-		movesPP[idx] = final_move_data.max_pp
+		movesPP[final_move_data.id] = final_move_data.max_pp
 	else :
 		moves.append(final_move_data)
 		movesPP[final_move_data.id] = final_move_data.max_pp

@@ -5,6 +5,7 @@ enum actionType {FIGHT, POKEMON, BAG, RUN}
 
 signal action_selected(Type : actionType)
 signal move_selected(move_index: int)
+signal moveReplacementSelected(moveArray: Array[int])
 signal pokemon_selected(pokemon_index : int)
 signal item_selected(item_id : int)
 signal text_finished
@@ -16,7 +17,7 @@ signal choice_made(choice : bool)
 @onready var text_box := $textebox
 @onready var main_menu := $MainMenu
 @onready var move_menu := $movecontainer
-@onready var movecontainerNewMove: GridContainer = $movecontainer2
+@onready var lvlUpMoveContainer: GridContainer = $LvlUpMoveContainer
 @onready var yesNoBox: Panel = $textebox/yes_noBox
 @onready var TransitionAnim := $AnimationPlayer
 @onready var PlayerpokemonContainer := $PlayerInfo/PlayerPokemon
@@ -40,7 +41,7 @@ var start_color_info_panel
 func _ready() -> void:
 	print("info panel : ", player_info)
 	move_menu.visible = false
-	movecontainerNewMove.visible = false
+	lvlUpMoveContainer.visible = false
 	yesNoBox.visible = false
 	
 	start_color_info_panel = player_info.modulate
@@ -270,12 +271,12 @@ func showLevelUpMoveMenu(pokemon : PokemonInstance, newMoveID: int):
 	#hide_all_menu()
 	text_box.visible = false
 	move_menu.visible = false
-	movecontainerNewMove.visible = true
+	lvlUpMoveContainer.visible = true
 	
 	#disconnect_move_button()
 	#print("move size 0 ?? :", pokemon.moves.size())
 	for i in range(5):
-		var button = movecontainerNewMove.get_node("Move%dButton" % (i + 1))
+		var button = lvlUpMoveContainer.get_node("Move%dButton" % (i + 1))
 		var move: CT_data
 		if i < pokemon.moves.size():
 			move = pokemon.moves[i]
@@ -290,16 +291,36 @@ func showLevelUpMoveMenu(pokemon : PokemonInstance, newMoveID: int):
 		style.bg_color = color
 		button.add_theme_stylebox_override("normal", style)
 		
-		var callable = func(): _on_move_button_pressed(i) #TODO: change
+		var callable
+		if i < pokemon.moves.size():
+			callable = func(): moveReplacementSelected.emit([i, 0])
+		else:
+			callable = func(): moveReplacementSelected.emit([i, 1])
 		button.pressed.connect(callable)
 		move_button_connections.append({"button": button, "callable": callable})
 
-func askCustomQuestion(text : String, pokemon: PokemonInstance, moveID: int) :
+func askCustomQuestionForLvlUp(text : String, pokemon: PokemonInstance, moveID: int) -> Array:
+	var res : Array = []
 	yesNoBox.visible = true
-	display_text("Do you want ?")
+	display_text(text)
 	var choice = await choice_made
+	var oldMove : CT_data
+	
+	yesNoBox.visible = false
 	if choice:
 		showLevelUpMoveMenu(pokemon, moveID)
+		var moveArray = await moveReplacementSelected
+		var moveIndex = moveArray[0]
+		var goBack = moveArray[1]
+		oldMove = pokemon.moves[moveIndex]
+		if goBack == 1:
+			lvlUpMoveContainer.visible = false
+			return [false, oldMove]
+		pokemon.learnMove(moveID, moveIndex)
+		lvlUpMoveContainer.visible = false
+		return [true, oldMove]
+	return [true, null]
+		
 	
 func Play_attack_anim(attacker : PokemonNode, defender : PokemonNode, move_used : CT_data):
 	var tween = create_tween()
