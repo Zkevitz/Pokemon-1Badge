@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="CT_data" load_steps=2 format=3 uid="uid://sjxjrdntn3sy"]
+
+[ext_resource type="Script" uid="uid://khacs4dumku4" path="res://src/ressources/CT_data.gd" id="1_7lb6o"]
+
+[resource]
+script = ExtResource("1_7lb6o")
+name = "Spore"
+id = 11
+type = 4
+category = "STATUS"
+power = 0
+max_pp = 15
+type_effect = 3
+chance = 100
+metadata/_custom_type_script = "uid://khacs4dumku4"

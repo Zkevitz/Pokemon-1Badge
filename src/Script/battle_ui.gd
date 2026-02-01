@@ -96,6 +96,11 @@ func update_pokemon_info(isally : bool, pokemon_info : PokemonInstance):
 	print("info panel from update_pokemon_info : ", info_panel, " and ", pokemon_info)
 	info_panel.get_node("NameLabel").text = pokemon_info.data.pokemon_name
 	info_panel.get_node("lvlLabel").text = "Niv. %d" % pokemon_info.level
+	var status_label = info_panel.get_node("RichTextLabel")
+	if pokemon_info.status != null :
+		status_label.text = pokemon_info.status
+	else : 
+		status_label.text = ""
 	update_hp_bar(isally, pokemon_info)
 	
 func update_xp_bar(pokemon : PokemonInstance , xp_gain : int):

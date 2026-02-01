@@ -227,29 +227,33 @@ func execute_move(attacker : PokemonInstance, defender : PokemonInstance, move :
 		execute_next_turn()
 		return
 		
+	if attacker.status != null : 
+		var result = move_effect_manager.process_incapacity_status(attacker)
+		if result :
+			await _process_text_queue()
+			execute_next_turn()
+			return
+
 	await _process_text_queue()
 	play_attack_animation(attacker, move)
 	#await animation_player.animation_finished
 	print("move used : ", move)
-	if move.category == "PHYSICS" or move.category == "SPECIAL":
-		print("calcul des degats ??")
-		var damage = calculate_damage(attacker, defender, move)
-		apply_damage(defender, damage)
-		
-		var effectiveness = get_type_effectiveness(type_to_string(move.type), defender.pokemon_type1, defender.pokemon_type2)
-		print("effectiveness : ", effectiveness)
-		if effectiveness > 1.0:
-			_queue_text("C'est super efficace !")
-		elif effectiveness < 1.0 and effectiveness > 0:
-			_queue_text("Ce n'est pas très efficace...")
-		elif effectiveness == 0:
-			_queue_text("Ça n'a aucun effet...")
-	elif move.category == "STATUS":
-		apply_move_effect(move, attacker, defender)
-	else :
-		push_error("probleme category du move non trouvé", move)
+	var effectiveness = get_type_effectiveness(type_to_string(move.type), defender.pokemon_type1, defender.pokemon_type2)
+	if effectiveness == 0.0 : 
+		_queue_text("%s est imunisé !")
+	else : 
+		if move.category == "PHYSICS" or move.category == "SPECIAL":
+			print("calcul des degats ??")
+			var damage = calculate_damage(attacker, defender, move, effectiveness)
+			await apply_damage(defender, damage)
+			
+		elif move.category == "STATUS":
+			await apply_move_effect(move, attacker, defender)
+		else :
+			push_error("probleme category du move non trouvé", move)
+			
 	await _process_text_queue()
-	
+	await Game.get_tree().create_timer(0.5).timeout
 	if defender.current_hp <= 0:
 		_handle_faint(defender)
 	else:
@@ -261,25 +265,23 @@ func apply_move_effect(move : CT_data, attacker : PokemonInstance, defender : Po
 	
 	if randi() % 100 >= move.chance:
 		return false
-	
+		
 	#REVOIR POUR ADMETTRE LES TARGETS DE MANIERE PLUS REFLECHIS
 	match move.type_effect :
 		CT_data.Effect.BURN :
-			if defender.status == "BRN" :
-				_queue_text("%s est deja victime de brulure" % defender.pokemon_name)
-				return false
 			move_effect_manager.apply_burn(defender)
-			_queue_text("%s est desormais brulé : " % defender.pokemon_name)
+		CT_data.Effect.PARA :
+			move_effect_manager.apply_para(defender)
 		CT_data.Effect.LOWER_ENEMY_ATK :
-			move_effect_manager.lower_target_atk(defender, move.power_effect)
-			_queue_text("l'attaque de %s baisse !" % defender.pokemon_name)
+			await move_effect_manager.lower_target_atk(defender, move.power_effect)
 		CT_data.Effect.BOOST_TARGET_ATK :
-			move_effect_manager.boost_target_atk(attacker, move.power_effect)
+			await move_effect_manager.boost_target_atk(attacker, move.power_effect)
 	
+	await _process_text_queue()
 	return true
 				
 # === CALCUL DES DÉGÂTS ===
-func calculate_damage(attacker : PokemonInstance, defender : PokemonInstance, move : CT_data) -> int :
+func calculate_damage(attacker : PokemonInstance, defender : PokemonInstance, move : CT_data, effectiveness : float) -> int :
 	var level = attacker.level
 	var power = move.power
 	var attack_stat = (attacker.current_atk * attacker.atk_ratio) if move.category == "PHYSICS" else (attacker.current_atkSpe * attacker.atkSpe_ratio)
@@ -289,8 +291,13 @@ func calculate_damage(attacker : PokemonInstance, defender : PokemonInstance, mo
 	if move.type == attacker.pokemon_type1 or move.type == attacker.pokemon_type2 :
 		damage *= 1.5
 	
-	var effectiveness = get_type_effectiveness(type_to_string(move.type), defender.pokemon_type1, defender.pokemon_type2)
 	damage *= effectiveness
+	if effectiveness > 1.0:
+		_queue_text("C'est super efficace !")
+	elif effectiveness < 1.0 and effectiveness > 0:
+		_queue_text("Ce n'est pas très efficace...")
+	elif effectiveness == 0:
+		_queue_text("Ça n'a aucun effet...")
 	
 	if randf() < CRITICAL_HIT_CHANCE:
 		damage *= 1.5

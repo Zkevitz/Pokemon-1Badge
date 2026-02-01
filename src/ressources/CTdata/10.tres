@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="CT_data" load_steps=2 format=3 uid="uid://bxsvlog18i8pw"]
+
+[ext_resource type="Script" uid="uid://khacs4dumku4" path="res://src/ressources/CT_data.gd" id="1_lwvhq"]
+
+[resource]
+script = ExtResource("1_lwvhq")
+name = "Cage Éclair"
+id = 10
+type = 5
+category = "STATUS"
+power = 0
+accuracy = 90
+max_pp = 20
+type_effect = 2
+chance = 100
+metadata/_custom_type_script = "uid://khacs4dumku4"
