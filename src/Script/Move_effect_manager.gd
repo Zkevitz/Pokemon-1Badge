@@ -10,12 +10,14 @@ func set_battleManager(battle_manager : Battlemanager):
 
 func process_end_of_turn_effect(player_pokemon : PokemonInstance, enemy_pokemon : PokemonInstance):
 	if player_pokemon.status != null : 
-		process_damage_effect(player_pokemon, player_pokemon.status)
+		await process_damage_effect(player_pokemon, player_pokemon.status)
+	if enemy_pokemon.status != null :
+		await process_damage_effect(enemy_pokemon, enemy_pokemon.status)
 
 
 func process_damage_effect(pokemon : PokemonInstance, statusType : String):
 	match statusType :
-		"BURN" :
+		"BRN" :
 			battleManager.apply_damage(pokemon, (pokemon.max_hp / 16))
 			battleManager._queue_text("%s souffre de sa brulure !" % pokemon.pokemon_name)
 func apply_burn(target_pokemon : PokemonInstance):

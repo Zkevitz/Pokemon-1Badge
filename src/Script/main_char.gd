@@ -16,6 +16,9 @@ var pokemonTeam : Array[PokemonInstance]
 @onready var anim := $Sprite2D
 @onready var collision := $CollisionShape2D
 
+const TURN_TIME := 0.12
+var turnTimer := 0.0
+
 func _ready() -> void:
 	playerManager.player_instance = self
 	global_position = walkgrid.map_to_local(start_position)
@@ -34,11 +37,27 @@ func _physics_process(delta: float) -> void:
 	#print("tileposition :", tileposition)
 	match currentState :
 		animState.IDLE :
-			handle_idle_state()
+			handle_idle_state(delta)
 		animState.MOVING:
 			handle_moving_state(delta)
 
-#ne marche pas comme je le souhaiterais 
+func handle_idle_state( _delta : float ) -> void:
+	var input_direction := get_input_direction()
+	
+	if turnTimer > 0:
+		turnTimer -= _delta
+		update_animation("idle")
+		return
+	if input_direction != Vector2.ZERO :
+		if input_direction != current_direction:
+			current_direction = input_direction
+			update_animation("idle")
+			turnTimer = TURN_TIME
+		else:
+			attempt_move(input_direction)
+	else :
+		update_animation("idle")
+		
 func Snap_to_grid():
 	var tilePosition = walkgrid.map_to_local(global_position)
 	tilePosition.y -= 1

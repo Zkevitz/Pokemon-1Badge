@@ -1,7 +1,8 @@
-[gd_scene load_steps=21 format=3 uid="uid://duyean75fj7dh"]
+[gd_scene load_steps=23 format=3 uid="uid://duyean75fj7dh"]
 
 [ext_resource type="Script" uid="uid://dqvwij6ip3fi7" path="res://src/Script/main_char.gd" id="1_6jvoc"]
 [ext_resource type="Texture2D" uid="uid://cyyejkxcr48q0" path="res://assets/npc/MPWSP01/character overworld/ow1.png" id="1_om20u"]
+[ext_resource type="Texture2D" uid="uid://bhp5wah68kh5o" path="res://assets/npc/trainer4gspritesheet-Photoroom(1).png" id="3_krwn0"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_7p5xd"]
 atlas = ExtResource("1_om20u")
@@ -34,6 +35,10 @@ region = Rect2(96, 0, 32, 32)
 [sub_resource type="AtlasTexture" id="AtlasTexture_eayiw"]
 atlas = ExtResource("1_om20u")
 region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_clg84"]
+atlas = ExtResource("3_krwn0")
+region = Rect2(85, 34, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_5vo7n"]
 atlas = ExtResource("1_om20u")
@@ -108,6 +113,9 @@ animations = [{
 "frames": [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_eayiw")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_clg84")
 }],
 "loop": true,
 "name": &"faceidle",
@@ -169,7 +177,7 @@ script = ExtResource("1_6jvoc")
 [node name="Sprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(0, -13)
 sprite_frames = SubResource("SpriteFrames_jb82o")
-animation = &"rightWalking"
+animation = &"faceidle"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, -2)

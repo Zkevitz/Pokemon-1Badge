@@ -24,8 +24,7 @@ signal choice_made(choice : bool)
 @onready var EnemypokemonContainer := $EnemyInfo/EnemyPokemon
 
 
-
-	#@onready var pokemon := A REALISER 
+ 
 @onready var battleManager := get_tree().current_scene.get_node("Battlemanager")
 
 var move_button_connections : Array = []
@@ -62,7 +61,7 @@ func setup(player_pkm : PokemonInstance, enemy_pkm : PokemonInstance):
 		enemy_pkm.connect("fainted", remove_pokemon_info.bind(enemy_info), CONNECT_ONE_SHOT)
 		setup2 = true
 	if not fight_ongoing and setup1 and setup2:
-		TransitionAnim.play("Enter_fight")
+		TransitionAnim.play("enter_fight")
 		fight_ongoing = true
 	elif fight_ongoing and setup1 and setup2 :
 		player_info.visible = true

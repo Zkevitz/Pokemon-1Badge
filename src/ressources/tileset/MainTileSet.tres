@@ -328,10 +328,7 @@ texture = ExtResource("1_oi8ef")
 4:4/0 = 0
 5:4/0 = 0
 6:4/0 = 0
-<<<<<<< HEAD
 6:4/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 0.8992939, -0.5076275, 1.0152559, -8, -2.6978807)
-=======
->>>>>>> parent of 2193f34 (try to merge work)
 7:4/0 = 0
 8:4/0 = 0
 9:4/0 = 0

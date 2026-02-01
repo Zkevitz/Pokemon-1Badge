@@ -60,7 +60,6 @@ func resetBattleManager():
 	enemy_team = []
 	
 func start_battle(player_team_data : Array[PokemonInstance], enemy_team_data : Array[PokemonInstance], Trainer : CharacterBody2D = null):
-	print("start debug 1 :")
 	ui_node = Game.battle_ui
 	move_effect_manager = MoveEffectManager.new()
 	move_effect_manager.set_battleManager(self)
@@ -72,27 +71,20 @@ func start_battle(player_team_data : Array[PokemonInstance], enemy_team_data : A
 	enemy_team = enemy_team_data
 	enemy_pokemon = enemy_team[0]
 	
-	player_pokemon_node = preload("res://src/node/pokemon_node.tscn").instantiate()
-	enemy_pokemon_node = preload("res://src/node/pokemon_node.tscn").instantiate()
-	print("start debug 2 :")
 	if Trainer :
 		EnemyTrainer = Trainer
 		is_wild_battle = false
 	
 	setup_new_pokemon_node(player_pokemon, true)
 	setup_new_pokemon_node(enemy_pokemon, false)
-	print("start debug 3 :")
-	player_pokemon.pokemon_node = player_pokemon_node
-	enemy_pokemon.pokemon_node = enemy_pokemon_node
+
 	ui_node.action_selected.connect(_on_action_selected)
 	ui_node.move_selected.connect(_on_move_selected)
 	
-	#ui_node.setup(player_pokemon, enemy_pokemon)
 	player_pokemon.connect("newLevelupMove", showMoveLearning)
 	current_state = battleState.INTRO
 	
 	show_intro_animation()
-	print("start debug 4 :")
 
 func show_intro_animation():
 	var enemy_name = enemy_pokemon.pokemon_name
@@ -191,10 +183,7 @@ func _process_turn_queue():
 	
 func execute_next_turn():
 	if turn_queue.is_empty():
-<<<<<<< HEAD
 		await move_effect_manager.process_end_of_turn_effect(player_pokemon, enemy_pokemon)
-=======
->>>>>>> parent of 2193f34 (try to merge work)
 		_start_player_turn()
 		return
 	var turn_data = turn_queue.pop_front()
@@ -237,6 +226,8 @@ func execute_move(attacker : PokemonInstance, defender : PokemonInstance, move :
 		await _process_text_queue()
 		execute_next_turn()
 		return
+		
+	await _process_text_queue()
 	play_attack_animation(attacker, move)
 	#await animation_player.animation_finished
 	print("move used : ", move)
@@ -274,11 +265,7 @@ func apply_move_effect(move : CT_data, attacker : PokemonInstance, defender : Po
 	#REVOIR POUR ADMETTRE LES TARGETS DE MANIERE PLUS REFLECHIS
 	match move.type_effect :
 		CT_data.Effect.BURN :
-<<<<<<< HEAD
 			if defender.status == "BRN" :
-=======
-			if defender.status == "BURN" :
->>>>>>> parent of 2193f34 (try to merge work)
 				_queue_text("%s est deja victime de brulure" % defender.pokemon_name)
 				return false
 			move_effect_manager.apply_burn(defender)
@@ -311,6 +298,7 @@ func calculate_damage(attacker : PokemonInstance, defender : PokemonInstance, mo
 		
 	damage *= randf_range(0.85, 1.0)
 	return max(1, int(damage))
+	
 func type_to_string(t: int) -> String:
 	if t < 0 or t >= PokemonInstance.Type.size():
 		return "Inconnu"
@@ -339,22 +327,20 @@ func apply_damage(target : PokemonInstance, damage : int):
 	else :
 		allyornot = true
 	ui_node.update_hp_bar(allyornot, target)
-<<<<<<< HEAD
 func handle_exp_reward():
 	var exp_gained = calculate_exp_gain()
 	
 	_queue_text("%s gagne %d points d'expérience !" % [player_pokemon.pokemon_name, exp_gained])
-	
+	await _process_text_queue()
 	await ui_node.update_xp_bar(player_pokemon, exp_gained)
 	
 	
-=======
-
->>>>>>> parent of 2193f34 (try to merge work)
 func _handle_faint(pokemon : PokemonInstance):
 	pokemon_fainted.emit(pokemon)
 	_queue_text("%s est K.O. !" % pokemon.pokemon_name)
 	await _process_text_queue()
+	await handle_exp_reward()
+	await Game.get_tree().create_timer(0.5).timeout
 	await play_faint_animation(pokemon)
 	var checkTeam 
 	var isPlayerTeam : bool = false
@@ -415,27 +401,13 @@ func setup_new_pokemon_node(pokemoninstance : PokemonInstance, is_ally : bool) :
 var hasLeveledUp: bool = false
 var newMoveID: int = 0
 
-<<<<<<< HEAD
-func _handleLvlUpNewMoveUI() -> void:
-	var choice : Array = []
-	var move : CT_data = Game.get_move_data(newMoveID)
-	while hasLeveledUp:
-		ui_node.move_menu.visible = false
-		_queue_text("%s veut apprendre %s." % [player_pokemon.pokemon_name, move.name])
-=======
 func _handle_victory():
-	var exp_gained = calculate_exp_gain()
-	_queue_text("%s gagne %d points d'expérience !" % [player_pokemon.pokemon_name, exp_gained])
-	await _process_text_queue()
 	
-	#player_pokemon.gain_exp(exp_gained)
-	await ui_node.update_xp_bar(player_pokemon, exp_gained)
 	if hasLeveledUp:
 		_queue_text("%s wants to learn a new move." % player_pokemon.pokemon_name)
 		#_queue_text("" % player_pokemon.pokemon_name)
->>>>>>> parent of 2193f34 (try to merge work)
 		await _process_text_queue()
-		choice = await ui_node.askCustomQuestionForLvlUp("Veut tu apprendre cette capacite ?", player_pokemon, newMoveID)
+		var choice = await ui_node.askCustomQuestionForLvlUp("Veut tu apprendre cette capacite ?", player_pokemon, newMoveID)
 		print("DEBUG : CHOICE : ", choice)
 		if choice[0] == true:
 			hasLeveledUp = false
@@ -444,22 +416,7 @@ func _handle_victory():
 			ui_node.text_box.visible = true
 			ui_node.move_menu.visible = true
 			ui_node.text_box.visible = true
-	if choice[0] == true:
-		if choice[1] != null:
-			_queue_text("%s a apris %s et ..." % [player_pokemon.pokemon_name, move.name])
-			_queue_text("... il a completement oublie %s" % choice[1].name)
-		else:
-			_queue_text("%s n'a pas apris %s." % [player_pokemon.pokemon_name, move.name])
-	else:
-		_queue_text("%s n'a pas apris %s." % [player_pokemon.pokemon_name, move.name])
 	await _process_text_queue()
-
-func _handle_victory():
-	var exp_gained = calculate_exp_gain()
-	_queue_text("%s gagne %d points d'expérience !" % [player_pokemon.pokemon_name, exp_gained])
-	await _process_text_queue()
-	await ui_node.update_xp_bar(player_pokemon, exp_gained)
-	await _handleLvlUpNewMoveUI()
 
 	_end_battle(true)
 
@@ -477,7 +434,7 @@ func calculate_exp_gain()-> int :
 	# formule simplifié
 	var base_exp = enemy_pokemon.base_exp_yield
 	var exp_yield =  float(base_exp * enemy_pokemon.level) / 6
-	var share_xp = 1 / pokemon_participant()
+	var share_xp = 1 / max(pokemon_participant(), 1)
 	var is_trainer_pokemon = 1.5 if not enemy_pokemon.is_wild else 1.0
 	return int(exp_yield * share_xp * 1 * is_trainer_pokemon * 1)
 
@@ -486,7 +443,6 @@ func _end_battle(player_won : bool):
 	battle_ended.emit(player_won)
 	
 	
-	print(self)
 	await Game.get_tree().create_timer(2.0).timeout
 	ui_node.queue_free()
 	resetBattleManager()
