@@ -15,11 +15,25 @@ func process_end_of_turn_effect(player_pokemon : PokemonInstance, enemy_pokemon 
 		await process_damage_effect(enemy_pokemon, enemy_pokemon.status)
 
 func process_incapacity_status(pokemon : PokemonInstance) -> bool :
+	var random_chance : float = randf()
+	if pokemon.status == null : 
+		return false
+	print("random chance from incapacity status : ", random_chance)
+	print("pokemon under status turn : ", pokemon.turn_under_status)
 	match pokemon.status :
 		"PARA" :
-			if 0.25 <= randf() :
+			if 0.25 <= random_chance :
 				battleManager._queue_text("%s est paralysé et n'a pas reussi a attaqué..." % pokemon.pokemon_name)
 				return true
+		"SLEEP" :
+			if (0.33 <= random_chance and pokemon.turn_under_status >= 1) or pokemon.turn_under_status >= 3:
+				battleManager._queue_text("%s se reveille !" % pokemon.pokemon_name)
+				pokemon.status = null
+				pokemon.turn_under_status = 0
+				return false
+			battleManager._queue_text("%s dors profondement !" % pokemon.pokemon_name)
+			pokemon.turn_under_status += 1
+			return true
 	return false
 
 func process_damage_effect(pokemon : PokemonInstance, statusType : String):
@@ -27,6 +41,9 @@ func process_damage_effect(pokemon : PokemonInstance, statusType : String):
 		"BRN" :
 			battleManager.apply_damage(pokemon, (pokemon.max_hp / 16))
 			battleManager._queue_text("%s souffre de sa brulure !" % pokemon.pokemon_name)
+		"PSN" :
+			battleManager.apply_damage(pokemon, (pokemon.max_hp / 8))
+			battleManager._queue_text("%s souffre du poison !" % pokemon.pokemon_name)
 		
 func apply_burn(target_pokemon : PokemonInstance):
 	if target_pokemon.status != null :
@@ -36,6 +53,22 @@ func apply_burn(target_pokemon : PokemonInstance):
 	target_pokemon.pokemon_node.apply_status_in_Ui(target_pokemon.status)
 	battleManager._queue_text("%s est desormais brulé !" % target_pokemon.pokemon_name)
 
+func apply_poison(target_pokemon : PokemonInstance) :
+	if target_pokemon.status != null : 
+		battleManager._queue_text("%s est deja victime de status" % target_pokemon.pokemon_name)
+		return
+	target_pokemon.status = "PSN"
+	target_pokemon.pokemon_node.apply_status_in_Ui(target_pokemon.status)
+	battleManager._queue_text("%s est desormais empoisonné !" % target_pokemon.pokemon_name)
+	
+func apply_sleep(target_pokemon : PokemonInstance):
+	if target_pokemon.status != null : 
+		battleManager._queue_text("%s est deja victime de status" % target_pokemon.pokemon_name)
+		return
+	target_pokemon.status = "SLEEP"
+	target_pokemon.pokemon_node.apply_status_in_Ui(target_pokemon.status)
+	battleManager._queue_text("%s est desormais endormis !" % target_pokemon.pokemon_name)
+	
 func apply_para(target_pokemon : PokemonInstance):
 	if target_pokemon.status != null :
 		battleManager._queue_text("%s est deja victime de status" % target_pokemon.pokemon_name)

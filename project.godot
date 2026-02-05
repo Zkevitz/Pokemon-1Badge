@@ -28,6 +28,8 @@ DialogueManager="*res://src/Global/dialogue_manager.gd"
 [global_group]
 
 player=""
+Border=""
+walkgrid=""
 
 [input]
 

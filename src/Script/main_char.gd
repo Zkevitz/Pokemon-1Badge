@@ -7,12 +7,16 @@ enum animState {IDLE, MOVING}
 
 var currentState = animState.IDLE
 var current_direction := Vector2.DOWN	
+var previous_pos : Vector2
 var target_position := Vector2.ZERO
-var start_position := Vector2(12, 0)
+var start_position := Vector2(-43, -65)
 var EnableInput := true
 var pokemonTeam : Array[PokemonInstance]
 
-@onready var walkgrid := $"../../floor"
+var is_jumping: bool = false
+var current_border: BorderJump = null
+
+@onready var walkgrid := get_tree().get_first_node_in_group("walkgrid")
 @onready var anim := $Sprite2D
 @onready var collision := $CollisionShape2D
 
@@ -20,21 +24,24 @@ const TURN_TIME := 0.12
 var turnTimer := 0.0
 
 func _ready() -> void:
-	playerManager.player_instance = self
 	global_position = walkgrid.map_to_local(start_position)
+	previous_pos = global_position
 	var pokemon = PokemonInstance.new()
 	pokemon.data = Game.get_data(2)
 	pokemon.level = 10
 	pokemon.initStats()
 	pokemon.learnMove(8, 3)
-	pokemon.learnMove(10, 3)
+	pokemon.learnMove(12, 3)
 	pokemon.current_xp = 90
 	pokemonTeam.append(pokemon)
 	pass
 	
 func _physics_process(delta: float) -> void:
-	var tileposition = walkgrid.map_to_local(global_position) / 16
+	#DEBUG
+	#var tileposition = walkgrid.map_to_local(global_position) / 16
 	#print("tileposition :", tileposition)
+	if is_jumping : 
+		return
 	match currentState :
 		animState.IDLE :
 			handle_idle_state(delta)
@@ -99,18 +106,19 @@ func get_input_direction() -> Vector2 :
 		return Vector2.RIGHT
 	else :
 		return Vector2.ZERO
-	var input_direction := get_input_direction()
-	
-	if input_direction != Vector2.ZERO :
-		attempt_move(input_direction)
-	else :
-		update_animation("idle")
-		
+	#var input_direction := get_input_direction()
+	#
+	#if input_direction != Vector2.ZERO :
+		#attempt_move(input_direction)
+	#else :
+		#update_animation("idle")
+		#
 func handle_moving_state(delta : float):
 	if EnableInput == false :
 		target_position = Vector2.ZERO
 		return
 	position = position.move_toward(target_position, SPEED * delta)
+	previous_pos = global_position
 	
 	if position.distance_to(target_position) < 1.0 :
 		position = target_position
@@ -130,6 +138,8 @@ func attempt_move(direction : Vector2) :
 	else :
 		current_direction = direction
 		update_animation("idle")
+		if collisiontest.get_collider().is_in_group("Border") :
+			attempt_border_jump(collisiontest.get_collider())
 		print("collision avec : ", collisiontest.get_collider().name)
 		
 func update_animation(type : String)-> void :
@@ -146,3 +156,44 @@ func update_animation(type : String)-> void :
 	if prefix:
 		var anim_name = prefix + type
 		anim.play(anim_name)
+		
+func attempt_border_jump(border : BorderJump):
+	if is_jumping:
+		return
+	current_border = border
+	if border.can_player_pass(current_direction) :
+		print("perform jump!")
+		perform_jump(border)
+		
+func perform_jump(border: BorderJump):
+	is_jumping = true
+	
+	var jump_offset = border.get_jump_offset()
+	var target_pos = global_position + jump_offset
+	print("performing jump global_position : ", global_position)
+	print("performing jump target_position : ", target_pos)
+	
+	var tween = create_tween()
+	tween.set_parallel(true)
+	
+	tween.tween_property(self, "global_position", target_pos, border.jump_duration)
+	
+	tween.tween_property(
+		$Sprite2D,
+		"position:y",
+		-border.jump_height,
+		border.jump_duration / 2
+	).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+	
+	tween.chain().tween_property(
+		$Sprite2D,
+		"position:y",
+		0,
+		border.jump_duration / 2
+	).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN)
+	
+	
+	await tween.finished
+	is_jumping = false
+	current_border = null
+		

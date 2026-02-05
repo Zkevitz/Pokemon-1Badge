@@ -8,7 +8,7 @@ var actualNode : Node2D
 var toggle_timer := 2.0
 var pokemon_by_id: Dictionary = {}
 var move_cache := {}
-@onready var fadeAnim = get_tree().current_scene.get_node("TransitionFade")
+var GlobalUI
 var battleManager : Battlemanager
 var battleui = preload("res://src/node/battle_ui.tscn")
 var battle_ui
@@ -57,10 +57,12 @@ func has_property(node: Object, property_name: String) -> bool:
 	return false
 
 func start_transition():
+	var fadeAnim = GlobalUI.get_node("TransitionFade")
 	fadeAnim.fade_in()
 	await fadeAnim.fade_finished
 
 func stop_transition():
+	var fadeAnim = GlobalUI.get_node("TransitionFade")
 	fadeAnim.fade_out()
 	await fadeAnim.fade_finished
 	
@@ -138,3 +140,31 @@ func start_Trainer_battle(TrainerTeam : Array[PokemonInstance], Trainer : Charac
 	
 func get_battleUi() -> CanvasLayer :
 	return battle_ui
+	
+
+func change_scene_with_player(destination_scene_path : PackedScene, destination_pos : Vector2):
+	print("===== AVANT CHANGEMENT =====")
+	print("Scène actuelle: ", get_tree().current_scene.name)
+	print("Toutes les portes: ", get_tree().get_nodes_in_group("doors"))
+	
+	var current_scene = get_tree().current_scene
+	#retiré au mauvais node 
+	current_scene.remove_child(playerManager.player_instance)
+	current_scene.remove_child(GlobalUI)
+
+	
+	get_tree().change_scene_to_packed(destination_scene_path)
+	await get_tree().scene_changed
+	
+	print("===== APRÈS CHANGEMENT =====")
+	print("Nouvelle scène: ", get_tree().current_scene.name)
+	await get_tree().process_frame  # IMPORTANT : attendez 1 frame
+	print("Toutes les portes: ", get_tree().get_nodes_in_group("doors"))
+	
+	var new_scene = get_tree().current_scene
+	new_scene.add_child(GlobalUI)
+	
+	var ysortingnode = new_scene.get_node("ysortingnode")
+	ysortingnode.add_child(playerManager.player_instance)
+	
+	playerManager.teleport_to(get_tree().get_first_node_in_group("walkgrid").get_parent(), destination_pos)

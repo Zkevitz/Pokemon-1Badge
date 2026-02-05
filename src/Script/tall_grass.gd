@@ -7,9 +7,11 @@ var returnPos : Vector2
 func _ready() -> void:
 	pass # Replace with function body.
 
-
+var player_inside = false
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta: float) -> void:
+	if player_inside == true : 
+		print("lol")
 	pass
 
 
@@ -17,6 +19,7 @@ func _on_body_entered(body: Node2D) -> void:
 	grassAnim.play("down")
 	if not body.is_in_group("player") :
 		return
+	player_inside = true
 	var encounter_chance = randi() % 100
 	if encounter_chance <= 10 :
 		await get_tree().process_frame

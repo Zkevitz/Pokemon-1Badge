@@ -184,6 +184,12 @@ func _process_turn_queue():
 func execute_next_turn():
 	if turn_queue.is_empty():
 		await move_effect_manager.process_end_of_turn_effect(player_pokemon, enemy_pokemon)
+		if player_pokemon.current_hp <= 0 :
+			_handle_faint(player_pokemon)
+			return
+		elif enemy_pokemon.current_hp <= 0 :
+			_handle_faint(enemy_pokemon)
+			return
 		_start_player_turn()
 		return
 	var turn_data = turn_queue.pop_front()
@@ -268,10 +274,14 @@ func apply_move_effect(move : CT_data, attacker : PokemonInstance, defender : Po
 		
 	#REVOIR POUR ADMETTRE LES TARGETS DE MANIERE PLUS REFLECHIS
 	match move.type_effect :
+		CT_data.Effect.PSN :
+			move_effect_manager.apply_poison(defender)
 		CT_data.Effect.BURN :
 			move_effect_manager.apply_burn(defender)
 		CT_data.Effect.PARA :
 			move_effect_manager.apply_para(defender)
+		CT_data.Effect.SLEEP :
+			move_effect_manager.apply_sleep(defender)
 		CT_data.Effect.LOWER_ENEMY_ATK :
 			await move_effect_manager.lower_target_atk(defender, move.power_effect)
 		CT_data.Effect.BOOST_TARGET_ATK :
@@ -333,7 +343,7 @@ func apply_damage(target : PokemonInstance, damage : int):
 		allyornot = false
 	else :
 		allyornot = true
-	ui_node.update_hp_bar(allyornot, target)
+	await ui_node.update_hp_bar(allyornot, target)
 func handle_exp_reward():
 	var exp_gained = calculate_exp_gain()
 	

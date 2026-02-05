@@ -40,7 +40,10 @@ var pokemon_type2
 var pokemon_node : PokemonNode
 var be_part_of_combat : bool = false
 var pokemon_id : int
+
 var status = null
+var turn_under_status : int = 0
+
 
 signal hp_changed(current : int, maximum : int)
 signal fainted
@@ -124,6 +127,7 @@ func calculateStat(base : int, lvl : int, is_hp : bool = false ) -> int :
 
 func CenterHealing():
 	current_hp = max_hp
+	status = null
 	for move in moves : 
 		movesPP[move.id] = move["max_pp"]
 	

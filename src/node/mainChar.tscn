@@ -159,11 +159,12 @@ animations = [{
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_eayiw"]
-size = Vector2(6, 3.46875)
+size = Vector2(6, 2)
 
 [node name="Node2D" type="CharacterBody2D" groups=["player"]]
 z_as_relative = false
 y_sort_enabled = true
+texture_filter = 1
 script = ExtResource("1_6jvoc")
 
 [node name="Sprite2D" type="AnimatedSprite2D" parent="."]
@@ -172,10 +173,10 @@ sprite_frames = SubResource("SpriteFrames_jb82o")
 animation = &"faceidle"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, -2)
+position = Vector2(0, -1)
 shape = SubResource("RectangleShape2D_eayiw")
 
 [node name="Camera2D" type="Camera2D" parent="."]
 z_as_relative = false
 position = Vector2(0, -7)
-zoom = Vector2(2.4, 2.4)
+zoom = Vector2(3, 3)

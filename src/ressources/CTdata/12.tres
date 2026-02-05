@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="CT_data" load_steps=2 format=3 uid="uid://bbda7prf4b02c"]
+
+[ext_resource type="Script" uid="uid://khacs4dumku4" path="res://src/ressources/CT_data.gd" id="1_0mejx"]
+
+[resource]
+script = ExtResource("1_0mejx")
+name = "Poudre Toxik"
+id = 12
+type = 8
+category = "STATUS"
+power = 0
+accuracy = 80
+max_pp = 15
+priority = 1
+type_effect = 4
+chance = 100
+metadata/_custom_type_script = "uid://khacs4dumku4"

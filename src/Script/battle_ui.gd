@@ -148,12 +148,12 @@ func update_hp_bar(isally : bool, pokemon_info : PokemonInstance):
 		hp_bar,
 		"value",
 		target_value,
-		0.5 # durée en secondes
+		0.5 # durée en secondes peut etre cool d'ajouter une variation + de degats + de temps 
 	).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
 
 	tween.tween_callback(func():
 		update_hp_color(hp_bar))
-		
+	await tween.finished	
 func update_hp_color(hp_bar: ProgressBar):
 	if hp_bar.value > 50:
 		hp_bar.modulate = Color.GREEN

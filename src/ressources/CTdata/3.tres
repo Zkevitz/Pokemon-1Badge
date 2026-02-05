@@ -8,6 +8,6 @@ name = "Rugissement"
 id = 3
 category = "STATUS"
 power = 0
-type_effect = 4
+type_effect = 5
 chance = 100
 metadata/_custom_type_script = "uid://khacs4dumku4"

@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="PokemonData" load_steps=4 format=3 uid="uid://cjcorvdxvryee"]
+
+[ext_resource type="Script" uid="uid://3j4rwpwaqwyi" path="res://src/ressources/LearnMoveData.gd" id="1_r1bfy"]
+[ext_resource type="Script" uid="uid://budev3vnysct5" path="res://src/ressources/Pokemon_data.gd" id="2_kq6x6"]
+[ext_resource type="SpriteFrames" uid="uid://bv0rhgdv3w1bh" path="res://src/ressources/PokemonSprite/03Pingoleon.tres" id="3_c0tm3"]
+
+[resource]
+script = ExtResource("2_kq6x6")
+pokemon_name = "Pingoleon"
+pokemon_id = 3
+sprite_frames = ExtResource("3_c0tm3")
+pokemon_type1 = 3
+pokemon_type2 = 17
+baseHp = 84
+baseAtk = 86
+baseSpeAtk = 111
+baseDef = 88
+baseSpeDef = 101
+baseSpd = 60
+base_exp_yield = 210
+metadata/_custom_type_script = "uid://budev3vnysct5"

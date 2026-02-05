@@ -1,6 +1,10 @@
 extends Node
-
+class_name PlayerManager
 var player_instance : CharacterBody2D = null
+
+func _ready():
+	if player_instance == null :
+		player_instance = preload("res://src/node/mainChar.tscn").instantiate()
 		
 func desacPlayer(visible : bool = false):
 	player_instance.update_animation("idle")

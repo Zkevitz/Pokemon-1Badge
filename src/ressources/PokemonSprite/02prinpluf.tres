@@ -1,8 +1,8 @@
 [gd_resource type="SpriteFrames" load_steps=7 format=3 uid="uid://dcaygpbfql011"]
 
-[ext_resource type="Texture2D" uid="uid://cfxrjwui48o62" path="res://assets/PokemonSprite/prinplupBack.png" id="1_pbnkd"]
-[ext_resource type="Texture2D" uid="uid://u2ha0qodiy3u" path="res://assets/PokemonSprite/prinplup.png" id="2_vdqhg"]
-[ext_resource type="Texture2D" uid="uid://bjj77gq4ou8y7" path="res://assets/PokemonSprite/prinplupMenu.png" id="3_34edx"]
+[ext_resource type="Texture2D" uid="uid://cfxrjwui48o62" path="res://assets/PokemonSprite/prinplup02/prinplupBack.png" id="1_pbnkd"]
+[ext_resource type="Texture2D" uid="uid://u2ha0qodiy3u" path="res://assets/PokemonSprite/prinplup02/prinplup.png" id="2_vdqhg"]
+[ext_resource type="Texture2D" uid="uid://bjj77gq4ou8y7" path="res://assets/PokemonSprite/prinplup02/prinplupMenu.png" id="3_34edx"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_hhwdb"]
 atlas = ExtResource("1_pbnkd")

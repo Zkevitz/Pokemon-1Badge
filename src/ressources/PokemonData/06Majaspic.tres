@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="PokemonData" load_steps=4 format=3 uid="uid://d0txel26y5r81"]
+
+[ext_resource type="Script" uid="uid://3j4rwpwaqwyi" path="res://src/ressources/LearnMoveData.gd" id="1_rb2gh"]
+[ext_resource type="Script" uid="uid://budev3vnysct5" path="res://src/ressources/Pokemon_data.gd" id="2_q3cdo"]
+[ext_resource type="SpriteFrames" uid="uid://bf8duy8bdbljn" path="res://src/ressources/PokemonSprite/06Majaspic.tres" id="3_x8toj"]
+
+[resource]
+script = ExtResource("2_q3cdo")
+pokemon_name = "Majaspic"
+pokemon_id = 6
+sprite_frames = ExtResource("3_x8toj")
+pokemon_type1 = 4
+baseHp = 75
+baseAtk = 75
+baseSpeAtk = 75
+baseDef = 95
+baseSpeDef = 95
+baseSpd = 113
+base_exp_yield = 238
+metadata/_custom_type_script = "uid://budev3vnysct5"

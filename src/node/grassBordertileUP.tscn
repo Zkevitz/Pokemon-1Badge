@@ -1,0 +1,33 @@
+[gd_scene load_steps=6 format=3 uid="uid://c5daeljxwswq"]
+
+[ext_resource type="Script" uid="uid://cik6afe6ab61m" path="res://src/Script/grass_bordertile.gd" id="1_vqfq4"]
+[ext_resource type="Texture2D" uid="uid://cro2iivu6mc6i" path="res://assets/npc/MPWSP01/tileset/tileset.png" id="2_ocioi"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ynf7f"]
+atlas = ExtResource("2_ocioi")
+region = Rect2(64, 96, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ucxsh"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ynf7f")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_kiqqb"]
+size = Vector2(16, 3)
+
+[node name="Border" type="StaticBody2D" groups=["Border"]]
+script = ExtResource("1_vqfq4")
+
+[node name="Sprite2D" type="AnimatedSprite2D" parent="."]
+texture_filter = 1
+sprite_frames = SubResource("SpriteFrames_ucxsh")
+
+[node name="topCollision" type="CollisionShape2D" parent="."]
+position = Vector2(0, -4.5)
+shape = SubResource("RectangleShape2D_kiqqb")

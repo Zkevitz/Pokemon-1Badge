@@ -1,0 +1,44 @@
+[gd_resource type="SpriteFrames" load_steps=7 format=3 uid="uid://cllg6erdp8pfg"]
+
+[ext_resource type="Texture2D" uid="uid://cbqsxtt8jh3e0" path="res://assets/PokemonSprite/servine05/servineBack.png" id="1_hqg6l"]
+[ext_resource type="Texture2D" uid="uid://cpaw7c1ytw4n5" path="res://assets/PokemonSprite/servine05/servine.png" id="2_su066"]
+[ext_resource type="Texture2D" uid="uid://c6pjg5stahjdu" path="res://assets/PokemonSprite/servine05/servineMenu.png" id="3_7hh2b"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_apjwn"]
+atlas = ExtResource("1_hqg6l")
+region = Rect2(0, 0, 96, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4yobr"]
+atlas = ExtResource("2_su066")
+region = Rect2(0, 0, 96, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_73jfh"]
+atlas = ExtResource("3_7hh2b")
+region = Rect2(0, 0, 32, 32)
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_apjwn")
+}],
+"loop": true,
+"name": &"back",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4yobr")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_73jfh")
+}],
+"loop": true,
+"name": &"menu",
+"speed": 5.0
+}]

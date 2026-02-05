@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="PokemonData" load_steps=4 format=3 uid="uid://dhhodg5lwn6vq"]
+
+[ext_resource type="Script" uid="uid://3j4rwpwaqwyi" path="res://src/ressources/LearnMoveData.gd" id="1_rhj8m"]
+[ext_resource type="Script" uid="uid://budev3vnysct5" path="res://src/ressources/Pokemon_data.gd" id="2_11wqj"]
+[ext_resource type="SpriteFrames" uid="uid://24281f3y2ttd" path="res://src/ressources/PokemonSprite/08Galifeu.tres" id="3_ctbuq"]
+
+[resource]
+script = ExtResource("2_11wqj")
+pokemon_name = "Galifeu"
+pokemon_id = 8
+sprite_frames = ExtResource("3_ctbuq")
+pokemon_type1 = 2
+pokemon_type2 = 7
+baseHp = 60
+baseAtk = 85
+baseSpeAtk = 85
+baseDef = 60
+baseSpeDef = 60
+baseSpd = 55
+base_exp_yield = 142
+metadata/_custom_type_script = "uid://budev3vnysct5"

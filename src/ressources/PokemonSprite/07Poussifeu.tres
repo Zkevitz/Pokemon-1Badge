@@ -1,8 +1,8 @@
 [gd_resource type="SpriteFrames" load_steps=4 format=3 uid="uid://b55s77evcxb20"]
 
-[ext_resource type="Texture2D" uid="uid://dfccrsbdn1c4e" path="res://assets/PokemonSprite/torchicBack.png" id="1_kttu6"]
-[ext_resource type="Texture2D" uid="uid://d3aodec7brby2" path="res://assets/PokemonSprite/torchic.png" id="2_nhb72"]
-[ext_resource type="Texture2D" uid="uid://d04sx8ce5p8a0" path="res://assets/PokemonSprite/torchicmenu.png" id="3_nhb72"]
+[ext_resource type="Texture2D" uid="uid://dfccrsbdn1c4e" path="res://assets/PokemonSprite/torchic07/torchicBack.png" id="1_kttu6"]
+[ext_resource type="Texture2D" uid="uid://d3aodec7brby2" path="res://assets/PokemonSprite/torchic07/torchic.png" id="2_nhb72"]
+[ext_resource type="Texture2D" uid="uid://d04sx8ce5p8a0" path="res://assets/PokemonSprite/torchic07/torchicmenu.png" id="3_nhb72"]
 
 [resource]
 animations = [{

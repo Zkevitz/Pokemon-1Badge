@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://wyqympkr6pbw"]
 
 [ext_resource type="Script" uid="uid://3wunkumt8bu6" path="res://src/Script/menu_ui.gd" id="1_5bvjb"]
-[ext_resource type="Texture2D" uid="uid://bcxhxxiyibyfo" path="res://assets/PokemonSprite/piplup.png" id="2_1rw3a"]
+[ext_resource type="Texture2D" uid="uid://bcxhxxiyibyfo" path="res://assets/PokemonSprite/piplup01/piplup.png" id="2_1rw3a"]
 
 [node name="MenuUi" type="CanvasLayer"]
 script = ExtResource("1_5bvjb")
