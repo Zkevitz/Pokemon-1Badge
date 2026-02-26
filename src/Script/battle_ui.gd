@@ -9,7 +9,6 @@ signal moveReplacementSelected(moveArray: Array[int])
 #signal pokemon_selected(pokemon_index : int)
 #signal item_selected(item_id : int)
 signal text_finished
-signal animStep()
 signal choice_made(choice : bool)
 
 @onready var player_info := $PlayerInfo
@@ -30,11 +29,10 @@ signal choice_made(choice : bool)
 var move_button_connections : Array = []
 var current_text = ""
 var text_speed := 0.04
-var setup1 := false
-var setup2 := false
 var fight_ongoing := false
 var is_displaying_text := false
 var start_color_info_panel 
+var battleManager : Battlemanager
 
 	
 func _ready() -> void:
@@ -54,18 +52,19 @@ func setup(player_pkm : PokemonInstance, enemy_pkm : PokemonInstance):
 		update_pokemon_info(true, player_pkm)
 		player_pkm.connect("fainted", remove_pokemon_info.bind(player_info), CONNECT_ONE_SHOT)
 		main_menu.visible = false
-		setup1 = true
 	if enemy_pkm :
 		update_pokemon_info(false, enemy_pkm)
 		enemy_pkm.connect("fainted", remove_pokemon_info.bind(enemy_info), CONNECT_ONE_SHOT)
-		setup2 = true
-	if not fight_ongoing and setup1 and setup2:
-		TransitionAnim.play("enter_fight")
+	if not fight_ongoing :
 		fight_ongoing = true
-	elif fight_ongoing and setup1 and setup2 :
+	if fight_ongoing :
 		player_info.visible = true
 		enemy_info.visible = true
 
+func start_fight_entrance():
+	TransitionAnim.play("enter_fight")
+	await TransitionAnim.animation_finished
+	
 func remove_pokemon_info(pokemonInfo : Control):
 	if pokemonInfo == enemy_info :
 		await EnemypokemonContainer.get_child(0).animation_finished
@@ -82,9 +81,19 @@ func remove_pokemon_info(pokemonInfo : Control):
 	pokemonInfo.visible = false
 	pokemonInfo.modulate = start_color
 	
-func sendAnimStep():
-	animStep.emit()
-		
+func entry_text_first_part():
+	var enemy_pokemon_name = battleManager.enemy_pokemon.pokemon_name
+	if battleManager.is_wild_battle :
+		battleManager._queue_text("Un %s apparaît !" % enemy_pokemon_name)
+	else :
+		battleManager._queu_text("Le dresseur envoie %s !" % enemy_pokemon_name)
+	await battleManager._process_text_queue()
+
+func entry_text_second_part():
+	var player_pokemon_name = battleManager.player_pokemon.pokemon_name
+	battleManager._queue_text("Allez, %s !" % player_pokemon_name)
+	await battleManager._process_text_queue()
+	
 func update_pokemon_info(isally : bool, pokemon_info : PokemonInstance):
 	var info_panel
 	if isally == true :

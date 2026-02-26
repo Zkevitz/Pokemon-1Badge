@@ -51,12 +51,10 @@ const TYPE_CHART := {
 }
 
 func _physics_process(_delta: float) -> void:
+	#DEBUG
 	if current_state != last_state :
 		last_state = current_state
 		print("battle state is on", current_state)
-	
-func _ready() -> void:
-	pass
 	
 func resetBattleManager():
 	current_state = battleState.INTRO
@@ -69,6 +67,7 @@ func start_battle(player_team_data : Array[PokemonInstance], enemy_team_data : A
 	ui_node = Game.battle_ui
 	move_effect_manager = MoveEffectManager.new()
 	move_effect_manager.set_battleManager(self)
+	ui_node.battleManager = self
 
 	player_team = player_team_data
 	player_pokemon = player_team[0]
@@ -93,17 +92,7 @@ func start_battle(player_team_data : Array[PokemonInstance], enemy_team_data : A
 	show_intro_animation()
 
 func show_intro_animation():
-	var enemy_name = enemy_pokemon.pokemon_name
-	if is_wild_battle :
-		_queue_text("Un %s apparaît !" % enemy_name)
-	else:
-		_queue_text("Le dresseur envoie %s !" % enemy_name)
-	await ui_node.animStep
-	await _process_text_queue()
-	_queue_text("Allez, %s !" % player_pokemon.pokemon_name)
-	await _process_text_queue()
-	await ui_node.animStep
-	#turn_started.emit(true)
+	await ui_node.start_fight_entrance()
 	current_state = battleState.PLAYER_TURN
 	ui_node.show_main_menu(true)
 
