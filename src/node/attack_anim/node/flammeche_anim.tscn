@@ -1,0 +1,85 @@
+[gd_scene load_steps=13 format=3 uid="uid://dbduhf57e3pgv"]
+
+[ext_resource type="Script" uid="uid://cqg08iw6ey643" path="res://src/node/attack_anim/script/flammeche_anim.gd" id="1_shb1o"]
+[ext_resource type="Texture2D" uid="uid://b2344cx6eey5n" path="res://assets/attackSprite/Flames.png" id="2_ettu2"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_h5ht1"]
+atlas = ExtResource("2_ettu2")
+region = Rect2(576, 0, 192, 192)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_iq0cp"]
+atlas = ExtResource("2_ettu2")
+region = Rect2(384, 0, 192, 192)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4uqpg"]
+atlas = ExtResource("2_ettu2")
+region = Rect2(192, 0, 192, 192)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hjuuq"]
+atlas = ExtResource("2_ettu2")
+region = Rect2(0, 0, 192, 192)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_k7it1"]
+atlas = ExtResource("2_ettu2")
+region = Rect2(192, 0, 192, 192)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7cwb7"]
+atlas = ExtResource("2_ettu2")
+region = Rect2(0, 0, 192, 192)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kryjr"]
+atlas = ExtResource("2_ettu2")
+region = Rect2(192, 0, 192, 192)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0il76"]
+atlas = ExtResource("2_ettu2")
+region = Rect2(0, 0, 192, 192)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xs867"]
+atlas = ExtResource("2_ettu2")
+region = Rect2(576, 0, 192, 192)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_k7it1"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_h5ht1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_iq0cp")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4uqpg")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hjuuq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_k7it1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7cwb7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kryjr")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0il76")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xs867")
+}],
+"loop": false,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="FlamecheAnim" type="Node2D"]
+z_index = 1
+script = ExtResource("1_shb1o")
+
+[node name="Sprite2D" type="AnimatedSprite2D" parent="."]
+texture_filter = 1
+sprite_frames = SubResource("SpriteFrames_k7it1")
+frame = 8
+frame_progress = 1.0

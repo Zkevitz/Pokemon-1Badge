@@ -20,6 +20,7 @@ func _ready() -> void:
 	DialogueManager.dialogue_started.connect(_on_dialogue_started)
 	DialogueManager.dialogue_line_changed.connect(_on_dialogue_line_changed)
 	DialogueManager.dialogue_ended.connect(_on_dialogue_ended)
+	DialogueManager.input_pressed.connect(input_pressed)
 	dialogue_box.visible = false
 	yes_noBox.visible = false
 	show_box.visible = false
@@ -43,21 +44,24 @@ func _process(delta: float) -> void:
 		elif Input.is_action_pressed("ui_right_dir"):
 			no_button.grab_focus()
 		return
+		
 func _on_dialogue_started():
 	dialogue_box.visible = true
 
-func show_dialogue(text):
-	playerManager.desacPlayer(true) 
+func show_dialogue(text : String, yes_no_box : bool):
+	if playerManager.Is_active() == true : 
+		playerManager.lock_player()
 	text_label.text = text
 	dialogue_box.visible = true
-	yes_noBox.visible = true
+	yes_noBox.visible = yes_no_box
 	yes_button.grab_focus()
 	
 func hide_dialogue():
 	text_label.text = ""
 	dialogue_box.visible = false
 	yes_noBox.visible = false
-	playerManager.activatePlayer()
+	if playerManager.Is_active() == false :
+		playerManager.unlock_player()
 	
 func _on_dialogue_line_changed(speaker : String, text : String):
 	speaker_label.text	 = speaker
@@ -78,7 +82,7 @@ func hide_img():
 	texture_rect.texture = null
 	
 func askCustomQuestion(text : String, img : Texture = null) :
-	show_dialogue(text)
+	show_dialogue(text, true)
 	if img : 
 		show_img(img)	
 	var result = await choice_made

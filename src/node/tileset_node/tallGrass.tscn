@@ -1,0 +1,51 @@
+[gd_scene load_steps=7 format=3 uid="uid://cp6ndud6l2q0f"]
+
+[ext_resource type="Script" uid="uid://bnsgo12qrfb75" path="res://src/Script/tall_grass.gd" id="1_6oykh"]
+[ext_resource type="Texture2D" uid="uid://c4px0drletrt7" path="res://assets/bigtileset/environment.png" id="2_aqj7i"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_7v234"]
+size = Vector2(4.4444447, 4.4444447)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_slpit"]
+atlas = ExtResource("2_aqj7i")
+region = Rect2(48, 32, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5i6cp"]
+atlas = ExtResource("2_aqj7i")
+region = Rect2(48, 0, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ttlte"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_slpit")
+}],
+"loop": true,
+"name": &"down",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5i6cp")
+}],
+"loop": true,
+"name": &"up",
+"speed": 5.0
+}]
+
+[node name="Node2D" type="Area2D"]
+texture_filter = 1
+script = ExtResource("1_6oykh")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+texture_filter = 1
+scale = Vector2(0.9, 0.9)
+shape = SubResource("RectangleShape2D_7v234")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+texture_filter = 1
+sprite_frames = SubResource("SpriteFrames_ttlte")
+animation = &"up"
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="body_exited" from="." to="." method="_on_body_exited"]

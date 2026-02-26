@@ -1,0 +1,83 @@
+[gd_resource type="Resource" script_class="PokemonData" load_steps=13 format=3 uid="uid://b4h61nch2cbll"]
+
+[ext_resource type="Script" uid="uid://3j4rwpwaqwyi" path="res://src/ressources/DataSample/LearnMoveData.gd" id="1_3f12m"]
+[ext_resource type="Script" uid="uid://budev3vnysct5" path="res://src/ressources/DataSample/Pokemon_data.gd" id="2_mimbx"]
+[ext_resource type="Texture2D" uid="uid://fjywr7wjrnv1" path="res://assets/PokemonSprite/Dolphinea022/sprite14.png" id="3_4lu4p"]
+[ext_resource type="Texture2D" uid="uid://bbi7feg0dunv1" path="res://assets/PokemonSprite/Dolphinea022/sprite14_idle.png" id="4_ur5vv"]
+[ext_resource type="Texture2D" uid="uid://dn506jajtm8fo" path="res://assets/PokemonSprite/Dolphinea022/menusprite14.png" id="5_jtc45"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3lqkp"]
+atlas = ExtResource("3_4lu4p")
+region = Rect2(96, 0, 96, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dbc0c"]
+atlas = ExtResource("4_ur5vv")
+region = Rect2(0, 0, 96, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5ictw"]
+atlas = ExtResource("4_ur5vv")
+region = Rect2(96, 0, 96, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mpgk6"]
+atlas = ExtResource("4_ur5vv")
+region = Rect2(192, 0, 96, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ir7wr"]
+atlas = ExtResource("4_ur5vv")
+region = Rect2(288, 0, 96, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2rj83"]
+atlas = ExtResource("5_jtc45")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_durme"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3lqkp")
+}],
+"loop": true,
+"name": &"back",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dbc0c")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5ictw")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mpgk6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ir7wr")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2rj83")
+}],
+"loop": true,
+"name": &"menu",
+"speed": 5.0
+}]
+
+[resource]
+script = ExtResource("2_mimbx")
+pokemon_name = "Dolphinea"
+pokemon_id = 22
+sprite_frames = SubResource("SpriteFrames_durme")
+pokemon_type1 = 3
+pokemon_type2 = 11
+baseHp = 95
+baseAtk = 95
+baseSpeAtk = 118
+baseDef = 85
+baseSpeDef = 70
+baseSpd = 70
+base_exp_yield = 238
+metadata/_custom_type_script = "uid://budev3vnysct5"

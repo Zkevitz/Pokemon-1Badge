@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="TrainerPokemonData" load_steps=2 format=3 uid="uid://byrqfo5eilefq"]
 
-[ext_resource type="Script" uid="uid://3kt0w0u1c0o1" path="res://src/ressources/TrainerPokemonData.gd" id="1_p2sqm"]
+[ext_resource type="Script" uid="uid://3kt0w0u1c0o1" path="res://src/ressources/DataSample/TrainerPokemonData.gd" id="1_p2sqm"]
 
 [resource]
 script = ExtResource("1_p2sqm")

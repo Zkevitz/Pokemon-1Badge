@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="CT_data" load_steps=2 format=3 uid="uid://cs3c6yf8ujych"]
+
+[ext_resource type="Script" uid="uid://khacs4dumku4" path="res://src/ressources/DataSample/CT_data.gd" id="1_auflh"]
+
+[resource]
+script = ExtResource("1_auflh")
+name = "Onde Folie"
+id = 14
+type = 14
+category = "STATUS"
+power = 0
+max_pp = 10
+type_effect = 5
+chance = 100
+metadata/_custom_type_script = "uid://khacs4dumku4"

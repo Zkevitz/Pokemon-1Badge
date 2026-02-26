@@ -1,6 +1,7 @@
-[gd_resource type="Resource" script_class="CT_data" load_steps=2 format=3 uid="uid://sjxjrdntn3sy"]
+[gd_resource type="Resource" script_class="CT_data" load_steps=3 format=3 uid="uid://sjxjrdntn3sy"]
 
-[ext_resource type="Script" uid="uid://khacs4dumku4" path="res://src/ressources/CT_data.gd" id="1_7lb6o"]
+[ext_resource type="Script" uid="uid://khacs4dumku4" path="res://src/ressources/DataSample/CT_data.gd" id="1_7lb6o"]
+[ext_resource type="PackedScene" uid="uid://b2r8v2y0rvlc4" path="res://src/node/attack_anim/node/spore_anim.tscn" id="1_ra6j6"]
 
 [resource]
 script = ExtResource("1_7lb6o")
@@ -12,4 +13,6 @@ power = 0
 max_pp = 15
 type_effect = 3
 chance = 100
+AnimName = "Done"
+AnimNode = ExtResource("1_ra6j6")
 metadata/_custom_type_script = "uid://khacs4dumku4"

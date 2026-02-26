@@ -1,0 +1,17 @@
+[gd_scene load_steps=4 format=3 uid="uid://c4msqjkp4ecm0"]
+
+[ext_resource type="Shader" uid="uid://bwbujfde1aunj" path="res://src/shaders/topwaterfallshaders.gdshader" id="1_wtiwx"]
+[ext_resource type="Texture2D" uid="uid://cxt2fkk2b6gfj" path="res://assets/Water/ETANG/taki_top.png" id="2_jvg3d"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_dcuuu"]
+shader = ExtResource("1_wtiwx")
+shader_parameter/speed = 1.2
+shader_parameter/wave_strength = 0.02
+shader_parameter/wave_frequency = 7.0
+shader_parameter/wave_speed = 2.0
+shader_parameter/shake_strength = 0.01
+shader_parameter/shake_speed = 10.0
+
+[node name="Node2D" type="Sprite2D"]
+material = SubResource("ShaderMaterial_dcuuu")
+texture = ExtResource("2_jvg3d")

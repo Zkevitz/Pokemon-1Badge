@@ -46,6 +46,7 @@ func _process(delta: float) -> void:
 
 	# Laisser le PNJ gérer le mouvement
 	if childpnj.handle_path_moving(delta):
+		childpnj.global_position = previous_pos
 		return
 
 	# Appliquer la progression réelle

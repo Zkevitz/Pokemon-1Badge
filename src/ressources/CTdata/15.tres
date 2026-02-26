@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="CT_data" load_steps=3 format=3 uid="uid://cax2iy2nm11gd"]
+
+[ext_resource type="PackedScene" uid="uid://dhwcxn88m66fp" path="res://src/node/attack_anim/node/vibraqua_anim.tscn" id="1_bfcnw"]
+[ext_resource type="Script" uid="uid://khacs4dumku4" path="res://src/ressources/DataSample/CT_data.gd" id="2_ikee1"]
+
+[resource]
+script = ExtResource("2_ikee1")
+name = "Vibraqua"
+id = 15
+type = 3
+category = "SPECIAL"
+power = 60
+max_pp = 15
+type_effect = 5
+chance = 20
+AnimName = "Done"
+AnimNode = ExtResource("1_bfcnw")
+metadata/_custom_type_script = "uid://khacs4dumku4"

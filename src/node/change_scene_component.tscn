@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=3 uid="uid://dl6akj6w8t7c8"]
+
+[ext_resource type="Script" uid="uid://c51ixverxv12k" path="res://src/Script/change_scene_component.gd" id="1_wveba"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_mcpvd"]
+radius = 21.0
+
+[node name="ChangeSceneComponent" type="Area2D"]
+script = ExtResource("1_wveba")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_mcpvd")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="body_exited" from="." to="." method="_on_body_exited"]

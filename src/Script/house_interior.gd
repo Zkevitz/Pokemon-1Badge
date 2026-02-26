@@ -5,9 +5,7 @@ extends Node2D
 @onready var SortingLayer := $ysortingnode
 
 func _ready() -> void:
-	var notSortingLayer = SortingLayer.get_parent()
-	playerManager.toggleScene(notSortingLayer)
-
+	pass
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta: float) -> void:

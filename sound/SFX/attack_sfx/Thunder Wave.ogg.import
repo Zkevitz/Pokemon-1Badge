@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://bhxb5d3817rmv"
+path="res://.godot/imported/Thunder Wave.ogg-bf6c0f8e038d96165f7188bac61c0a98.oggvorbisstr"
+
+[deps]
+
+source_file="res://sound/SFX/attack_sfx/Thunder Wave.ogg"
+dest_files=["res://.godot/imported/Thunder Wave.ogg-bf6c0f8e038d96165f7188bac61c0a98.oggvorbisstr"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

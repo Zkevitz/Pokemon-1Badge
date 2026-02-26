@@ -1,0 +1,65 @@
+[gd_resource type="SpriteFrames" load_steps=10 format=3 uid="uid://dt8ew5lbm56d"]
+
+[ext_resource type="Texture2D" uid="uid://b2i2jifbnpuww" path="res://assets/PokemonSprite/tatoufeu015/sprite7.png" id="1_0fbl4"]
+[ext_resource type="Texture2D" uid="uid://dvhj1lvjk8ngx" path="res://assets/PokemonSprite/tatoufeu015/sprite7_idle.png" id="2_8aqt3"]
+[ext_resource type="Texture2D" uid="uid://d3umxd7b8724x" path="res://assets/PokemonSprite/tatoufeu015/menusprite7.png" id="3_re0jj"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vex84"]
+atlas = ExtResource("1_0fbl4")
+region = Rect2(96, 0, 96, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gnylj"]
+atlas = ExtResource("2_8aqt3")
+region = Rect2(0, 0, 96, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8gh6c"]
+atlas = ExtResource("2_8aqt3")
+region = Rect2(96, 0, 96, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rygba"]
+atlas = ExtResource("2_8aqt3")
+region = Rect2(192, 0, 96, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ihjpo"]
+atlas = ExtResource("2_8aqt3")
+region = Rect2(288, 0, 96, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_t4glt"]
+atlas = ExtResource("3_re0jj")
+region = Rect2(0, 0, 32, 32)
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vex84")
+}],
+"loop": true,
+"name": &"back",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gnylj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8gh6c")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rygba")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ihjpo")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_t4glt")
+}],
+"loop": true,
+"name": &"menu",
+"speed": 5.0
+}]

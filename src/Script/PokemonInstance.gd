@@ -10,27 +10,44 @@ enum Type { AUCUN, NORMAL, FEU, EAU, PLANTE, ELECTRIQUE, GLACE, COMBAT, POISON, 
 	 PSY, INSECTE, ROCHE, SPECTRE, DRAGON, TENEBRES, ACIER, FEE}
 var is_wild = false
 var pokemon_name : String
-var current_hp :int 
-var max_hp : int
-var current_atk : int
-var atk_ratio : float = 1
-var max_atk : int
 
-var current_atkSpe : int
-var atkSpe_ratio : float = 1
-var max_atkSpe : int 
+var Hp_dict : Dictionary = {
+	"current" : 0,
+	"max" : 0,
+	"ivs" : 0,
+	"evs" : 0
+}
 
-var current_def : int
-var def_ratio : float = 1
-var max_def : int 
-
-var current_defSpe : int
-var defSpe_ratio : float = 1
-var max_defSpe : int 
-
-var current_speed : int
-var speed_ratio : float = 1
-var max_speed : int
+var Atk_dict : Dictionary = {
+	"current" : 0,
+	"ratio" : 1,
+	"ivs" : 0,
+	"evs" : 0
+}
+var AtkSpe_dict : Dictionary = {
+	"current" : 0,
+	"ratio" : 1,
+	"ivs" : 0,
+	"evs" : 0
+}
+var Def_dict : Dictionary = {
+	"current" : 0,
+	"ratio" : 1,
+	"ivs" : 0,
+	"evs" : 0
+}
+var DefSpe_dict : Dictionary = {
+	"current" : 0,
+	"ratio" : 1,
+	"ivs" : 0,
+	"evs" : 0
+}
+var Speed_dict : Dictionary = {
+	"current" : 0,
+	"ratio" : 1,
+	"ivs" : 0,
+	"evs" : 0
+}
 
 var base_exp_yield : int
 var current_xp : int
@@ -42,7 +59,9 @@ var be_part_of_combat : bool = false
 var pokemon_id : int
 
 var status = null
+var cfn_turn : int = 0
 var turn_under_status : int = 0
+var NewMoveToLearn : bool = false
 
 
 signal hp_changed(current : int, maximum : int)
@@ -51,35 +70,43 @@ signal level_up(new_level : int)
 signal newLevelupMove(move_id: int)
 
 # Called when the node enters the scene tree for the first time.
-func initStats():
+func initStats(custom_moves : Array = []):
 	print(data)
-	pokemon_id = data.pokemon_id
-	base_exp_yield = data.base_exp_yield
-	pokemon_type1 = data.pokemon_type1
-	pokemon_type2 = data.pokemon_type2
-	pokemon_name = data.pokemon_name
-	if not max_hp :
-		max_hp = calculateStat(data.baseHp, level, true)
-		current_hp = max_hp
-		load_moves(data.learnable_moves)
-		print("DEBUG: Moves[0] : ", moves[0])
+	if Hp_dict["max"] == 0 :
+		pokemon_id = data.pokemon_id
+		base_exp_yield = data.base_exp_yield
+		pokemon_type1 = data.pokemon_type1
+		pokemon_type2 = data.pokemon_type2
+		pokemon_name = data.pokemon_name
+		setup_random_ivs()
+		Hp_dict["max"] = calculateStat(data.baseHp, level, Hp_dict["ivs"], true)
+		Hp_dict["current"] = Hp_dict["max"]
+		if custom_moves.size() > 0 : 
+			for move in custom_moves : 
+				learnMove(move, 3)
+		else : 
+			load_moves(data.learnable_moves)
 	else:
-		var old_max_hp = max_hp
-		max_hp = calculateStat(data.baseHp, level, true)
-		current_hp = current_hp + (max_hp - old_max_hp)
-	max_atk = calculateStat(data.baseAtk, level)
-	current_atk = max_atk
-	max_atkSpe = calculateStat(data.baseSpeAtk, level)
-	current_atkSpe = max_atkSpe
-	max_def = calculateStat(data.baseDef, level)
-	current_def = max_def
-	max_defSpe = calculateStat(data.baseSpeDef, level)
-	current_defSpe = max_defSpe
-	max_speed = calculateStat(data.baseSpd, level)
-	current_speed = max_speed
+		var old_max_hp = Hp_dict["max"]
+		Hp_dict["max"] = calculateStat(data.baseHp, level, Hp_dict["ivs"], true)
+		Hp_dict["current"] = Hp_dict["current"] + (Hp_dict["max"] - old_max_hp)
+		
+	Atk_dict["current"] = calculateStat(data.baseAtk, Atk_dict["ivs"], level)
+	AtkSpe_dict["current"] = calculateStat(data.baseSpeAtk, AtkSpe_dict["ivs"], level)
+	Def_dict["current"] = calculateStat(data.baseDef, Def_dict["ivs"], level)
+	DefSpe_dict["current"] = calculateStat(data.baseSpeDef, DefSpe_dict["ivs"], level)
+	Speed_dict["current"] = calculateStat(data.baseSpd, Speed_dict["ivs"], level)
 	current_xp = 0
 	xp_to_next_level = get_total_xp_for_level(level + 1) - get_total_xp_for_level(level)
 
+func setup_random_ivs():
+	Hp_dict["ivs"] = randi() % 31
+	Atk_dict["ivs"] = randi() % 31
+	AtkSpe_dict["ivs"] = randi() % 31
+	Def_dict["ivs"] = randi() % 31
+	DefSpe_dict["ivs"] = randi() % 31
+	Speed_dict["ivs"] = randi() % 31
+	
 func get_total_xp_for_level(actuallevel: int) -> int:
 	return int((4.0 * pow(actuallevel, 3)) / 5.0)
 	
@@ -116,31 +143,32 @@ func learnMove(moveidx : int, idx : int):
 		moves.append(final_move_data)
 		movesPP[final_move_data.id] = final_move_data.max_pp
 	
-func calculateStat(base : int, lvl : int, is_hp : bool = false ) -> int :
+func calculateStat(base : int, lvl : int, IVS : int,  is_hp : bool = false ) -> int :
 	# Formule simplifiée : ((2 * Base + 31) * Level) / 100 + modifier
 	
-	var stat = ((2 * base + 31) * lvl) / 100
+	var stat = floor(((2 * base + IVS) * lvl) / 100)
 	
 	if is_hp :
 		return stat + lvl + 10
 	return stat + 5
 
 func CenterHealing():
-	current_hp = max_hp
+	Hp_dict["current"] = Hp_dict["max"]
 	status = null
 	for move in moves : 
 		movesPP[move.id] = move["max_pp"]
 	
 func take_damage(damage : int):
-	current_hp = max(0, current_hp - damage)
-	hp_changed.emit(current_hp, max_hp)
+	Hp_dict["current"] = max(0, Hp_dict["current"] - damage)
+	hp_changed.emit(Hp_dict["current"], Hp_dict["max"])
+	await pokemon_node.flash_color(Color.WHITE, 0.4)
 	
-	if current_hp <= 0:
+	if Hp_dict["current"] <= 0:
 		faint()
 
 func heal(amount : int):
-	current_hp = min(max_hp, current_hp + amount)
-	hp_changed.emit(current_hp, max_hp)
+	Hp_dict["current"] = min(Hp_dict["max"], Hp_dict["current"] + amount)
+	hp_changed.emit(Hp_dict["current"], Hp_dict["max"])
 
 func faint():
 	fainted.emit()
@@ -157,10 +185,22 @@ func checkNewMove() -> void:
 					movesPP[move.id] = move.max_pp
 				else:
 					newLevelupMove.emit(data.learnable_moves[i].move_id)
-					
+				NewMoveToLearn = true
 	
 func lvl_up():
 	level += 1
 	initStats()
-	level_up.emit(level)
 	checkNewMove()
+	#level_up.emit(level)
+
+func use_item(item_data : Item_data) -> bool :
+	match item_data.effect :
+		Item_data.ItemEffect.PVHEAL :
+			if Hp_dict["current"] >= Hp_dict["max"]:
+				DialogueManager.startDialogue("Cela n'aura aucun effet")
+				return false
+			else  :
+				heal(int(item_data.effect_power))
+				DialogueManager.startDialogue("%s est soigné de % Hp." % [pokemon_name, item_data.effect_power])
+				return true
+	return false

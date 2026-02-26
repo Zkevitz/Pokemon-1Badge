@@ -1,0 +1,97 @@
+[gd_scene load_steps=10 format=3 uid="uid://b2r8v2y0rvlc4"]
+
+[ext_resource type="Script" uid="uid://kflbraeat5hc" path="res://src/node/attack_anim/script/spore_anim.gd" id="1_7jtoh"]
+[ext_resource type="Shader" uid="uid://8ml6nx3t3i7k" path="res://src/shaders/SporeAnimShader.gdshader" id="1_flj74"]
+[ext_resource type="Texture2D" uid="uid://ditwerypv3fl8" path="res://assets/attackSprite/Spore.png" id="2_7jtoh"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_bkgwa"]
+shader = ExtResource("1_flj74")
+shader_parameter/flash_color = Color(1, 1, 1, 1)
+shader_parameter/flash_amount = 0.0
+shader_parameter/rotation_speed = 2.0
+shader_parameter/radius = 0.4
+shader_parameter/random_strength = 0.1
+shader_parameter/random_speed = 1.5
+shader_parameter/seed = 150.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_48yv6"]
+shader = ExtResource("1_flj74")
+shader_parameter/flash_color = Color(1, 1, 1, 1)
+shader_parameter/flash_amount = 0.0
+shader_parameter/rotation_speed = 2.0
+shader_parameter/radius = 0.4
+shader_parameter/random_strength = 0.1
+shader_parameter/random_speed = 1.5
+shader_parameter/seed = 42.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ipp2e"]
+shader = ExtResource("1_flj74")
+shader_parameter/flash_color = Color(1, 1, 1, 1)
+shader_parameter/flash_amount = 0.0
+shader_parameter/rotation_speed = 2.0
+shader_parameter/radius = 0.4
+shader_parameter/random_strength = 0.1
+shader_parameter/random_speed = 1.5
+shader_parameter/seed = 55.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_flj74"]
+shader = ExtResource("1_flj74")
+shader_parameter/flash_color = Color(1, 1, 1, 1)
+shader_parameter/flash_amount = 0.0
+shader_parameter/rotation_speed = 2.0
+shader_parameter/radius = 0.4
+shader_parameter/random_strength = 0.1
+shader_parameter/random_speed = 1.5
+shader_parameter/seed = 75.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_7jtoh"]
+shader = ExtResource("1_flj74")
+shader_parameter/flash_color = Color(1, 1, 1, 1)
+shader_parameter/flash_amount = 0.0
+shader_parameter/rotation_speed = 2.0
+shader_parameter/radius = 0.4
+shader_parameter/random_strength = 0.1
+shader_parameter/random_speed = 1.5
+shader_parameter/seed = -80.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ni5s0"]
+shader = ExtResource("1_flj74")
+shader_parameter/flash_color = Color(1, 1, 1, 1)
+shader_parameter/flash_amount = 0.0
+shader_parameter/rotation_speed = 2.0
+shader_parameter/radius = 0.4
+shader_parameter/random_strength = 0.1
+shader_parameter/random_speed = 1.5
+shader_parameter/seed = -150.0
+
+[node name="SporeAnim" type="Node2D"]
+script = ExtResource("1_7jtoh")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+modulate = Color(1, 1, 1, 0)
+texture_repeat = 2
+material = SubResource("ShaderMaterial_bkgwa")
+scale = Vector2(1, 0.9635417)
+texture = ExtResource("2_7jtoh")
+
+[node name="Sprite2D2" type="Sprite2D" parent="."]
+texture_repeat = 2
+material = SubResource("ShaderMaterial_48yv6")
+texture = ExtResource("2_7jtoh")
+
+[node name="Sprite2D3" type="Sprite2D" parent="."]
+texture_repeat = 2
+material = SubResource("ShaderMaterial_ipp2e")
+texture = ExtResource("2_7jtoh")
+
+[node name="Sprite2D4" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_flj74")
+texture = ExtResource("2_7jtoh")
+
+[node name="Sprite2D5" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_7jtoh")
+texture = ExtResource("2_7jtoh")
+
+[node name="Sprite2D6" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_ni5s0")
+texture = ExtResource("2_7jtoh")

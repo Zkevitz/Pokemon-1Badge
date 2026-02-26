@@ -1,0 +1,27 @@
+[gd_resource type="Resource" script_class="PokemonData" load_steps=5 format=3 uid="uid://vkaa3eqypy5b"]
+
+[ext_resource type="Script" uid="uid://3j4rwpwaqwyi" path="res://src/ressources/DataSample/LearnMoveData.gd" id="1_0pudw"]
+[ext_resource type="Script" uid="uid://budev3vnysct5" path="res://src/ressources/DataSample/Pokemon_data.gd" id="2_1moex"]
+[ext_resource type="SpriteFrames" uid="uid://bicy7nrwcuyu8" path="res://src/ressources/PokemonSprite/014Piaf.tres" id="3_1vt84"]
+
+[sub_resource type="Resource" id="Resource_0pudw"]
+script = ExtResource("1_0pudw")
+LearnType = 1
+LevelRequired = 6
+metadata/_custom_type_script = "uid://3j4rwpwaqwyi"
+
+[resource]
+script = ExtResource("2_1moex")
+pokemon_name = "Piaf"
+pokemon_id = 14
+sprite_frames = ExtResource("3_1vt84")
+pokemon_type2 = 10
+baseHp = 62
+baseAtk = 100
+baseSpeAtk = 55
+baseDef = 65
+baseSpeDef = 60
+baseSpd = 85
+base_exp_yield = 110
+learnable_moves = Array[ExtResource("1_0pudw")]([SubResource("Resource_0pudw")])
+metadata/_custom_type_script = "uid://budev3vnysct5"

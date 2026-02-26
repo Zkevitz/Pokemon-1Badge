@@ -1,0 +1,65 @@
+[gd_resource type="SpriteFrames" load_steps=10 format=3 uid="uid://0ohvs6up0t6b"]
+
+[ext_resource type="Texture2D" uid="uid://debs4xpgoitbi" path="res://assets/PokemonSprite/Fourmistar018/sprite10.png" id="1_2wq03"]
+[ext_resource type="Texture2D" uid="uid://yoqcpo8fpdvt" path="res://assets/PokemonSprite/Fourmistar018/sprite10_idle.png" id="2_3fxsn"]
+[ext_resource type="Texture2D" uid="uid://dc62vbwkeq2hv" path="res://assets/PokemonSprite/Fourmistar018/menusprite10.png" id="3_hfdhc"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8d736"]
+atlas = ExtResource("1_2wq03")
+region = Rect2(96, 0, 96, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qm44m"]
+atlas = ExtResource("2_3fxsn")
+region = Rect2(0, 0, 96, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vau4m"]
+atlas = ExtResource("2_3fxsn")
+region = Rect2(96, 0, 96, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_axmm4"]
+atlas = ExtResource("2_3fxsn")
+region = Rect2(192, 0, 96, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3lfuc"]
+atlas = ExtResource("2_3fxsn")
+region = Rect2(288, 0, 96, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1xau4"]
+atlas = ExtResource("3_hfdhc")
+region = Rect2(0, 0, 32, 32)
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8d736")
+}],
+"loop": true,
+"name": &"back",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qm44m")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vau4m")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_axmm4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3lfuc")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1xau4")
+}],
+"loop": true,
+"name": &"menu",
+"speed": 5.0
+}]

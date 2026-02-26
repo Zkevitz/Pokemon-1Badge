@@ -1,7 +1,12 @@
-[gd_resource type="SpriteFrames" load_steps=8 format=3 uid="uid://dbel06q8y7ji0"]
+[gd_resource type="SpriteFrames" load_steps=10 format=3 uid="uid://dbel06q8y7ji0"]
 
-[ext_resource type="Texture2D" uid="uid://ovwa7exitx3k" path="res://assets/npc/MPWSP01/sprites/sprite4_attack.png" id="1_gt5ja"]
-[ext_resource type="Texture2D" uid="uid://cxerp2aa17ech" path="res://assets/npc/MPWSP01/menu sprites/menusprite4.png" id="2_81nod"]
+[ext_resource type="Texture2D" uid="uid://bdmsuy6v2f68e" path="res://assets/PokemonSprite/ambrouille10/sprite4.png" id="1_4aj44"]
+[ext_resource type="Texture2D" uid="uid://ovwa7exitx3k" path="res://assets/PokemonSprite/ambrouille10/sprite4_attack.png" id="1_gt5ja"]
+[ext_resource type="Texture2D" uid="uid://cxerp2aa17ech" path="res://assets/PokemonSprite/ambrouille10/menusprite4.png" id="2_81nod"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_e37kg"]
+atlas = ExtResource("1_4aj44")
+region = Rect2(96, 0, 96, 96)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_02i4v"]
 atlas = ExtResource("1_gt5ja")
@@ -25,6 +30,14 @@ region = Rect2(0, 0, 32, 32)
 
 [resource]
 animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_e37kg")
+}],
+"loop": true,
+"name": &"back",
+"speed": 5.0
+}, {
 "frames": [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_02i4v")

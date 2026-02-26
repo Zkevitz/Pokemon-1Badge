@@ -5,18 +5,27 @@ var tile_center_offset = Vector2.ONE * tileSize * 0.5
 var returnPosition := Vector2.ZERO
 var returnScene : Node2D
 var actualNode : Node2D
-var toggle_timer := 2.0
+#var toggle_timer := 2.0
+
 var pokemon_by_id: Dictionary = {}
+var items_by_id : Dictionary = {}
 var move_cache := {}
-var GlobalUI
+
+var GlobalUI : Control 
 var battleManager : Battlemanager
-var battleui = preload("res://src/node/battle_ui.tscn")
+var battleui = preload("res://src/node/UI/battle_ui.tscn")
 var battle_ui
 
+var current_node : Node2D
+var processing_scene_change : bool
+var World_Map : WorldMap
+
 enum recompenseType {POKEMON, OBJECT, TEAM_HEALING}
-# Called when the node enters the scene tree for the first time.
+
 func _ready() -> void:
 	_load_all_pokemon()
+	_load_all_items()
+	print(items_by_id)
 
 func get_move_data(id: int) -> CT_data:
 	if not move_cache.has(id):
@@ -24,6 +33,30 @@ func get_move_data(id: int) -> CT_data:
 		move_cache[id] = load(path)
 	return move_cache[id]
 		
+func get_pokemon_data(id: int) -> PokemonData:
+	if not pokemon_by_id.has(id):
+		print("PokemonData introuvable pour id = %d" % id)
+		return null
+	return pokemon_by_id[id]
+	
+func get_item_data(id : String) -> Item_data :
+	if not items_by_id.has(id) :
+		push_error("item data introuvables")
+		return null
+	return items_by_id[id]
+	
+func _load_all_items():
+	var dir = DirAccess.open("res://src/ressources/Items/")
+	if dir:
+		dir.list_dir_begin()
+		var file_name = dir.get_next()
+		while file_name != "":
+			if file_name.ends_with(".tres"):
+				var item = load("res://src/ressources/Items/" + file_name)
+				print(item)
+				items_by_id[item.Item_name] = item
+				file_name = dir.get_next()
+				
 func _load_all_pokemon():
 	var dir := DirAccess.open("res://src/ressources/PokemonData/")
 	if dir == null:
@@ -41,12 +74,6 @@ func _load_all_pokemon():
 	
 	dir.list_dir_end()
 
-func get_data(id: int) -> PokemonData:
-	if not pokemon_by_id.has(id):
-		print("PokemonData introuvable pour id = %d" % id)
-		return null
-	print("apparement on a les données ?")
-	return pokemon_by_id[id]
 	
 func has_property(node: Object, property_name: String) -> bool:
 	if not node : 
@@ -66,31 +93,6 @@ func stop_transition():
 	fadeAnim.fade_out()
 	await fadeAnim.fade_finished
 	
-func toggleWorld(NodetoShow : Node2D, NodetoHide : Node2D):
-	#CA CASSE TOUT ??? 
-	#await fadeAnim.fade_finished
-	
-	playerManager.desacPlayer()
-	start_transition()
-	
-	playerManager.toggleScene(NodetoHide)
-	NodetoHide.visible = false
-	
-	playerManager.toggleScene(NodetoShow)
-	NodetoShow.visible = true
-	
-	playerManager.player_instance.reparent(NodetoShow.get_node("ysortingnode"))
-	
-	if Game.returnPosition != Vector2.ZERO :
-		playerManager.teleport_to(NodetoShow, Game.returnPosition)
-		Game.returnPosition = Vector2.ZERO
-	elif NodetoShow.SpawnPosition != Vector2.ZERO :
-		Game.returnPosition = Vector2i(playerManager.player_instance.global_position / 16)
-		playerManager.teleport_to(NodetoShow, NodetoShow.SpawnPosition)
-		
-	await get_tree().process_frame
-	stop_transition()
-	playerManager.activatePlayer()
 func startBattleUi():
 	battle_ui = battleui.instantiate()
 	print(battle_ui)
@@ -103,17 +105,21 @@ func startBattleManager():
 func start_wild_battle():
 	startBattleManager()
 	var p_pokemon = playerManager.player_instance.pokemonTeam
-	print(p_pokemon)
 	var random_encounter = PokemonInstance.new()
-	random_encounter.data = get_data(1)
-	print("data from pokedex :", random_encounter.data)
-	random_encounter.level = (randi() % 5) + 1
+	var actual_encounter_zone = playerManager.current_zone
+	var actual_encounter_zone_level_range = actual_encounter_zone.get_zone_level_range()
+	
+	random_encounter.data = get_pokemon_data(actual_encounter_zone.get_random_encounters("grass"))
+	random_encounter.level = 8 #randi_range(actual_encounter_zone_level_range.x, actual_encounter_zone_level_range.y)
 	random_encounter.is_wild = true
 	random_encounter.initStats()
-	print(random_encounter)
+	#random_encounter.learnMove(11, 3)
+	random_encounter.learnMove(1, 3)
+	#random_encounter.learnMove(11, 3)
+	#random_encounter.learnMove(12, 3)
 	var enemy_team_typed : Array[PokemonInstance] = [random_encounter]
-	#start_transition()
 	startBattleUi()
+	SoundManager.play_music(preload("res://sound/musics/combat/wild_battle.mp3"), false)
 	battleManager.start_battle(p_pokemon, enemy_team_typed)
 	var result = await battleManager.battle_ended
 	if result :
@@ -124,16 +130,18 @@ func start_wild_battle():
 	playerManager.player_instance.Snap_to_grid()
 
 func start_Trainer_battle(TrainerTeam : Array[PokemonInstance], Trainer : CharacterBody2D):
+	print("start player battle never called ? ")
 	var player_position = Vector2i(playerManager.player_instance.global_position / 16)
 	var p_pokemon = playerManager.player_instance.pokemonTeam
-	startBattleUi()
 	startBattleManager()
+	startBattleUi()
+	SoundManager.play_music(preload("res://sound/musics/combat/trainer_battle.mp3"), false)
 	battleManager.start_battle(p_pokemon, TrainerTeam, Trainer)
 	var result = await battleManager.battle_ended
 	print("result of the fight : ", result)
 	if result : 
 		Trainer.trainer_defeted = true
-		playerManager.teleport_to(playerManager.player_instance.get_parent().get_parent(), player_position)
+		playerManager.teleport_to(player_position)
 	else : 
 		print("combat perdu")
 	playerManager.player_instance.Snap_to_grid()
@@ -141,30 +149,41 @@ func start_Trainer_battle(TrainerTeam : Array[PokemonInstance], Trainer : Charac
 func get_battleUi() -> CanvasLayer :
 	return battle_ui
 	
+func get_NPC(npc_id : String) -> CharacterBody2D :
+	var actual_NPC_in_tree = get_tree().get_nodes_in_group("pnj")
+	for Npc in actual_NPC_in_tree :
+		if Npc.NPC_id == npc_id :
+			return Npc
+	return null
+	
+func change_scene_with_player(closed_node: Node, open_node: String, destination_pos: Vector2):
+	if processing_scene_change == true :
+		return
+	processing_scene_change = true
+	await playerManager.desacPlayer(true)
+	
+	await start_transition()
+	
+	var new_scene_instance = World_Map.get_scene_in_memory(open_node)
 
-func change_scene_with_player(destination_scene_path : PackedScene, destination_pos : Vector2):
-	print("===== AVANT CHANGEMENT =====")
-	print("Scène actuelle: ", get_tree().current_scene.name)
-	print("Toutes les portes: ", get_tree().get_nodes_in_group("doors"))
+	playerManager.player_instance.reparent(new_scene_instance.get_node("ysortingnode"))
 	
-	var current_scene = get_tree().current_scene
-	#retiré au mauvais node 
-	current_scene.remove_child(playerManager.player_instance)
-	current_scene.remove_child(GlobalUI)
+	# 4. Retirer et libérer l'ancienne scène
+	get_tree().current_scene.remove_child(closed_node)
+	
+	get_tree().current_scene.add_child(new_scene_instance)
+	if not new_scene_instance.is_node_ready():
+			await new_scene_instance.ready
+	
+	current_node = new_scene_instance
+	
+	await get_tree().process_frame
+	
+	playerManager.teleport_to(destination_pos)
 
 	
-	get_tree().change_scene_to_packed(destination_scene_path)
-	await get_tree().scene_changed
-	
-	print("===== APRÈS CHANGEMENT =====")
-	print("Nouvelle scène: ", get_tree().current_scene.name)
-	await get_tree().process_frame  # IMPORTANT : attendez 1 frame
-	print("Toutes les portes: ", get_tree().get_nodes_in_group("doors"))
-	
-	var new_scene = get_tree().current_scene
-	new_scene.add_child(GlobalUI)
-	
-	var ysortingnode = new_scene.get_node("ysortingnode")
-	ysortingnode.add_child(playerManager.player_instance)
-	
-	playerManager.teleport_to(get_tree().get_first_node_in_group("walkgrid").get_parent(), destination_pos)
+	await stop_transition()
+	await get_tree().create_timer(0.2).timeout
+	await playerManager.activatePlayer()
+	processing_scene_change = false
+	print("Changement de scène terminé vers : ", open_node)

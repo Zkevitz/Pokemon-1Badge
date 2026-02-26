@@ -6,8 +6,8 @@ enum actionType {FIGHT, POKEMON, BAG, RUN}
 signal action_selected(Type : actionType)
 signal move_selected(move_index: int)
 signal moveReplacementSelected(moveArray: Array[int])
-signal pokemon_selected(pokemon_index : int)
-signal item_selected(item_id : int)
+#signal pokemon_selected(pokemon_index : int)
+#signal item_selected(item_id : int)
 signal text_finished
 signal animStep()
 signal choice_made(choice : bool)
@@ -22,14 +22,14 @@ signal choice_made(choice : bool)
 @onready var TransitionAnim := $AnimationPlayer
 @onready var PlayerpokemonContainer := $PlayerInfo/PlayerPokemon
 @onready var EnemypokemonContainer := $EnemyInfo/EnemyPokemon
+@onready var EnemyMarker2d := $Marker2D2
+@onready var AllyMarker2d := $Marker2D
+@onready var BackgroundTexture := $TextureRect
 
-
- 
-@onready var battleManager := get_tree().current_scene.get_node("Battlemanager")
 
 var move_button_connections : Array = []
 var current_text = ""
-var text_speed := 0.03
+var text_speed := 0.04
 var setup1 := false
 var setup2 := false
 var fight_ongoing := false
@@ -50,7 +50,6 @@ func _ready() -> void:
 	main_menu.get_node("EscapeButton").pressed.connect(func() : action_selected.emit(actionType.RUN))
 
 func setup(player_pkm : PokemonInstance, enemy_pkm : PokemonInstance):
-	print("POURQUOI TU es APPELÉ deux fois ?")
 	if player_pkm :	
 		update_pokemon_info(true, player_pkm)
 		player_pkm.connect("fainted", remove_pokemon_info.bind(player_info), CONNECT_ONE_SHOT)
@@ -90,7 +89,7 @@ func update_pokemon_info(isally : bool, pokemon_info : PokemonInstance):
 	var info_panel
 	if isally == true :
 		info_panel = player_info
-		info_panel.get_node("XpBar").value = pokemon_info.current_xp
+		info_panel.get_node("XpBar").value = float(pokemon_info.current_xp) / pokemon_info.xp_to_next_level * 100.0
 	else :
 		info_panel = enemy_info
 	print("info panel from update_pokemon_info : ", info_panel, " and ", pokemon_info)
@@ -131,7 +130,8 @@ func animate_xp_bar(xp_bar : ProgressBar, target_value : int ):
 		.set_trans(Tween.TRANS_QUAD)\
 		.set_ease(Tween.EASE_OUT)
 	await tween.finished
-	
+
+
 func update_hp_bar(isally : bool, pokemon_info : PokemonInstance):
 	var info_panel
 	if isally == true : 
@@ -141,8 +141,8 @@ func update_hp_bar(isally : bool, pokemon_info : PokemonInstance):
 	var hp_bar = info_panel.get_node("HpBar")
 	var hp_label = info_panel.get_node("hpLabel")
 	
-	var target_value  = pokemon_info.current_hp * 100 / pokemon_info.max_hp
-	hp_label.text = "%d/%d" % [pokemon_info.current_hp, pokemon_info.max_hp]
+	var target_value  = pokemon_info.Hp_dict["current"] * 100 / pokemon_info.Hp_dict["max"]
+	hp_label.text = "%d/%d" % [pokemon_info.Hp_dict["current"], pokemon_info.Hp_dict["max"]]
 	var tween = create_tween()
 	tween.tween_property(
 		hp_bar,
@@ -154,6 +154,7 @@ func update_hp_bar(isally : bool, pokemon_info : PokemonInstance):
 	tween.tween_callback(func():
 		update_hp_color(hp_bar))
 	await tween.finished	
+	
 func update_hp_color(hp_bar: ProgressBar):
 	if hp_bar.value > 50:
 		hp_bar.modulate = Color.GREEN
@@ -179,6 +180,7 @@ func enable_button():
 	for child in main_menu.get_children():
 		if child is Button :
 			child.visible = true
+			
 func animate_text():
 	var label = text_box.get_node("textLabel")
 	print(current_text)
@@ -190,54 +192,14 @@ func animate_text():
 	await get_tree().create_timer(1.0).timeout
 	text_finished.emit()
 
-func show_main_menu():
-	main_menu.visible = true
+func show_main_menu(Visible : bool = true):
+	main_menu.visible = Visible
 	
-func hide_move():
-	move_menu.visible = false
-	 
-func show_text():
-	text_box.visible = true
-
-func get_type_color(type : int):
-	var modulate_level :float = 0.6
-	match type :
-				1 :
-					return Color(Color.GRAY, modulate_level)
-				2 :
-					return Color(Color.RED, modulate_level)
-				3 :
-					return Color(Color.BLUE, modulate_level)
-				4 :
-					return Color(Color.WEB_GREEN, modulate_level)
-				5 :
-					return Color(Color.YELLOW, modulate_level)
-				6 :
-					return Color(Color.DEEP_SKY_BLUE, modulate_level)
-				7 :
-					return Color(Color.CORAL, modulate_level)
-				8 :
-					return Color(Color.REBECCA_PURPLE, modulate_level) 
-				9 :
-					return Color(Color("#E2B86B"), modulate_level)
-				10 :
-					return Color(Color.SKY_BLUE, modulate_level)
-				11 :
-					return Color(Color.PALE_VIOLET_RED, modulate_level)
-				12 :
-					return Color(Color.GREEN_YELLOW, modulate_level)
-				13 :	
-					return Color(Color.SADDLE_BROWN, modulate_level)
-				14 :
-					return Color(Color.MEDIUM_PURPLE, modulate_level)
-				15:
-					return Color(Color.DARK_SLATE_BLUE, modulate_level)
-				16:
-					return Color(Color("2B1E2E"), modulate_level)
-				17:
-					return Color(Color("9FA8B2"), modulate_level)
-				18: 
-					return Color(Color.PINK, modulate_level)
+func show_move(Visible : bool = true):
+	move_menu.visible = Visible
+	
+func show_text(Visible : bool = true):
+	text_box.visible = Visible
 					
 func disconnect_move_button():
 	for connection in move_button_connections:
@@ -258,7 +220,7 @@ func show_move_menu(pokemon : PokemonInstance):
 			print("new move : ", move)
 			button.text = "%s\nPP: %d/%d" % [move.name, pokemon.movesPP[move.id], move.max_pp]
 			var style = StyleBoxFlat.new()
-			var color = get_type_color(move.type)
+			var color = Utils.get_type_color(move.type)
 			style.bg_color = color
 			button.add_theme_stylebox_override("normal", style)
 			button.disabled = pokemon.movesPP[move.id] <= 0
@@ -271,40 +233,34 @@ func show_move_menu(pokemon : PokemonInstance):
 			button.text = "---"
 			button.disabled = true
 
-func showLevelUpMoveMenu(pokemon : PokemonInstance, newMoveID: int):
+func showLevelUpMoveMenu(pokemon : PokemonInstance, newMoveID: CT_data):
 	#hide_all_menu()
 	text_box.visible = false
 	move_menu.visible = false
 	lvlUpMoveContainer.visible = true
 	
-	#disconnect_move_button()
-	#print("move size 0 ?? :", pokemon.moves.size())
 	for i in range(5):
 		var button = lvlUpMoveContainer.get_node("Move%dButton" % (i + 1))
 		var move: CT_data
+		var callable
 		if i < pokemon.moves.size():
 			move = pokemon.moves[i]
-			print("new move : ", move)
+			callable = func(): moveReplacementSelected.emit([i, move.id])
 			button.text = "%s\nPP: %d/%d" % [move.name, pokemon.movesPP[move.id], move.max_pp]
 		else:
-			move = Game.get_move_data(newMoveID)
-			button.text = "%s\nPP: %d" % [move.name, move.max_pp]
-		#button.pressed.connect(func(): move_selected.emit(i), CONNECT_ONE_SHOT)
+			move = newMoveID
+			callable = func(): moveReplacementSelected.emit([i, move.id])
+			button.text = "%s\nPP: %d/%d" % [move.name, move.max_pp, move.max_pp]
 		var style = StyleBoxFlat.new()
-		var color = get_type_color(move.type)
+		var color = Utils.get_type_color(move.type)
 		style.bg_color = color
 		button.add_theme_stylebox_override("normal", style)
 		
-		var callable
-		if i < pokemon.moves.size():
-			callable = func(): moveReplacementSelected.emit([i, 0])
-		else:
-			callable = func(): moveReplacementSelected.emit([i, 1])
 		button.pressed.connect(callable)
 		move_button_connections.append({"button": button, "callable": callable})
 
-func askCustomQuestionForLvlUp(text : String, pokemon: PokemonInstance, moveID: int) -> Array:
-	var res : Array = []
+func askCustomQuestionForLvlUp(text : String, pokemon: PokemonInstance, moveID: CT_data) -> Array:
+	#var res : Array = []
 	yesNoBox.visible = true
 	display_text(text)
 	var choice = await choice_made
@@ -315,38 +271,38 @@ func askCustomQuestionForLvlUp(text : String, pokemon: PokemonInstance, moveID: 
 		showLevelUpMoveMenu(pokemon, moveID)
 		var moveArray = await moveReplacementSelected
 		var moveIndex = moveArray[0]
-		var goBack = moveArray[1]
-		if goBack == 1:
+		if moveArray[0] == 4 :
 			disconnect_move_button()
 			lvlUpMoveContainer.visible = false
-			return [false, oldMove]
+			return [false, moveID]
 		oldMove = pokemon.moves[moveIndex]
-		pokemon.learnMove(moveID, moveIndex)
+		pokemon.learnMove(moveID.id, moveIndex)
 		lvlUpMoveContainer.visible = false
 		return [true, oldMove]
 	return [true, null]
 		
 	
-func Play_attack_anim(attacker : PokemonNode, defender : PokemonNode, move_used : CT_data):
+func Play_attack_anim(attacker : PokemonNode, defender : PokemonNode, _move_used : CT_data, attackAnim : Node2D):
 	var tween = create_tween()
-	tween.tween_property(attacker, "position:x", attacker.position.x + 20, 0.1)
+	var attack_dir = -20 if attacker.is_opponent else 20
+	tween.tween_property(attacker, "position:x", attacker.position.x + attack_dir, 0.1)
 	tween.tween_property(attacker, "position:x", attacker.position.x, 0.1)
-	defender.flash_white()
+	await tween.finished
+	
+	if attackAnim :
+		attackAnim.setup_anim()
+		print("defender global pos : ", defender.global_position)
+		await attackAnim.play_attack(attacker, defender, self)
+		attackAnim.queue_free() 
+	defender.flash_color(Color.WHITE, 0.3)
 
 func _on_move_button_pressed(move_index : int ):
 	move_selected.emit(move_index)
 	
-#func showPokemonMenu(): A REALISER
+func showPokemonMenu():
+	var MenuUi = Game.GlobalUI.get_node("MenuUi")
+	
 #same for bag 
-
-
-func _process(_delta: float) -> void:
-	pass
-
-func hide_all_menu():
-	main_menu.visible = false
-	move_menu.visible = false
-
 
 func _on_button_pressed() -> void:
 	choice_made.emit(true)

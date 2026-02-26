@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="Item_data" load_steps=3 format=3 uid="uid://dkx50jox0v7kf"]
+
+[ext_resource type="Texture2D" uid="uid://sm61ho6tjkqf" path="res://assets/ItemSprite/GREATBALL.png" id="1_qw71q"]
+[ext_resource type="Script" uid="uid://b380eb4tv5o1v" path="res://src/ressources/DataSample/Item_data.gd" id="2_vrciw"]
+
+[resource]
+script = ExtResource("2_vrciw")
+Item_name = "SuperBall"
+Categorie = 1
+Description = "A good, high-performance Poké Ball that provides a higher success rate for catching Pokémon than a standard Poké Ball."
+effect = 2
+effect_power = 1.5
+icon = ExtResource("1_qw71q")
+metadata/_custom_type_script = "uid://b380eb4tv5o1v"

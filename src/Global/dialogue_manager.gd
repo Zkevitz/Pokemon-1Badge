@@ -3,6 +3,7 @@ extends Node
 signal dialogue_started
 signal dialogue_line_changed(speaker, text)
 signal dialogue_ended
+signal input_pressed
 
 var current_dialogue = []
 var dialogue_line_index = 0 
@@ -19,21 +20,27 @@ var dialogues = {
 	{"speaker": "Gate Keeper", "text": "Vas vite recupére un pokemon au labo du professeur Homes (PS : ne prend pas vipeliere)"},
 	]
 }
+
+func _process(delta: float) -> void:
+	if dialogueisActive == false : 
+		return
+	if Input.is_action_just_pressed("interact") :
+		emit_signal("input_pressed")
+		
 func startDialogue(dialogue_id : String):
 	if dialogueisActive == true :
-		print("out")
 		return 
 		
 	if not dialogues.has(dialogue_id):
-		push_error("error dialogue not found :", dialogue_id)
-		return
+		current_dialogue = [dialogue_id]
+	else :
+		current_dialogue = dialogues[dialogue_id] 
 	
-	current_dialogue = dialogues[dialogue_id]
-	print("current_dialogue : ", current_dialogue)
+	
 	dialogue_line_index = 0
 	dialogueisActive = true
 	
-	print("dialogue signal Started")
+	playerManager.lock_player()
 	emit_signal("dialogue_started")
 	showCurrentLine()
 
@@ -43,8 +50,14 @@ func showCurrentLine():
 		return
 	
 	var line = current_dialogue[dialogue_line_index]
-	var speaker = line.get("speaker", "")
-	var text = line.get("text", "")
+	var speaker
+	var text 
+	if line is Dictionary :
+		speaker = line.get("speaker", "")
+		text = line.get("text", "")
+	else :
+		speaker = ""
+		text = line
 	
 	emit_signal("dialogue_line_changed", speaker, text)
 
@@ -59,6 +72,7 @@ func end_dialogue():
 	dialogueisActive = false
 	current_dialogue = []
 	dialogue_line_index = 0
+	playerManager.unlock_player()
 	emit_signal("dialogue_ended")
 	
 func is_active() -> bool :

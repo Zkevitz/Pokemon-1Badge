@@ -10,19 +10,22 @@ enum Type { AUCUN, NORMAL, FEU, EAU, PLANTE, ELECTRIQUE, GLACE, COMBAT, POISON, 
 @export var can_move : bool = false
 
 var pokemonInstance : PokemonInstance
-
+var is_opponent : bool = true
 var animatedSprite : AnimatedSprite2D
 var animation_player : AnimationPlayer
 
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	if pokemonInstance.data.sprite_frames :
-		animatedSprite.sprite_frames = pokemonInstance.data.sprite_frames
-	animatedSprite.play("idle")
+	pass
+
+func is_Opponent() -> bool :
+	return is_opponent
 	
 func setup(instance : PokemonInstance):
 	pokemonInstance = instance
+	if pokemonInstance.is_wild == false :
+		is_opponent = false
 	animatedSprite = get_node("AnimatedSprite2D")
 	animation_player = get_node("AnimationPlayer")
 	if pokemonInstance.data.sprite_frames :
@@ -37,7 +40,6 @@ func sink_into_ground():
 	await tween.finished
 	animation_finished.emit()
 	await get_tree().create_timer(1.5).timeout
-	var info_panel = get_parent()
 	queue_free()
 
 func apply_status_in_Ui(status : String):
@@ -65,14 +67,73 @@ func Drop_stat_anim():
 	mat.set_shader_parameter("drop_strength", 0.0)
 	animation_finished.emit()
 	
-func flash_white():
+func flash_color(color : Color, time : float):
 	var mat = animatedSprite.material
-	mat.set_shader_parameter("white_amount", 1.0)
+	mat.set_shader_parameter("flash_color", color)
+	mat.set_shader_parameter("flash_amount", 1.0)
 
-	await get_tree().create_timer(0.08).timeout
+	await get_tree().create_timer(time).timeout
 
-	mat.set_shader_parameter("white_amount", 0.0)
+	mat.set_shader_parameter("flash_amount", 0.0)
 	
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(_delta: float) -> void:
-	pass
+func flash_red(time : float):
+	var mat = animatedSprite.material
+	mat.set_shader_parameter("red_amount", 1.0)
+	
+	await get_tree().create_timer(time).timeout
+	
+	mat.set_shader_parameter("red_amount", 0.0)
+	
+func vertical_shake():
+	var mat = animatedSprite.material
+	mat.set_shader_parameter("shake_vertical_amount", 0.5)
+	
+	await get_tree().create_timer(0.35).timeout
+	mat.set_shader_parameter("shake_vertical_amount", 0.0)
+
+func horizontal_ondulation(time : float):
+	var mat = animatedSprite.material
+	mat.set_shader_parameter("wave_strength", 0.005)
+	
+	await get_tree().create_timer(time).timeout
+	mat.set_shader_parameter("wave_strength", 0.0)
+	
+func play_confusion():
+	var confusion_anim = animatedSprite.get_node("ConfusionAnim")
+	if confusion_anim : 
+		confusion_anim.visible = true
+		confusion_anim.play("default")
+		SoundManager.play_sfx(preload("res://sound/SFX/status/Status Confused.mp3"), -10)
+		await confusion_anim.animation_finished
+		confusion_anim.visible = false
+
+func play_para():
+	var para_anim = animatedSprite.get_node("ParaAnim")
+	if para_anim :
+		para_anim.visible = true
+		para_anim.play("default")
+		SoundManager.play_sfx(preload("res://sound/SFX/status/Status Paralysis.ogg"), -10)
+		await para_anim.animation_finished
+		para_anim.visible = false
+		
+func play_sleep():
+	animation_player.play("Sleep Anim")
+	SoundManager.play_sfx(preload("res://sound/SFX/status/Status Sleep.mp3"), -10)
+	await animation_player.animation_finished
+	
+func play_burn():
+	var burn_node = preload("res://src/node/attack_anim/node/flammeche_anim.tscn").instantiate()
+	
+	var parent_node = get_parent()
+	burn_node.setup_anim()
+	parent_node.add_child(burn_node)
+	await burn_node.play_burn(self)
+
+func play_poison():
+	var PoisonParticule = animatedSprite.get_node("GPUParticles2D")
+	PoisonParticule.visible = true 
+	
+	horizontal_ondulation(1.0)
+	await flash_color(Color(0.478, 0.0, 1.0), 1.0)
+	
+	PoisonParticule.visible = false

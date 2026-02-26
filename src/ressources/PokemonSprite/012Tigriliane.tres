@@ -1,0 +1,65 @@
+[gd_resource type="SpriteFrames" load_steps=10 format=3 uid="uid://cg0mxp1vtds2f"]
+
+[ext_resource type="Texture2D" uid="uid://cr4ic7hbi6ytn" path="res://assets/PokemonSprite/tigrilianne12/sprite2.png" id="1_k1l7d"]
+[ext_resource type="Texture2D" uid="uid://dwv8lda24lrda" path="res://assets/PokemonSprite/tigrilianne12/sprite2_idle.png" id="2_k4gpw"]
+[ext_resource type="Texture2D" uid="uid://bm8tfy5ravh4x" path="res://assets/PokemonSprite/tigrilianne12/menusprite2.png" id="3_cq8wb"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_escqj"]
+atlas = ExtResource("1_k1l7d")
+region = Rect2(96, 0, 96, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0d7e6"]
+atlas = ExtResource("2_k4gpw")
+region = Rect2(0, 0, 96, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_u83p1"]
+atlas = ExtResource("2_k4gpw")
+region = Rect2(96, 0, 96, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_r3exc"]
+atlas = ExtResource("2_k4gpw")
+region = Rect2(192, 0, 96, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_22bc6"]
+atlas = ExtResource("2_k4gpw")
+region = Rect2(288, 0, 96, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1417v"]
+atlas = ExtResource("3_cq8wb")
+region = Rect2(0, 0, 32, 32)
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_escqj")
+}],
+"loop": true,
+"name": &"back",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0d7e6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_u83p1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_r3exc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_22bc6")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1417v")
+}],
+"loop": true,
+"name": &"menu",
+"speed": 5.0
+}]

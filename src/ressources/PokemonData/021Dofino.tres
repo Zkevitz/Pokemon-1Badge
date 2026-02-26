@@ -1,0 +1,83 @@
+[gd_resource type="Resource" script_class="PokemonData" load_steps=13 format=3 uid="uid://cvr2ox8uw36u1"]
+
+[ext_resource type="Script" uid="uid://3j4rwpwaqwyi" path="res://src/ressources/DataSample/LearnMoveData.gd" id="1_t87i4"]
+[ext_resource type="Script" uid="uid://budev3vnysct5" path="res://src/ressources/DataSample/Pokemon_data.gd" id="2_c61w8"]
+[ext_resource type="Texture2D" uid="uid://bpueg3gbenn5u" path="res://assets/PokemonSprite/Dofino021/sprite13.png" id="3_a413g"]
+[ext_resource type="Texture2D" uid="uid://dhl47hntnnjbw" path="res://assets/PokemonSprite/Dofino021/sprite13_idle.png" id="4_sr214"]
+[ext_resource type="Texture2D" uid="uid://72skaros1hmy" path="res://assets/PokemonSprite/Dofino021/menusprite13.png" id="5_fs47a"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_myq21"]
+atlas = ExtResource("3_a413g")
+region = Rect2(96, 0, 96, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_glio7"]
+atlas = ExtResource("4_sr214")
+region = Rect2(0, 0, 96, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ior5u"]
+atlas = ExtResource("4_sr214")
+region = Rect2(96, 0, 96, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_r8nvd"]
+atlas = ExtResource("4_sr214")
+region = Rect2(192, 0, 96, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rjriv"]
+atlas = ExtResource("4_sr214")
+region = Rect2(288, 0, 96, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0rjt1"]
+atlas = ExtResource("5_fs47a")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_u4n1p"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_myq21")
+}],
+"loop": true,
+"name": &"back",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_glio7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ior5u")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_r8nvd")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rjriv")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0rjt1")
+}],
+"loop": true,
+"name": &"menu",
+"speed": 5.0
+}]
+
+[resource]
+script = ExtResource("2_c61w8")
+pokemon_name = "Dofino"
+pokemon_id = 21
+sprite_frames = SubResource("SpriteFrames_u4n1p")
+pokemon_type1 = 3
+pokemon_type2 = 11
+baseHp = 75
+baseAtk = 75
+baseSpeAtk = 83
+baseDef = 60
+baseSpeDef = 60
+baseSpd = 60
+base_exp_yield = 145
+metadata/_custom_type_script = "uid://budev3vnysct5"

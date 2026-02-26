@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="CT_data" load_steps=2 format=3 uid="uid://kav4it3wpekt"]
 
-[ext_resource type="Script" uid="uid://khacs4dumku4" path="res://src/ressources/CT_data.gd" id="1_tap2x"]
+[ext_resource type="Script" uid="uid://khacs4dumku4" path="res://src/ressources/DataSample/CT_data.gd" id="1_tap2x"]
 
 [resource]
 script = ExtResource("1_tap2x")

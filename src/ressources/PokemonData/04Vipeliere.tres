@@ -1,7 +1,7 @@
-[gd_resource type="Resource" script_class="PokemonData" format=3 uid="uid://c7de2ef2argjh"]
+[gd_resource type="Resource" script_class="PokemonData" load_steps=0 format=3 uid="uid://c7de2ef2argjh"]
 
-[ext_resource type="Script" uid="uid://budev3vnysct5" path="res://src/ressources/Pokemon_data.gd" id="1_4re8n"]
-[ext_resource type="Script" uid="uid://3j4rwpwaqwyi" path="res://src/ressources/LearnMoveData.gd" id="1_ujj7l"]
+[ext_resource type="Script" uid="uid://budev3vnysct5" path="res://src/ressources/DataSample/Pokemon_data.gd" id="1_4re8n"]
+[ext_resource type="Script" uid="uid://3j4rwpwaqwyi" path="res://src/ressources/DataSample/LearnMoveData.gd" id="1_ujj7l"]
 [ext_resource type="SpriteFrames" uid="uid://ct5xt41hi6e5w" path="res://src/ressources/PokemonSprite/04Vipeliere.tres" id="2_ujj7l"]
 
 [sub_resource type="Resource" id="Resource_r8bkj"]

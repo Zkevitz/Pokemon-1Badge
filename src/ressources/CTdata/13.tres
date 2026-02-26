@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="CT_data" load_steps=3 format=3 uid="uid://ckom1s3w157tq"]
+
+[ext_resource type="PackedScene" uid="uid://byju8exds8aco" path="res://src/node/attack_anim/node/JetPierreAnim.tscn" id="1_0q73v"]
+[ext_resource type="Script" uid="uid://khacs4dumku4" path="res://src/ressources/DataSample/CT_data.gd" id="1_nf2xq"]
+
+[resource]
+script = ExtResource("1_nf2xq")
+name = "Jet-Pierres"
+id = 13
+type = 13
+power = 50
+accuracy = 90
+max_pp = 15
+AnimName = "Done"
+AnimNode = ExtResource("1_0q73v")
+metadata/_custom_type_script = "uid://khacs4dumku4"

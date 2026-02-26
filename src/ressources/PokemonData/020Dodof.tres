@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="PokemonData" load_steps=4 format=3 uid="uid://wy3lr0a6uq5"]
+
+[ext_resource type="Script" uid="uid://3j4rwpwaqwyi" path="res://src/ressources/DataSample/LearnMoveData.gd" id="1_gduys"]
+[ext_resource type="Script" uid="uid://budev3vnysct5" path="res://src/ressources/DataSample/Pokemon_data.gd" id="2_wywi2"]
+[ext_resource type="SpriteFrames" uid="uid://b6e0ymhgt3dq0" path="res://src/ressources/PokemonSprite/020Dodof.tres" id="3_ebada"]
+
+[resource]
+script = ExtResource("2_wywi2")
+pokemon_name = "Dodof"
+pokemon_id = 20
+sprite_frames = ExtResource("3_ebada")
+pokemon_type1 = 3
+baseHp = 55
+baseSpeAtk = 63
+baseDef = 45
+baseSpeDef = 45
+baseSpd = 45
+base_exp_yield = 28
+metadata/_custom_type_script = "uid://budev3vnysct5"

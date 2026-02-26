@@ -1,0 +1,62 @@
+[gd_resource type="Resource" script_class="PokemonData" load_steps=10 format=3 uid="uid://pei16ghstidl"]
+
+[ext_resource type="Script" uid="uid://3j4rwpwaqwyi" path="res://src/ressources/DataSample/LearnMoveData.gd" id="1_cxkv3"]
+[ext_resource type="Script" uid="uid://budev3vnysct5" path="res://src/ressources/DataSample/Pokemon_data.gd" id="2_c1dhh"]
+[ext_resource type="Texture2D" uid="uid://8tcs645m51hk" path="res://assets/PokemonSprite/Racaillou027/geodudeBack.png" id="3_spryj"]
+[ext_resource type="Texture2D" uid="uid://dxdi4hwceipp8" path="res://assets/PokemonSprite/Racaillou027/geodude.png" id="4_r33go"]
+[ext_resource type="Texture2D" uid="uid://dak7nxf6v7rbk" path="res://assets/PokemonSprite/Racaillou027/geodudeMenu.png" id="5_jxjyh"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lo2iv"]
+atlas = ExtResource("3_spryj")
+region = Rect2(0, 0, 96, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2mc5a"]
+atlas = ExtResource("4_r33go")
+region = Rect2(0, 0, 96, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cnfx3"]
+atlas = ExtResource("5_jxjyh")
+region = Rect2(0, 0, 40, 40)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_k65it"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lo2iv")
+}],
+"loop": true,
+"name": &"back",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2mc5a")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cnfx3")
+}],
+"loop": true,
+"name": &"menu",
+"speed": 5.0
+}]
+
+[resource]
+script = ExtResource("2_c1dhh")
+pokemon_name = "Racaillou"
+pokemon_id = 27
+sprite_frames = SubResource("SpriteFrames_k65it")
+pokemon_type1 = 13
+pokemon_type2 = 9
+baseHp = 45
+baseAtk = 80
+baseSpeAtk = 30
+baseDef = 100
+baseSpeDef = 35
+baseSpd = 20
+base_exp_yield = 65
+metadata/_custom_type_script = "uid://budev3vnysct5"

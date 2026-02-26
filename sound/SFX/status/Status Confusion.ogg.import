@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://bbkri356tdss6"
+path="res://.godot/imported/Status Confusion.ogg-b2acf3ea4fc03f81d11e99a3e52b4868.oggvorbisstr"
+
+[deps]
+
+source_file="res://sound/SFX/status/Status Confusion.ogg"
+dest_files=["res://.godot/imported/Status Confusion.ogg-b2acf3ea4fc03f81d11e99a3e52b4868.oggvorbisstr"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

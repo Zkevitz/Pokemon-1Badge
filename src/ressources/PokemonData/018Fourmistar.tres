@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="PokemonData" load_steps=4 format=3 uid="uid://dg8ue4pgjupqx"]
+
+[ext_resource type="Script" uid="uid://3j4rwpwaqwyi" path="res://src/ressources/DataSample/LearnMoveData.gd" id="1_2wq03"]
+[ext_resource type="Script" uid="uid://budev3vnysct5" path="res://src/ressources/DataSample/Pokemon_data.gd" id="2_3fxsn"]
+[ext_resource type="SpriteFrames" uid="uid://0ohvs6up0t6b" path="res://src/ressources/PokemonSprite/018Fourmistar.tres" id="3_hfdhc"]
+
+[resource]
+script = ExtResource("2_3fxsn")
+pokemon_name = "Fourmistar"
+pokemon_id = 18
+sprite_frames = ExtResource("3_hfdhc")
+pokemon_type1 = 11
+baseHp = 116
+baseSpeAtk = 110
+baseDef = 80
+baseSpeDef = 90
+baseSpd = 35
+base_exp_yield = 149
+metadata/_custom_type_script = "uid://budev3vnysct5"

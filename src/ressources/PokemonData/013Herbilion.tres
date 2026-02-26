@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="PokemonData" load_steps=4 format=3 uid="uid://cpoqes3r3pl2s"]
+
+[ext_resource type="Script" uid="uid://3j4rwpwaqwyi" path="res://src/ressources/DataSample/LearnMoveData.gd" id="1_5arux"]
+[ext_resource type="Script" uid="uid://budev3vnysct5" path="res://src/ressources/DataSample/Pokemon_data.gd" id="2_g475k"]
+[ext_resource type="SpriteFrames" uid="uid://bg0tukplewh3e" path="res://src/ressources/PokemonSprite/013Herbilion.tres" id="3_uraui"]
+
+[resource]
+script = ExtResource("2_g475k")
+pokemon_name = "Herbilion"
+pokemon_id = 13
+sprite_frames = ExtResource("3_uraui")
+pokemon_type1 = 4
+baseHp = 95
+baseAtk = 110
+baseSpeAtk = 90
+baseDef = 85
+baseSpeDef = 85
+baseSpd = 95
+base_exp_yield = 210
+metadata/_custom_type_script = "uid://budev3vnysct5"

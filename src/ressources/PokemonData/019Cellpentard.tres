@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="PokemonData" load_steps=4 format=3 uid="uid://djkl1icqxshda"]
+
+[ext_resource type="Script" uid="uid://3j4rwpwaqwyi" path="res://src/ressources/DataSample/LearnMoveData.gd" id="1_7h08p"]
+[ext_resource type="Script" uid="uid://budev3vnysct5" path="res://src/ressources/DataSample/Pokemon_data.gd" id="2_6rxja"]
+[ext_resource type="SpriteFrames" uid="uid://0k4miaclcfvt" path="res://src/ressources/PokemonSprite/019Cellpentard.tres" id="3_d4tdm"]
+
+[resource]
+script = ExtResource("2_6rxja")
+pokemon_name = "Cellpentard"
+pokemon_id = 19
+sprite_frames = ExtResource("3_d4tdm")
+pokemon_type1 = 8
+pokemon_type2 = 5
+baseHp = 75
+baseAtk = 98
+baseSpeAtk = 114
+baseDef = 70
+baseSpeDef = 70
+baseSpd = 75
+base_exp_yield = 176
+metadata/_custom_type_script = "uid://budev3vnysct5"

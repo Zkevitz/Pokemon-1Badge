@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="PokemonData" load_steps=4 format=3 uid="uid://ptdeo7odmca"]
+
+[ext_resource type="Script" uid="uid://3j4rwpwaqwyi" path="res://src/ressources/DataSample/LearnMoveData.gd" id="1_nlaxt"]
+[ext_resource type="Script" uid="uid://budev3vnysct5" path="res://src/ressources/DataSample/Pokemon_data.gd" id="2_vqy0r"]
+[ext_resource type="SpriteFrames" uid="uid://c3rr7lw5a5h4a" path="res://src/ressources/PokemonSprite/016Toutenfeu.tres" id="3_vqy0r"]
+
+[resource]
+script = ExtResource("2_vqy0r")
+pokemon_name = "Toutenfeu"
+pokemon_id = 16
+sprite_frames = ExtResource("3_vqy0r")
+pokemon_type1 = 2
+pokemon_type2 = 9
+baseHp = 81
+baseAtk = 80
+baseSpeAtk = 65
+baseDef = 78
+baseSpeDef = 58
+baseSpd = 49
+base_exp_yield = 144
+metadata/_custom_type_script = "uid://budev3vnysct5"

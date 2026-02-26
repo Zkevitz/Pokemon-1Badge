@@ -1,0 +1,65 @@
+[gd_resource type="SpriteFrames" load_steps=10 format=3 uid="uid://c3rr7lw5a5h4a"]
+
+[ext_resource type="Texture2D" uid="uid://fby7mnn2wy5g" path="res://assets/PokemonSprite/toutenfeu016/sprite8.png" id="1_cxlps"]
+[ext_resource type="Texture2D" uid="uid://066k8fj1awmo" path="res://assets/PokemonSprite/toutenfeu016/sprite8_idle.png" id="2_moexa"]
+[ext_resource type="Texture2D" uid="uid://deve00lb08ybx" path="res://assets/PokemonSprite/toutenfeu016/menusprite8.png" id="3_02vvi"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kdyif"]
+atlas = ExtResource("1_cxlps")
+region = Rect2(96, 0, 96, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_35o2y"]
+atlas = ExtResource("2_moexa")
+region = Rect2(0, 0, 96, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6aod4"]
+atlas = ExtResource("2_moexa")
+region = Rect2(96, 0, 96, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4l04t"]
+atlas = ExtResource("2_moexa")
+region = Rect2(192, 0, 96, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_y51rj"]
+atlas = ExtResource("2_moexa")
+region = Rect2(288, 0, 96, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_754aa"]
+atlas = ExtResource("3_02vvi")
+region = Rect2(0, 0, 32, 32)
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kdyif")
+}],
+"loop": true,
+"name": &"back",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_35o2y")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6aod4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4l04t")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_y51rj")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_754aa")
+}],
+"loop": true,
+"name": &"menu",
+"speed": 5.0
+}]

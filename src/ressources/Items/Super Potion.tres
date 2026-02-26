@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="Item_data" load_steps=3 format=3 uid="uid://d3kkw244wp7b0"]
+
+[ext_resource type="Texture2D" uid="uid://c755k4bmph8fg" path="res://assets/ItemSprite/SUPERPOTION.png" id="1_xxeer"]
+[ext_resource type="Script" uid="uid://b380eb4tv5o1v" path="res://src/ressources/DataSample/Item_data.gd" id="2_3nfwm"]
+
+[resource]
+script = ExtResource("2_3nfwm")
+Item_name = "Super Potion"
+Description = "A spray-type medicine for treating wounds. It can be used to restore 60 HP to a Pokémon."
+effect_power = 60.0
+icon = ExtResource("1_xxeer")
+metadata/_custom_type_script = "uid://b380eb4tv5o1v"

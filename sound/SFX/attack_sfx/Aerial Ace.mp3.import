@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://dl2fxa8pma71y"
+path="res://.godot/imported/Aerial Ace.mp3-9dcbfd71f8b63caa3f5aea5d8fb023c4.mp3str"
+
+[deps]
+
+source_file="res://sound/SFX/attack_sfx/Aerial Ace.mp3"
+dest_files=["res://.godot/imported/Aerial Ace.mp3-9dcbfd71f8b63caa3f5aea5d8fb023c4.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

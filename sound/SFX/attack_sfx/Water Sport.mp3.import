@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://w60iowdypctm"
+path="res://.godot/imported/Water Sport.mp3-4e83fa6eba2b6168eeb538d24b755147.mp3str"
+
+[deps]
+
+source_file="res://sound/SFX/attack_sfx/Water Sport.mp3"
+dest_files=["res://.godot/imported/Water Sport.mp3-4e83fa6eba2b6168eeb538d24b755147.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

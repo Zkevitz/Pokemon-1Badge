@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="PokemonData" load_steps=4 format=3 uid="uid://dq60b86uibn67"]
+
+[ext_resource type="Script" uid="uid://3j4rwpwaqwyi" path="res://src/ressources/DataSample/LearnMoveData.gd" id="1_5y2qv"]
+[ext_resource type="Script" uid="uid://budev3vnysct5" path="res://src/ressources/DataSample/Pokemon_data.gd" id="2_y8kof"]
+[ext_resource type="SpriteFrames" uid="uid://obwehf5tcv6a" path="res://src/ressources/PokemonSprite/09Brasegali.tres" id="3_n7rfp"]
+
+[resource]
+script = ExtResource("2_y8kof")
+pokemon_name = "Brasegali"
+pokemon_id = 9
+sprite_frames = ExtResource("3_n7rfp")
+pokemon_type1 = 2
+pokemon_type2 = 7
+baseHp = 80
+baseAtk = 120
+baseSpeAtk = 110
+baseDef = 70
+baseSpeDef = 70
+baseSpd = 80
+base_exp_yield = 209
+metadata/_custom_type_script = "uid://budev3vnysct5"

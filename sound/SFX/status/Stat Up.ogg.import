@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://ginodbyoqvxu"
+path="res://.godot/imported/Stat Up.ogg-562a6435a0cb0c77db4ebb630a4faff0.oggvorbisstr"
+
+[deps]
+
+source_file="res://sound/SFX/status/Stat Up.ogg"
+dest_files=["res://.godot/imported/Stat Up.ogg-562a6435a0cb0c77db4ebb630a4faff0.oggvorbisstr"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

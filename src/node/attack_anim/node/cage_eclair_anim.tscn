@@ -1,0 +1,217 @@
+[gd_scene load_steps=10 format=3 uid="uid://dfbjn4quwlifs"]
+
+[ext_resource type="Texture2D" uid="uid://dor4fi4o43yyf" path="res://assets/attackSprite/Thunder Wave.png" id="1_482ak"]
+[ext_resource type="Script" uid="uid://cs52o7r0e5sx0" path="res://src/node/attack_anim/script/cage_eclair_anim.gd" id="1_quxlx"]
+
+[sub_resource type="Animation" id="Animation_yihx0"]
+resource_name = "play_attack"
+length = 1.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("eclair/Sprite2D:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.15),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("eclair/Sprite2D2:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.15, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("eclair/Sprite2D3:modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.33, 0.48),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("eclair/Sprite2D4:modulate")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.48, 0.63),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("eclair:modulate")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0, 0.63, 0.65),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("cage:modulate")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0, 0.65, 0.68, 0.78, 0.88, 0.98, 1.08, 1.18, 1.28, 1.38, 1.48),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 0.23529412), Color(1, 1, 1, 1), Color(1, 1, 1, 0.23529412), Color(1, 1, 1, 1), Color(1, 1, 1, 0.23529412), Color(1, 1, 1, 1), Color(1, 1, 1, 0.23529412), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_aqijd"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("eclair/Sprite2D:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("eclair/Sprite2D2:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("eclair/Sprite2D3:modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("eclair/Sprite2D4:modulate")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("eclair:modulate")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("cage:modulate")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_7ldi2"]
+_data = {
+&"RESET": SubResource("Animation_aqijd"),
+&"play_attack": SubResource("Animation_yihx0")
+}
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_quxlx"]
+atlas = ExtResource("1_482ak")
+region = Rect2(92, 80, 10, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yx5u1"]
+atlas = ExtResource("1_482ak")
+region = Rect2(608, 90, 128, 20)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8ypqc"]
+atlas = ExtResource("1_482ak")
+region = Rect2(608, 90, 128, 20)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_p0km0"]
+atlas = ExtResource("1_482ak")
+region = Rect2(608, 90, 128, 20)
+
+[node name="CageEclairAnim" type="Node2D"]
+z_index = 1
+script = ExtResource("1_quxlx")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_7ldi2")
+}
+
+[node name="eclair" type="Node2D" parent="."]
+
+[node name="Sprite2D" type="Sprite2D" parent="eclair"]
+texture = SubResource("AtlasTexture_quxlx")
+
+[node name="Sprite2D2" type="Sprite2D" parent="eclair"]
+position = Vector2(-2, 32)
+texture = SubResource("AtlasTexture_quxlx")
+
+[node name="Sprite2D3" type="Sprite2D" parent="eclair"]
+position = Vector2(-2, 64)
+texture = SubResource("AtlasTexture_quxlx")
+
+[node name="Sprite2D4" type="Sprite2D" parent="eclair"]
+position = Vector2(-2, 96)
+texture = SubResource("AtlasTexture_quxlx")
+
+[node name="cage" type="Node2D" parent="."]
+position = Vector2(0, 37)
+
+[node name="Sprite2D" type="Sprite2D" parent="cage"]
+texture = SubResource("AtlasTexture_yx5u1")
+
+[node name="Sprite2D2" type="Sprite2D" parent="cage"]
+position = Vector2(0, 22)
+texture = SubResource("AtlasTexture_8ypqc")
+
+[node name="Sprite2D3" type="Sprite2D" parent="cage"]
+position = Vector2(0, -24)
+texture = SubResource("AtlasTexture_p0km0")

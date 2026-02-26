@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="Item_data" load_steps=3 format=3 uid="uid://0ndrxumq85dj"]
+
+[ext_resource type="Texture2D" uid="uid://l62vwmjgwrtt" path="res://assets/ItemSprite/POKEBALL.png" id="1_agv21"]
+[ext_resource type="Script" uid="uid://b380eb4tv5o1v" path="res://src/ressources/DataSample/Item_data.gd" id="2_07ojk"]
+
+[resource]
+script = ExtResource("2_07ojk")
+Item_name = "PokeBall"
+Categorie = 1
+Description = "A device for catching wild Pokémon. It's thrown like a ball at a Pokémon, catch power : 1.0"
+effect = 2
+effect_power = 1.0
+icon = ExtResource("1_agv21")
+metadata/_custom_type_script = "uid://b380eb4tv5o1v"

@@ -1,0 +1,83 @@
+[gd_resource type="Resource" script_class="PokemonData" load_steps=13 format=3 uid="uid://ctfj2kb1fe1c0"]
+
+[ext_resource type="Script" uid="uid://3j4rwpwaqwyi" path="res://src/ressources/DataSample/LearnMoveData.gd" id="1_6iqgc"]
+[ext_resource type="Script" uid="uid://budev3vnysct5" path="res://src/ressources/DataSample/Pokemon_data.gd" id="2_iwsfl"]
+[ext_resource type="Texture2D" uid="uid://dvkwto1b0q348" path="res://assets/PokemonSprite/Scaberant024/sprite16.png" id="3_u5xcm"]
+[ext_resource type="Texture2D" uid="uid://wtg2wcgi2ck7" path="res://assets/PokemonSprite/Scaberant024/sprite16_idle.png" id="4_5n6ot"]
+[ext_resource type="Texture2D" uid="uid://brprjfui60tey" path="res://assets/PokemonSprite/Scaberant024/menusprite16.png" id="5_yrbef"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_akqnc"]
+atlas = ExtResource("3_u5xcm")
+region = Rect2(96, 0, 96, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cfdkh"]
+atlas = ExtResource("4_5n6ot")
+region = Rect2(0, 0, 96, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_h1dxs"]
+atlas = ExtResource("4_5n6ot")
+region = Rect2(96, 0, 96, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_535a8"]
+atlas = ExtResource("4_5n6ot")
+region = Rect2(192, 0, 96, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_q8bcs"]
+atlas = ExtResource("4_5n6ot")
+region = Rect2(288, 0, 96, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_plm8q"]
+atlas = ExtResource("5_yrbef")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_b66yw"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_akqnc")
+}],
+"loop": true,
+"name": &"back",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cfdkh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_h1dxs")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_535a8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_q8bcs")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_plm8q")
+}],
+"loop": true,
+"name": &"menu",
+"speed": 5.0
+}]
+
+[resource]
+script = ExtResource("2_iwsfl")
+pokemon_name = "Scaberant"
+pokemon_id = 24
+sprite_frames = SubResource("SpriteFrames_b66yw")
+pokemon_type1 = 4
+pokemon_type2 = 8
+baseHp = 65
+baseAtk = 100
+baseSpeAtk = 80
+baseDef = 80
+baseSpeDef = 65
+baseSpd = 45
+base_exp_yield = 142
+metadata/_custom_type_script = "uid://budev3vnysct5"

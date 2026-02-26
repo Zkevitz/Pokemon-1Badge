@@ -1,0 +1,7 @@
+[gd_resource type="AtlasTexture" load_steps=2 format=3 uid="uid://cibxw08hwuwi8"]
+
+[ext_resource type="Texture2D" uid="uid://ctf283rile8ld" path="res://assets/attackSprite/Water pulse.png" id="1_sm8ce"]
+
+[resource]
+atlas = ExtResource("1_sm8ce")
+region = Rect2(0, 408, 188, 144)

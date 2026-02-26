@@ -1,6 +1,7 @@
-[gd_resource type="Resource" script_class="CT_data" load_steps=2 format=3 uid="uid://bxsvlog18i8pw"]
+[gd_resource type="Resource" script_class="CT_data" load_steps=3 format=3 uid="uid://bxsvlog18i8pw"]
 
-[ext_resource type="Script" uid="uid://khacs4dumku4" path="res://src/ressources/CT_data.gd" id="1_lwvhq"]
+[ext_resource type="PackedScene" uid="uid://dfbjn4quwlifs" path="res://src/node/attack_anim/node/cage_eclair_anim.tscn" id="1_070fj"]
+[ext_resource type="Script" uid="uid://khacs4dumku4" path="res://src/ressources/DataSample/CT_data.gd" id="1_lwvhq"]
 
 [resource]
 script = ExtResource("1_lwvhq")
@@ -13,4 +14,6 @@ accuracy = 90
 max_pp = 20
 type_effect = 2
 chance = 100
+AnimName = "Done"
+AnimNode = ExtResource("1_070fj")
 metadata/_custom_type_script = "uid://khacs4dumku4"

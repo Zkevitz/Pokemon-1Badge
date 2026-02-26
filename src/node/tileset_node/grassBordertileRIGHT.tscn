@@ -1,0 +1,35 @@
+[gd_scene load_steps=6 format=3 uid="uid://bpfu6k8hrkejp"]
+
+[ext_resource type="Script" uid="uid://cik6afe6ab61m" path="res://src/Script/grass_bordertile.gd" id="1_on3un"]
+[ext_resource type="Texture2D" uid="uid://c4px0drletrt7" path="res://assets/bigtileset/environment.png" id="2_kvhdb"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kvhdb"]
+atlas = ExtResource("2_kvhdb")
+region = Rect2(208, 480, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ucxsh"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kvhdb")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_kiqqb"]
+size = Vector2(3, 16)
+
+[node name="Border" type="StaticBody2D" groups=["Border"]]
+script = ExtResource("1_on3un")
+jump_direction = Vector2(1, 0)
+
+[node name="Sprite2D" type="AnimatedSprite2D" parent="."]
+texture_filter = 1
+position = Vector2(8, 0)
+sprite_frames = SubResource("SpriteFrames_ucxsh")
+
+[node name="topCollision" type="CollisionShape2D" parent="."]
+position = Vector2(4.5, 0)
+shape = SubResource("RectangleShape2D_kiqqb")

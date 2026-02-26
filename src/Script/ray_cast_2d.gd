@@ -20,9 +20,10 @@ func _process(_delta: float) -> void:
 				player_detected = true
 				if EventType == eventType.LOCK1 :
 					if playerManager.player_instance.pokemonTeam.size() == 0:
-						pnj.show_exclamation_mark(0)
+						await pnj.block_player_way(0)
 				elif EventType == eventType.BATTLE :
-					pnj.show_exclamation_mark(1)
+					print("try to start battle ? ")
+					await pnj.block_player_way(1)
 	else:
 		if player_detected:
 			player_detected = false

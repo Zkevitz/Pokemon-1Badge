@@ -1,0 +1,440 @@
+[gd_scene load_steps=5 format=3 uid="uid://bax3oim6110dk"]
+
+[ext_resource type="Script" uid="uid://b5gcui7lhwuem" path="res://src/Script/battle_ui.gd" id="1_m2xsp"]
+[ext_resource type="Texture2D" uid="uid://cibxe8v1yu5vm" path="res://assets/npc/MPWSP01/backgrounds/background1.png" id="2_sxpht"]
+
+[sub_resource type="Animation" id="Animation_m2xsp"]
+resource_name = "enter_fight"
+length = 8.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ColorRect:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.33333334, 0.6666667, 1, 1.3, 1.6, 1.9333333, 2.2666667),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Color(0, 0, 0, 0), Color(0, 0, 0, 1), Color(0, 0, 0, 0), Color(0, 0, 0, 1), Color(0, 0, 0, 0), Color(0, 0, 0, 1), Color(0, 0, 0, 0), Color(0, 0, 0, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("TextureRect:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(2.6666667, 3.0666668),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("PlayerInfo/PlayerPokemon:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 7.5333333),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("EnemyInfo/EnemyPokemon:visible")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 2.7),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("PlayerInfo:visible")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0, 7.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("EnemyInfo:visible")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0, 3.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
+tracks/6/type = "method"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath(".")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(3.3333333, 7.8333335),
+"transitions": PackedFloat32Array(1, 1),
+"values": [{
+"args": [],
+"method": &"sendAnimStep"
+}, {
+"args": [],
+"method": &"sendAnimStep"
+}]
+}
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("textebox:visible")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(0, 3.0666666),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
+tracks/8/type = "value"
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/path = NodePath("EnemyInfo/EnemyPokemon:modulate")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/keys = {
+"times": PackedFloat32Array(2.7666667, 3.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_sxpht"]
+_data = {
+&"enter_fight": SubResource("Animation_m2xsp")
+}
+
+[node name="BattleUI" type="CanvasLayer"]
+script = ExtResource("1_m2xsp")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_sxpht")
+}
+autoplay = "Enter_fight"
+
+[node name="ColorRect" type="ColorRect" parent="."]
+offset_right = 1151.0
+offset_bottom = 650.0
+color = Color(0, 0, 0, 1)
+
+[node name="TextureRect" type="TextureRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_sxpht")
+
+[node name="PlayerInfo" type="Panel" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 156.0
+offset_top = 90.0
+offset_right = 509.0
+offset_bottom = 166.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="NameLabel" type="Label" parent="PlayerInfo"]
+layout_mode = 0
+offset_left = 13.0
+offset_top = 8.0
+offset_right = 83.0
+offset_bottom = 31.0
+text = "Tiplouf"
+
+[node name="lvlLabel" type="Label" parent="PlayerInfo"]
+layout_mode = 0
+offset_left = 289.0
+offset_top = 3.0
+offset_right = 348.0
+offset_bottom = 26.0
+text = "lvl 5."
+
+[node name="HpBar" type="ProgressBar" parent="PlayerInfo"]
+layout_mode = 0
+offset_left = 98.0
+offset_top = 29.0
+offset_right = 342.0
+offset_bottom = 56.0
+step = 1.0
+
+[node name="hpLabel" type="Label" parent="PlayerInfo"]
+layout_mode = 0
+offset_left = 75.0
+offset_top = 31.0
+offset_right = 96.0
+offset_bottom = 54.0
+text = "150/150"
+
+[node name="XpBar" type="ProgressBar" parent="PlayerInfo"]
+layout_mode = 0
+offset_left = 100.0
+offset_top = 59.0
+offset_right = 337.0
+offset_bottom = 65.0
+show_percentage = false
+
+[node name="RichTextLabel" type="RichTextLabel" parent="PlayerInfo"]
+visible = false
+layout_mode = 0
+offset_left = 33.0
+offset_top = 36.0
+offset_right = 73.0
+offset_bottom = 51.0
+theme_override_font_sizes/normal_font_size = 10
+text = "BRN"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="PlayerPokemon" type="Control" parent="PlayerInfo"]
+layout_mode = 1
+anchor_left = 0.73800004
+anchor_top = 4.8950005
+anchor_right = 0.73800004
+anchor_bottom = 4.8950005
+offset_left = -754.51404
+offset_top = -448.02002
+offset_right = -585.51404
+offset_bottom = -304.02002
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+
+[node name="EnemyInfo" type="Panel" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -514.0
+offset_top = -286.0
+offset_right = -161.0
+offset_bottom = -210.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="EnemyPokemon" type="Control" parent="EnemyInfo"]
+layout_mode = 1
+anchor_left = 0.721
+anchor_top = 0.35200003
+anchor_right = 0.721
+anchor_bottom = 0.35200003
+offset_left = 428.487
+offset_top = 120.248
+offset_right = 597.487
+offset_bottom = 264.24796
+
+[node name="NameLabel" type="Label" parent="EnemyInfo"]
+layout_mode = 0
+offset_left = 13.0
+offset_top = 8.0
+offset_right = 83.0
+offset_bottom = 31.0
+text = "Tiplouf"
+
+[node name="lvlLabel" type="Label" parent="EnemyInfo"]
+layout_mode = 0
+offset_left = 285.0
+offset_top = 2.0
+offset_right = 347.0
+offset_bottom = 25.0
+text = "lvl 5"
+
+[node name="HpBar" type="ProgressBar" parent="EnemyInfo"]
+layout_mode = 0
+offset_left = 98.0
+offset_top = 29.0
+offset_right = 342.0
+offset_bottom = 56.0
+step = 1.0
+
+[node name="hpLabel" type="Label" parent="EnemyInfo"]
+layout_mode = 0
+offset_left = 75.0
+offset_top = 31.0
+offset_right = 96.0
+offset_bottom = 54.0
+text = "150/150"
+
+[node name="RichTextLabel" type="RichTextLabel" parent="EnemyInfo"]
+visible = false
+layout_mode = 0
+offset_left = 33.0
+offset_top = 36.0
+offset_right = 73.0
+offset_bottom = 51.0
+theme_override_font_sizes/normal_font_size = 10
+text = "BRN"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="textebox" type="Panel" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -523.0
+offset_top = 185.0
+offset_right = 41.0
+offset_bottom = 303.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="textLabel" type="Label" parent="textebox"]
+layout_mode = 0
+offset_left = 30.0
+offset_top = 17.0
+offset_right = 538.0
+offset_bottom = 102.0
+
+[node name="yes_noBox" type="Panel" parent="textebox"]
+visible = false
+layout_mode = 0
+offset_left = 535.0
+offset_top = -99.0
+offset_right = 648.0
+offset_bottom = -9.0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="textebox/yes_noBox"]
+layout_mode = 0
+offset_left = 19.0
+offset_top = 18.0
+offset_right = 95.0
+offset_bottom = 68.0
+
+[node name="Button" type="Button" parent="textebox/yes_noBox/HBoxContainer"]
+layout_mode = 2
+focus_neighbor_left = NodePath("../Button2")
+focus_neighbor_right = NodePath("../Button2")
+text = "oui
+"
+
+[node name="Button2" type="Button" parent="textebox/yes_noBox/HBoxContainer"]
+layout_mode = 2
+focus_neighbor_left = NodePath("../Button")
+focus_neighbor_right = NodePath("../Button")
+text = "non"
+
+[node name="MainMenu" type="VBoxContainer" parent="."]
+visible = false
+custom_minimum_size = Vector2(50, 50)
+offset_left = 711.0
+offset_top = 501.0
+offset_right = 1113.0
+offset_bottom = 639.0
+
+[node name="FightButton" type="Button" parent="MainMenu"]
+layout_mode = 2
+text = "Fight"
+
+[node name="PokemonButton" type="Button" parent="MainMenu"]
+layout_mode = 2
+text = "Pokemon"
+
+[node name="BagButton" type="Button" parent="MainMenu"]
+layout_mode = 2
+text = "Bag"
+
+[node name="EscapeButton" type="Button" parent="MainMenu"]
+layout_mode = 2
+text = "Escape"
+
+[node name="movecontainer" type="GridContainer" parent="."]
+visible = false
+offset_left = 108.0
+offset_top = 497.0
+offset_right = 594.0
+offset_bottom = 655.0
+theme_override_constants/h_separation = 50
+theme_override_constants/v_separation = 20
+columns = 2
+
+[node name="Move1Button" type="Button" parent="movecontainer"]
+custom_minimum_size = Vector2(200, 60)
+layout_mode = 2
+text = "Move1 Button"
+
+[node name="Move2Button" type="Button" parent="movecontainer"]
+custom_minimum_size = Vector2(200, 60)
+layout_mode = 2
+text = "Move2Button"
+
+[node name="Move3Button" type="Button" parent="movecontainer"]
+custom_minimum_size = Vector2(200, 60)
+layout_mode = 2
+text = "Move3Button"
+
+[node name="Move4Button" type="Button" parent="movecontainer"]
+layout_mode = 2
+text = "Move4Button
+"
+
+[node name="LvlUpMoveContainer" type="GridContainer" parent="."]
+offset_left = 334.0
+offset_top = 261.0
+offset_right = 786.0
+offset_bottom = 481.0
+theme_override_constants/h_separation = 50
+theme_override_constants/v_separation = 20
+columns = 2
+
+[node name="Move1Button" type="Button" parent="LvlUpMoveContainer"]
+custom_minimum_size = Vector2(200, 60)
+layout_mode = 2
+text = "Move1 Button"
+
+[node name="Move2Button" type="Button" parent="LvlUpMoveContainer"]
+custom_minimum_size = Vector2(200, 60)
+layout_mode = 2
+text = "Move2Button"
+
+[node name="Move3Button" type="Button" parent="LvlUpMoveContainer"]
+custom_minimum_size = Vector2(200, 60)
+layout_mode = 2
+text = "Move3Button"
+
+[node name="Move4Button" type="Button" parent="LvlUpMoveContainer"]
+layout_mode = 2
+text = "Move4Button
+"
+
+[node name="Move5Button" type="Button" parent="LvlUpMoveContainer"]
+custom_minimum_size = Vector2(200, 60)
+layout_mode = 2
+text = "Move5 Button"
+
+[node name="Marker2D" type="Marker2D" parent="."]
+position = Vector2(302, 404)
+
+[node name="Marker2D2" type="Marker2D" parent="."]
+position = Vector2(824, 211)
+
+[connection signal="pressed" from="textebox/yes_noBox/HBoxContainer/Button" to="." method="_on_button_pressed"]
+[connection signal="pressed" from="textebox/yes_noBox/HBoxContainer/Button2" to="." method="_on_button_2_pressed"]

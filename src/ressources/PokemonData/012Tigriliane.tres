@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="PokemonData" load_steps=4 format=3 uid="uid://dqet0mokjf541"]
+
+[ext_resource type="Script" uid="uid://3j4rwpwaqwyi" path="res://src/ressources/DataSample/LearnMoveData.gd" id="1_jmu71"]
+[ext_resource type="Script" uid="uid://budev3vnysct5" path="res://src/ressources/DataSample/Pokemon_data.gd" id="2_kvfm5"]
+[ext_resource type="SpriteFrames" uid="uid://cg0mxp1vtds2f" path="res://src/ressources/PokemonSprite/012Tigriliane.tres" id="3_nodgf"]
+
+[resource]
+script = ExtResource("2_kvfm5")
+pokemon_name = "Tigriliane"
+pokemon_id = 12
+sprite_frames = ExtResource("3_nodgf")
+pokemon_type1 = 4
+baseHp = 60
+baseAtk = 80
+baseSpeAtk = 70
+baseDef = 60
+baseSpeDef = 60
+baseSpd = 80
+metadata/_custom_type_script = "uid://budev3vnysct5"

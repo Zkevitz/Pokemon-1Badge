@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="Item" load_steps=3 format=3 uid="uid://g7wvnutcwlnw"]
+
+[ext_resource type="Texture2D" uid="uid://c5n82f4njoa5p" path="res://assets/ItemSprite/POTION.png" id="1_iki77"]
+[ext_resource type="Script" uid="uid://b380eb4tv5o1v" path="res://src/ressources/DataSample/Item_data.gd" id="2_sjwts"]
+
+[resource]
+script = ExtResource("2_sjwts")
+Item_name = "Potion"
+Description = "Can be used from the Bag on a Pokémon, it heals the Pokémon by 20 HP. "
+effect_power = 20
+icon = ExtResource("1_iki77")
+metadata/_custom_type_script = "uid://b380eb4tv5o1v"
