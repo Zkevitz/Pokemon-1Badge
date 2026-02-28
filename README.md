@@ -52,3 +52,7 @@ Les suggestions et retours sont toutefois les bienvenus via les issues.
 
 A realisé
 
+#### Source 
+
+- Rebuilding Pokemon Game with Object Oriented Programming : 
+	https://www.youtube.com/watch?v=CyRtTwKeulE

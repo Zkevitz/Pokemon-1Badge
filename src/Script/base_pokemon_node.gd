@@ -13,11 +13,14 @@ var pokemonInstance : PokemonInstance
 var is_opponent : bool = true
 var animatedSprite : AnimatedSprite2D
 var animation_player : AnimationPlayer
+var scale_value : Vector2;
+var original_modulate_color
 
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	pass
+	original_modulate_color = modulate
+	visible = false
 
 func is_Opponent() -> bool :
 	return is_opponent
@@ -33,18 +36,35 @@ func setup(instance : PokemonInstance):
 	animatedSprite.play("idle")
 
 func sink_into_ground():
-	print("sink into ground")
 	var mat := animatedSprite.material
 	var tween := create_tween()
-	tween.tween_property(mat, "shader_parameter/sink_in_ground", 1.0, 0.8)
+	tween.tween_property(mat, "shader_parameter/sink_in_ground", 1.0, 0.9)
 	await tween.finished
 	animation_finished.emit()
 	await get_tree().create_timer(1.5).timeout
 	queue_free()
 
+func fight_entry():
+	visible = true
+	scale = Vector2.ZERO
+	modulate = Color(1, 1, 1, 1) 
+	
+	var tween := create_tween()
+	tween.set_parallel(true)
+	tween.tween_property(self, "scale", scale_value, 1.0)\
+		.set_trans(Tween.TRANS_BACK)\
+		.set_ease(Tween.EASE_OUT)
+	tween.tween_property(self, "modulate", original_modulate_color, 1.0)
+	await tween.finished
+
+func fight_exit():
+	var tween := create_tween()
+	tween.tween_property(self, "scale", Vector2(0, 0), 1.0)
+	await tween.finished
+	queue_free()
+	
 func apply_status_in_Ui(status : String):
 	var panel_info = get_parent().get_parent()
-	print("info panel from apply _status ui :", panel_info)
 	var text_label = panel_info.get_node("RichTextLabel")
 	text_label.text = status
 	text_label.visible = true

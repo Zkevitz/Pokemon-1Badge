@@ -2,8 +2,6 @@ class_name Utils
 
 
 
-
-
 static func get_type_color(type : int):
 	var modulate_level :float = 0.75
 	match type :
@@ -43,3 +41,11 @@ static func get_type_color(type : int):
 					return Color(Color("9FA8B2"), modulate_level)
 				18: #FEE
 					return Color(Color.PINK, modulate_level)
+
+static func choose_hp_color(value : int):
+	if value > 50:
+		return Color.GREEN
+	elif value > 20:
+		return Color.ORANGE
+	else:
+		return Color.RED

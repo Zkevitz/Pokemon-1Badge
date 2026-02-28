@@ -1,13 +1,12 @@
 extends Node
 class_name Battlemanager
 
-enum battleState {INTRO, PLAYER_TURN, ENEMY_TURN, MOVE_SELECTION,
+enum battleState {INTRO, PLAYER_TURN, ENEMY_TURN, MOVE_SELECTION, POKEMON_SELECTION,
 	ANIMATION, DIALOG, CATCH, VICTORY, DEFEAT, ESCAPE}
 	
-enum actionType {FIGHT, POKEMON, BAG, RUN}
+enum actionType {FIGHT, POKEMON, BAG, RUN ,IA}
 
 #signal turn_started(is_player_turn : bool)
-signal move_used(attacker : PokemonInstance, defender : PokemonInstance, move : String)
 #signal damage_dealt(target : PokemonInstance, damage : int)
 signal pokemon_fainted(pokemon : PokemonInstance)
 signal battle_ended(player_won : bool)
@@ -27,9 +26,6 @@ var enemy_team : Array[PokemonInstance]
 
 var is_wild_battle: bool = true
 var EnemyTrainer : CharacterBody2D
-
-var player_pokemon_node
-var enemy_pokemon_node
 
 var current_state : battleState = battleState.INTRO
 var last_state : battleState = battleState.INTRO
@@ -86,6 +82,7 @@ func start_battle(player_team_data : Array[PokemonInstance], enemy_team_data : A
 
 	ui_node.action_selected.connect(_on_action_selected)
 	ui_node.move_selected.connect(_on_move_selected)
+	ui_node.pokemon_selected.connect(_on_pokemon_selected)
 	
 	player_pokemon.connect("newLevelupMove", showMoveLearning)
 	current_state = battleState.INTRO
@@ -144,6 +141,7 @@ func _on_action_selected(action : actionType):
 			return
 		actionType.RUN :
 			ui_node.show_move(false)
+			ui_node.show_pokemon(false)
 			attempt_escape()
 
 func _on_move_selected(move_index : int):
@@ -157,21 +155,36 @@ func _on_move_selected(move_index : int):
 		current_state = battleState.PLAYER_TURN
 		ui_node.show_move_menu(player_pokemon)
 		return
-	print("move used : ", move)
+		
 	ui_node.show_main_menu(false)
 	ui_node.show_move(false)
 	ui_node.show_text(true)
 	
 	turn_queue.clear()
-	_queue_turn(player_pokemon, enemy_pokemon, move)
-	_queue_turn(enemy_pokemon, player_pokemon, null)
+	_queue_turn(player_pokemon, enemy_pokemon, actionType.FIGHT,  move)
+	_queue_turn(enemy_pokemon, player_pokemon, actionType.IA, null)
 	await _process_turn_queue()
 
-func _queue_turn(attacker: PokemonInstance, defender: PokemonInstance, move: CT_data):
+func _on_pokemon_selected(pokemon_index : int):
+	current_state = battleState.POKEMON_SELECTION
+	var pokemon = player_team[pokemon_index]
+	
+	ui_node.show_main_menu(false)
+	ui_node.show_move(false)
+	ui_node.show_pokemon(false)
+	ui_node.show_text(true)
+	
+	turn_queue.clear()
+	_queue_turn(pokemon, enemy_pokemon, actionType.POKEMON)
+	_queue_turn(enemy_pokemon, player_pokemon, actionType.IA, null)
+	await _process_turn_queue()
+	
+func _queue_turn(attacker: PokemonInstance, defender: PokemonInstance, action : actionType ,move: CT_data = null):
 	var priority = move.priority if move else 0
 	turn_queue.append({
 		"attacker": attacker,
 		"defender": defender,
+		"action" : action,
 		"move": move,
 		"priority": priority,
 		"speed": attacker.Speed_dict["current"],
@@ -182,15 +195,19 @@ func _process_turn_queue():
 	if turn_queue.is_empty():
 		return
 	turn_queue.sort_custom(func(a, b):
+		if a.action == actionType.POKEMON and b.action != actionType.POKEMON:
+			return true
+		if b.action == actionType.POKEMON and a.action != actionType.POKEMON:
+			return false
 		if a.priority != b.priority:
 			return a.priority > b.priority
 		return ( a.speed * a.speed_ratio ) > (b.speed * b.speed_ratio)
 	)
-	
 	execute_next_turn()
 	
 func execute_next_turn():
 	if turn_queue.is_empty():
+		push_error("est ce que je passe la dedans battle manager bizarre")
 		await move_effect_manager.process_end_of_turn_effect(player_pokemon, enemy_pokemon)
 		if player_pokemon.Hp_dict["current"] <= 0 :
 			await _handle_faint(player_pokemon)
@@ -202,14 +219,16 @@ func execute_next_turn():
 		return
 	var turn_data = turn_queue.pop_front()
 	
-	if turn_data.attacker.Hp_dict["current"] <= 0:
-		execute_next_turn()
+	#ME SEMBLE USELESS
+	#if turn_data.attacker.Hp_dict["current"] <= 0:
+		#execute_next_turn()
+		#return
+	if turn_data.action == actionType.POKEMON :
+		await switch_pokemon(turn_data)
 		return
-	
 	if turn_data.move:
 		execute_move(turn_data.attacker, turn_data.defender, turn_data.move)
 	else:
-		#var available_moves = turn_data.attacker.moves.filter(func(m): return m.pp > 0)
 		var available_moves = checkforAvailableMove(turn_data.attacker)
 		if available_moves.is_empty():
 			use_struggle(turn_data.attacker, turn_data.defender)
@@ -218,6 +237,39 @@ func execute_next_turn():
 			var move = available_moves.pick_random()
 			execute_move(turn_data.attacker, turn_data.defender, move)
 
+func switch_pokemon(turn_data : Dictionary):
+	var attacker : PokemonInstance = turn_data["attacker"]
+	var is_opponent = attacker.pokemon_node.is_opponent
+	
+	var pokemon_to_switch : PokemonInstance
+	var trainer_name : String
+	if is_opponent :
+		pokemon_to_switch = enemy_pokemon
+		trainer_name = "{nom du dresseur}"
+	else :
+		pokemon_to_switch = player_pokemon
+		trainer_name = "{nom du joueur}"
+	
+	_queue_text("%s retire %s" % [trainer_name, pokemon_to_switch.pokemon_name])
+	await  _process_text_queue()
+	
+	await pokemon_to_switch.pokemon_node.fight_exit()
+	
+	if is_opponent:
+		enemy_pokemon = attacker
+	else : 
+		player_pokemon = attacker
+	_queue_text("%s envoie %s" % [trainer_name, attacker.pokemon_name])
+	await _process_text_queue()
+	setup_new_pokemon_node(attacker, !is_opponent)
+	for queu in turn_queue :
+		if queu["attacker"] == pokemon_to_switch :
+			queu["attacker"] = attacker
+		elif queu["defender"] == pokemon_to_switch :
+			queu["defender"] = attacker
+	await get_tree().create_timer(0.5).timeout
+	execute_next_turn()
+	
 func checkforAvailableMove(pokemon : PokemonInstance) -> Array:
 	var available_moves = []
 	for i in pokemon.moves.size():
@@ -227,7 +279,6 @@ func checkforAvailableMove(pokemon : PokemonInstance) -> Array:
 			
 func execute_move(attacker : PokemonInstance, defender : PokemonInstance, move : CT_data):
 	current_state = battleState.ANIMATION
-	move_used.emit(attacker, defender, move)
 	
 	var attacker_name = attacker.pokemon_name
 	_queue_text("%s utilise %s !" % [attacker_name, move.name])
@@ -289,7 +340,7 @@ func apply_move_effect(move : CT_data, attacker : PokemonInstance, defender : Po
 		CT_data.Effect.CFN :
 			await move_effect_manager.apply_confusion(defender)
 		CT_data.Effect.PSN :
-			move_effect_manager.apply_poison(defender)
+			await move_effect_manager.apply_poison(defender)
 		CT_data.Effect.BURN :
 			move_effect_manager.apply_burn(defender)
 		CT_data.Effect.PARA :
@@ -362,7 +413,6 @@ func apply_damage(target : PokemonInstance, damage : int, effectiveness : float 
 	}
 	SoundManager.play_sfx(Sound_damage[effectiveness][0], -10)
 	target.take_damage(damage)
-	#damage_dealt.emit(target, damage)
 	var allyornot
 	if target == enemy_pokemon :
 		allyornot = false
@@ -404,10 +454,13 @@ func handle_exp_reward():
 				await _process_text_queue()
 	
 func _handle_faint(pokemon : PokemonInstance):
+	for queu in turn_queue : 
+		if queu["attacker"] == pokemon :
+			turn_queue.erase(queu)
 	pokemon_fainted.emit(pokemon)
 	_queue_text("%s est K.O. !" % pokemon.pokemon_name)
 	await _process_text_queue()
-	await play_faint_animation(pokemon)
+	await pokemon.faint()
 	await Game.get_tree().create_timer(0.5).timeout
 	if pokemon != player_pokemon : 
 		await handle_exp_reward()
@@ -428,7 +481,7 @@ func _handle_faint(pokemon : PokemonInstance):
 	else :
 		available_pokemon = enemy_team.filter(func(p): return p.Hp_dict["current"] > 0)
 		if available_pokemon.is_empty():
-			_handle_victory()
+			_end_battle(true)
 			return
 		else:
 			#logique IA de choix pokemon a implementer
@@ -442,14 +495,12 @@ func setup_new_pokemon_node(pokemoninstance : PokemonInstance, is_ally : bool) :
 	var newPokemonNode : PokemonNode
 	newPokemonNode = preload("res://src/node/pokemon_node.tscn").instantiate()
 	newPokemonNode.setup(pokemoninstance)
-	newPokemonNode.scale = Vector2(2, 2)
+	newPokemonNode.scale_value = Vector2(2, 2)
 	pokemoninstance.pokemon_node = newPokemonNode
-	if is_ally : 
-		newPokemonNode.scale = Vector2(2, 2)
-		player_pokemon_node = newPokemonNode
-		ui_node.PlayerpokemonContainer.add_child(player_pokemon_node)
-		player_pokemon_node.animatedSprite.play("back")
-		player_pokemon_node.global_position = player_pokemon_position
+	if is_ally :
+		ui_node.PlayerpokemonContainer.add_child(player_pokemon.pokemon_node)
+		player_pokemon.pokemon_node.animatedSprite.play("back")
+		player_pokemon.pokemon_node.global_position = player_pokemon_position
 		ui_node.setup(player_pokemon, null)
 	else :
 		if is_wild_battle == true :
@@ -457,24 +508,16 @@ func setup_new_pokemon_node(pokemoninstance : PokemonInstance, is_ally : bool) :
 		else :
 			pokemoninstance.pokemon_name = pokemoninstance.pokemon_name + " ennemi"
 		pokemoninstance.is_wild = true
-		newPokemonNode.scale = Vector2(1.5, 1.5)
-		enemy_pokemon_node = newPokemonNode
-		ui_node.EnemypokemonContainer.add_child(enemy_pokemon_node)
-		enemy_pokemon_node.animatedSprite.play("idle")
-		enemy_pokemon_node.global_position = enemy_pokemon_position
+		enemy_pokemon.pokemon_node.scale_value = Vector2(1.5, 1.5)
+		ui_node.EnemypokemonContainer.add_child(enemy_pokemon.pokemon_node)
+		enemy_pokemon.pokemon_node.animatedSprite.play("idle")
+		enemy_pokemon.pokemon_node.global_position = enemy_pokemon_position
 		ui_node.setup(null, enemy_pokemon)
 	
-	print("new enemy pokemon node : ", enemy_pokemon_node)
 	
-
-func _handle_victory():
-	#peut etre animation du dresseur en face apres une victoire/defaite
-	_end_battle(true)
-
 func pokemon_participant():
 	var incr = 0
 	for poke in player_team:
-		print("poke part of combat : ? ", poke.be_part_of_combat)
 		if poke.be_part_of_combat == true :
 			incr+=1
 	return incr
@@ -514,7 +557,12 @@ func attempt_escape():
 	if randf() * 256 < escape_chance:
 		_queue_text("Vous avez réussi à fuir !")
 		await _process_text_queue()
-		_end_battle(false)
+		ui_node.queue_free()
+		resetBattleManager()
+		if playerManager.Is_active() == false :
+			await playerManager.activatePlayer()
+		queue_free()
+		
 	else:
 		_queue_text("Impossible de fuir !")
 		await _process_text_queue()
@@ -542,10 +590,6 @@ func use_struggle(attacker: PokemonInstance, defender: PokemonInstance):
 	# Dégâts de recul
 	@warning_ignore("integer_division")
 	attacker.take_damage(attacker.max_hp / 4)
-
-func play_faint_animation(pokemon: PokemonInstance):
-	print("pokemon play faint : ")
-	pokemon.faint()
 
 func play_attack_animation(attacker: PokemonInstance, defender : PokemonInstance, _move: CT_data):
 	var attackAnim = null
