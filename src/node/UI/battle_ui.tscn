@@ -1,7 +1,34 @@
-[gd_scene load_steps=5 format=3 uid="uid://bax3oim6110dk"]
+[gd_scene load_steps=6 format=3 uid="uid://bax3oim6110dk"]
 
 [ext_resource type="Script" uid="uid://b5gcui7lhwuem" path="res://src/Script/battle_ui.gd" id="1_m2xsp"]
 [ext_resource type="Texture2D" uid="uid://cibxe8v1yu5vm" path="res://assets/npc/MPWSP01/backgrounds/background1.png" id="2_sxpht"]
+
+[sub_resource type="Animation" id="Animation_v48dl"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("PlayerInfo/PlayerPokemon:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("EnemyInfo/EnemyPokemon:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
 
 [sub_resource type="Animation" id="Animation_m2xsp"]
 resource_name = "enter_fight"
@@ -78,50 +105,51 @@ tracks/5/keys = {
 "update": 1,
 "values": [false, true]
 }
-tracks/6/type = "method"
+tracks/6/type = "value"
 tracks/6/imported = false
 tracks/6/enabled = true
-tracks/6/path = NodePath(".")
+tracks/6/path = NodePath("textebox:visible")
 tracks/6/interp = 1
 tracks/6/loop_wrap = true
 tracks/6/keys = {
-"times": PackedFloat32Array(3.3333333, 8.2),
-"transitions": PackedFloat32Array(1, 1),
-"values": [{
-"args": [],
-"method": &"sendAnimStep"
-}, {
-"args": [],
-"method": &"sendAnimStep"
-}]
-}
-tracks/7/type = "value"
-tracks/7/imported = false
-tracks/7/enabled = true
-tracks/7/path = NodePath("textebox:visible")
-tracks/7/interp = 1
-tracks/7/loop_wrap = true
-tracks/7/keys = {
 "times": PackedFloat32Array(0, 3.0666666),
 "transitions": PackedFloat32Array(1, 1),
 "update": 1,
 "values": [false, true]
 }
-tracks/8/type = "value"
-tracks/8/imported = false
-tracks/8/enabled = true
-tracks/8/path = NodePath("EnemyInfo/EnemyPokemon:modulate")
-tracks/8/interp = 1
-tracks/8/loop_wrap = true
-tracks/8/keys = {
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("EnemyInfo/EnemyPokemon:modulate")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
 "times": PackedFloat32Array(2.7666667, 3.5),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
 "values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
 }
+tracks/8/type = "method"
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/path = NodePath(".")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/keys = {
+"times": PackedFloat32Array(3.333, 7.833),
+"transitions": PackedFloat32Array(1, 1),
+"values": [{
+"args": [],
+"method": &"entry_text_first_part"
+}, {
+"args": [],
+"method": &"entry_text_second_part"
+}]
+}
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_sxpht"]
 _data = {
+&"RESET": SubResource("Animation_v48dl"),
 &"enter_fight": SubResource("Animation_m2xsp")
 }
 
@@ -217,14 +245,14 @@ vertical_alignment = 1
 [node name="PlayerPokemon" type="Control" parent="PlayerInfo"]
 visible = false
 layout_mode = 1
-anchor_left = 0.73800004
-anchor_top = 4.8950005
-anchor_right = 0.73800004
-anchor_bottom = 4.8950005
-offset_left = -754.51404
-offset_top = -448.02002
-offset_right = -585.51404
-offset_bottom = -304.02002
+anchor_left = -1.1910001
+anchor_top = -0.158
+anchor_right = -1.1910001
+anchor_bottom = -0.158
+offset_left = -84.576996
+offset_top = -71.992
+offset_right = 84.423004
+offset_bottom = 72.008
 grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 4
@@ -247,14 +275,14 @@ grow_vertical = 2
 visible = false
 modulate = Color(1, 1, 1, 0)
 layout_mode = 1
-anchor_left = 0.721
-anchor_top = 0.35200003
-anchor_right = 0.721
-anchor_bottom = 0.35200003
-offset_left = 428.487
-offset_top = 120.248
-offset_right = 597.487
-offset_bottom = 264.24796
+anchor_left = 2.174
+anchor_top = 2.8820002
+anchor_right = 2.174
+anchor_bottom = 2.8820002
+offset_left = -84.422
+offset_top = -72.03201
+offset_right = 84.578
+offset_bottom = 71.96796
 
 [node name="NameLabel" type="Label" parent="EnemyInfo"]
 layout_mode = 0
@@ -404,6 +432,7 @@ text = "Move4Button
 "
 
 [node name="LvlUpMoveContainer" type="GridContainer" parent="."]
+visible = false
 offset_left = 334.0
 offset_top = 261.0
 offset_right = 786.0
@@ -442,6 +471,179 @@ position = Vector2(302, 404)
 
 [node name="Marker2D2" type="Marker2D" parent="."]
 position = Vector2(824, 211)
+
+[node name="PokemonMenu" type="Panel" parent="."]
+visible = false
+offset_left = 273.0
+offset_top = 39.0
+offset_right = 867.0
+offset_bottom = 565.0
+
+[node name="Label" type="Label" parent="PokemonMenu"]
+layout_mode = 0
+offset_left = 136.0
+offset_top = 25.0
+offset_right = 489.0
+offset_bottom = 84.0
+theme_override_font_sizes/font_size = 30
+text = "Pokemon Team"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="MarginContainer" type="MarginContainer" parent="PokemonMenu"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -205.0
+offset_right = 270.0
+offset_bottom = 205.0
+grow_vertical = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 20
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PokemonMenu/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 5
+
+[node name="Pokemon1" type="Button" parent="PokemonMenu/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(250, 120)
+layout_mode = 2
+
+[node name="hpBar" type="ProgressBar" parent="PokemonMenu/MarginContainer/VBoxContainer/Pokemon1"]
+layout_mode = 0
+offset_left = 74.0
+offset_top = 77.5
+offset_right = 219.0
+offset_bottom = 87.5
+show_percentage = false
+
+[node name="lvlLabel" type="Label" parent="PokemonMenu/MarginContainer/VBoxContainer/Pokemon1"]
+layout_mode = 0
+offset_left = 181.0
+offset_top = 11.5
+offset_right = 235.0
+offset_bottom = 34.5
+
+[node name="Pokemon2" type="Button" parent="PokemonMenu/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(250, 120)
+layout_mode = 2
+
+[node name="hpBar" type="ProgressBar" parent="PokemonMenu/MarginContainer/VBoxContainer/Pokemon2"]
+layout_mode = 0
+offset_left = 74.0
+offset_top = 77.5
+offset_right = 219.0
+offset_bottom = 87.5
+show_percentage = false
+
+[node name="lvlLabel" type="Label" parent="PokemonMenu/MarginContainer/VBoxContainer/Pokemon2"]
+layout_mode = 0
+offset_left = 181.0
+offset_top = 11.5
+offset_right = 235.0
+offset_bottom = 34.5
+
+[node name="Pokemon3" type="Button" parent="PokemonMenu/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(250, 120)
+layout_mode = 2
+
+[node name="hpBar" type="ProgressBar" parent="PokemonMenu/MarginContainer/VBoxContainer/Pokemon3"]
+layout_mode = 0
+offset_left = 74.0
+offset_top = 77.5
+offset_right = 219.0
+offset_bottom = 87.5
+step = 1.0
+show_percentage = false
+
+[node name="lvlLabel" type="Label" parent="PokemonMenu/MarginContainer/VBoxContainer/Pokemon3"]
+layout_mode = 0
+offset_left = 181.0
+offset_top = 11.5
+offset_right = 235.0
+offset_bottom = 34.5
+
+[node name="MarginContainer2" type="MarginContainer" parent="PokemonMenu"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -270.0
+offset_top = -205.0
+offset_bottom = 205.0
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 20
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="PokemonMenu/MarginContainer2"]
+layout_mode = 2
+theme_override_constants/separation = 5
+
+[node name="Pokemon1" type="Button" parent="PokemonMenu/MarginContainer2/VBoxContainer2"]
+custom_minimum_size = Vector2(250, 120)
+layout_mode = 2
+
+[node name="hpBar" type="ProgressBar" parent="PokemonMenu/MarginContainer2/VBoxContainer2/Pokemon1"]
+layout_mode = 0
+offset_left = 74.0
+offset_top = 77.5
+offset_right = 219.0
+offset_bottom = 87.5
+show_percentage = false
+
+[node name="lvlLabel" type="Label" parent="PokemonMenu/MarginContainer2/VBoxContainer2/Pokemon1"]
+layout_mode = 0
+offset_left = 181.0
+offset_top = 11.5
+offset_right = 235.0
+offset_bottom = 34.5
+
+[node name="Pokemon2" type="Button" parent="PokemonMenu/MarginContainer2/VBoxContainer2"]
+custom_minimum_size = Vector2(250, 120)
+layout_mode = 2
+
+[node name="hpBar" type="ProgressBar" parent="PokemonMenu/MarginContainer2/VBoxContainer2/Pokemon2"]
+layout_mode = 0
+offset_left = 74.0
+offset_top = 77.5
+offset_right = 219.0
+offset_bottom = 87.5
+show_percentage = false
+
+[node name="lvlLabel" type="Label" parent="PokemonMenu/MarginContainer2/VBoxContainer2/Pokemon2"]
+layout_mode = 0
+offset_left = 181.0
+offset_top = 11.5
+offset_right = 235.0
+offset_bottom = 34.5
+
+[node name="Pokemon3" type="Button" parent="PokemonMenu/MarginContainer2/VBoxContainer2"]
+custom_minimum_size = Vector2(250, 120)
+layout_mode = 2
+
+[node name="hpBar" type="ProgressBar" parent="PokemonMenu/MarginContainer2/VBoxContainer2/Pokemon3"]
+layout_mode = 0
+offset_left = 74.0
+offset_top = 77.5
+offset_right = 219.0
+offset_bottom = 87.5
+step = 1.0
+show_percentage = false
+
+[node name="lvlLabel" type="Label" parent="PokemonMenu/MarginContainer2/VBoxContainer2/Pokemon3"]
+layout_mode = 0
+offset_left = 181.0
+offset_top = 11.5
+offset_right = 235.0
+offset_bottom = 34.5
 
 [connection signal="pressed" from="textebox/yes_noBox/HBoxContainer/Button" to="." method="_on_button_pressed"]
 [connection signal="pressed" from="textebox/yes_noBox/HBoxContainer/Button2" to="." method="_on_button_2_pressed"]

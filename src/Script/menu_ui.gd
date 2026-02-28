@@ -1,4 +1,5 @@
 extends CanvasLayer
+class_name MenuUi
 
 
 var is_open = false
@@ -34,7 +35,7 @@ func hide_pokemon_menu():
 	pokemonMenu.visible = false
 	fullMenu.visible = true
 	
-func show_pokemon_menu(item_data : Item_data = null, from_fight : bool = false):
+func show_pokemon_menu(item_data : Item_data = null):
 	fullMenu.visible = false
 	pokemonStatmenuButton.visible = false
 	InventoryMenu.visible = false
@@ -46,11 +47,15 @@ func show_pokemon_menu(item_data : Item_data = null, from_fight : bool = false):
 	for button in buttonlist :
 		if button is Button :
 			if i < player_pokemon.size():
-				button.icon = player_pokemon[i].data.sprite_frames.get_frame_texture("menu", 0)
-				if from_fight :
-					pass
-				else : 
-					setup_button(button, player_pokemon[i], item_data)
+				var pokemon = player_pokemon[i]
+				button.icon = pokemon.data.sprite_frames.get_frame_texture("menu", 0)
+				setup_pokemon_button(button, pokemon)
+				for connection in button.pressed.get_connections():
+					button.pressed.disconnect(connection.callable)
+				if item_data : 
+					button.connect("pressed", use_item_on_pokemon.bind(pokemon, item_data))
+				else :
+					button.connect("pressed", show_pokemon_stat_menu.bind(pokemon))
 			else :
 				button.text = "None"
 			i += 1
@@ -64,20 +69,12 @@ func use_item_on_pokemon(pokemon : PokemonInstance, item_data : Item_data):
 		inventory.use_item(item_data) # mettre la logique de retrait dans use_item de player 
 	InventoryMenu.visible = true
 
-# changer la logique pour faire avec un signal de selection de pokemon 
-func setup_button(button : Button, pokemon : PokemonInstance, item_data : Item_data = null):
+static func setup_pokemon_button(button : Button, pokemon : PokemonInstance):
 	
-	for connection in button.pressed.get_connections():
-		button.pressed.disconnect(connection.callable)
-	if item_data : 
-		button.connect("pressed", use_item_on_pokemon.bind(pokemon, item_data))
-	else :
-		button.connect("pressed", show_pokemon_stat_menu.bind(pokemon))
-		# a tester mettre show_pokemon_stat_menu en hover du boutton 
 	var hp_bar = button.get_node("hpBar")
 	var lvlLabel = button.get_node("lvlLabel")
 	hp_bar.value = float(pokemon.Hp_dict["current"] * 100 / pokemon.Hp_dict["max"])
-	choose_hp_color(hp_bar)
+	hp_bar.modulate = Utils.choose_hp_color(hp_bar.value)
 	print("hp_bar menu value : ", hp_bar.value)
 	lvlLabel.text = "Niv. %d" % pokemon.level
 	button.text = pokemon.pokemon_name
@@ -170,13 +167,6 @@ func show_pokemon_stat_menu(pokemon : PokemonInstance):
 					update_stat_line(label, pokemon.Speed_dict["ivs"])
 				
 	
-func choose_hp_color(hp_bar: ProgressBar):
-	if hp_bar.value > 50:
-		hp_bar.modulate = Color.GREEN
-	elif hp_bar.value > 20:
-		hp_bar.modulate = Color.ORANGE
-	else:
-		hp_bar.modulate = Color.RED
 		
 
 func update_stat_line(value_to_change : Label, value: int):
