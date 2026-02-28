@@ -34,7 +34,6 @@ var fight_ongoing := false
 var is_displaying_text := false
 var start_color_info_panel 
 var battleManager : Battlemanager
-var battleManager : Battlemanager
 
 	
 func _ready() -> void:
@@ -61,14 +60,8 @@ func setup(player_pkm : PokemonInstance, enemy_pkm : PokemonInstance):
 	if not fight_ongoing :
 		fight_ongoing = true
 	if fight_ongoing :
-	if fight_ongoing :
 		player_info.visible = true
 		enemy_info.visible = true
-
-func start_fight_entrance():
-	TransitionAnim.play("enter_fight")
-	await TransitionAnim.animation_finished
-	
 
 func start_fight_entrance():
 	TransitionAnim.play("enter_fight")
