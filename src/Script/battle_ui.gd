@@ -328,3 +328,19 @@ func _on_button_pressed() -> void:
 
 func _on_button_2_pressed() -> void:
 	choice_made.emit(false)
+
+
+func flash_red_screen(duration: float) -> void:
+	var red_overlay = ColorRect.new()
+	red_overlay.color = Color(1, 0, 0, 0.0)
+	red_overlay.set_anchors_preset(Control.PRESET_FULL_RECT)
+	add_child(red_overlay)
+	move_child(red_overlay, $PlayerInfo.get_index())
+	
+	var fade_time := 0.3
+	var tween = create_tween()
+	tween.tween_property(red_overlay, "color", Color(1, 0, 0, 0.5), fade_time)
+	tween.tween_interval(duration - fade_time * 2)
+	tween.tween_property(red_overlay, "color", Color(1, 0, 0, 0.0), fade_time)
+	await tween.finished
+	red_overlay.queue_free()
