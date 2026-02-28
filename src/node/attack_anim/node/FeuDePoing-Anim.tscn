@@ -1,59 +1,8 @@
-[gd_scene load_steps=11 format=3 uid="uid://vy0xoybdasq1"]
+[gd_scene load_steps=12 format=3 uid="uid://vy0xoybdasq1"]
 
 [ext_resource type="Texture2D" uid="uid://bd2xbppqkqeh" path="res://assets/attackSprite/Poing.png" id="1_nhs1w"]
+[ext_resource type="Script" uid="uid://c6vr1j46crwue" path="res://src/node/attack_anim/node/feu_de_poing_anim.gd" id="1_pgg7j"]
 [ext_resource type="Texture2D" uid="uid://b2344cx6eey5n" path="res://assets/attackSprite/Flames.png" id="2_pgg7j"]
-
-[sub_resource type="Animation" id="Animation_d2oae"]
-resource_name = "play_attack"
-length = 3.0
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Node/Flemme1:position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.5, 1.4),
-"transitions": PackedFloat32Array(1, 1, 1),
-"update": 0,
-"values": [Vector2(96, -96), Vector2(-96, 0), Vector2(0, 0)]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("Node/Flemme2:position")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.5, 1.4),
-"transitions": PackedFloat32Array(1, 1, 1),
-"update": 0,
-"values": [Vector2(-96, -96), Vector2(0, 96), Vector2(0, 0)]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("Node/Flemme3:position")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0, 0.5, 1.4),
-"transitions": PackedFloat32Array(1, 1, 1),
-"update": 0,
-"values": [Vector2(-96, 96), Vector2(96, 0), Vector2(0, 0)]
-}
-tracks/3/type = "value"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath("Node/Flemme4:position")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/keys = {
-"times": PackedFloat32Array(0, 0.5, 1.4),
-"transitions": PackedFloat32Array(1, 1, 1),
-"update": 0,
-"values": [Vector2(96, 96), Vector2(0, -96), Vector2(0, 0)]
-}
 
 [sub_resource type="Animation" id="Animation_r6n2w"]
 length = 0.001
@@ -106,6 +55,72 @@ tracks/3/keys = {
 "values": [Vector2(96, 96)]
 }
 
+[sub_resource type="Animation" id="Animation_d2oae"]
+resource_name = "play_attack"
+length = 3.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Node/Flemme1:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(),
+"transitions": PackedFloat32Array(),
+"update": 0,
+"values": []
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Node/Flemme2:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(),
+"transitions": PackedFloat32Array(),
+"update": 0,
+"values": []
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Node/Flemme3:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(),
+"transitions": PackedFloat32Array(),
+"update": 0,
+"values": []
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Node/Flemme4:position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(),
+"transitions": PackedFloat32Array(),
+"update": 0,
+"values": []
+}
+tracks/4/type = "method"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath(".")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0.2),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [null, null, null],
+"method": &"play_attack"
+}]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_b2wya"]
 _data = {
 &"RESET": SubResource("Animation_r6n2w"),
@@ -147,6 +162,7 @@ animations = [{
 
 [node name="FeuDePoingAnim" type="Node2D"]
 texture_filter = 1
+script = ExtResource("1_pgg7j")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {

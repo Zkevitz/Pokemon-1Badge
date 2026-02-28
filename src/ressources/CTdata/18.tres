@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="CT_data" load_steps=3 format=3 uid="uid://yejyfhwbb865"]
+
+[ext_resource type="PackedScene" uid="uid://vy0xoybdasq1" path="res://src/node/attack_anim/node/FeuDePoing-Anim.tscn" id="1_s15on"]
+[ext_resource type="Script" uid="uid://khacs4dumku4" path="res://src/ressources/DataSample/CT_data.gd" id="2_8ybmq"]
+
+[resource]
+script = ExtResource("2_8ybmq")
+name = "FeuDePoing"
+id = 18
+type = 2
+power = 75
+max_pp = 15
+type_effect = 1
+chance = 10
+AnimName = "FeuDePoing"
+AnimNode = ExtResource("1_s15on")
+metadata/_custom_type_script = "uid://khacs4dumku4"
