@@ -84,16 +84,18 @@ func remove_pokemon_info(pokemonInfo : Control):
 	pokemonInfo.modulate = start_color
 	
 func entry_text_first_part():
-	var enemy_pokemon_name = battleManager.enemy_pokemon.pokemon_name
+	var enemy_pokemon = battleManager.enemy_pokemon
 	if battleManager.is_wild_battle :
-		battleManager._queue_text("Un %s apparaît !" % enemy_pokemon_name)
+		battleManager._queue_text("Un %s apparaît !" % enemy_pokemon.pokemon_name)
 	else :
-		battleManager._queue_text("Le dresseur envoie %s !" % enemy_pokemon_name)
+		battleManager._queue_text("Le dresseur envoie %s !" % enemy_pokemon.pokemon_name)
+	enemy_pokemon.pokemon_node.fight_entry()
 	await battleManager._process_text_queue()
 
 func entry_text_second_part():
-	var player_pokemon_name = battleManager.player_pokemon.pokemon_name
-	battleManager._queue_text("Allez, %s !" % player_pokemon_name)
+	var player_pokemon = battleManager.player_pokemon
+	battleManager._queue_text("Allez, %s !" % player_pokemon.pokemon_name)
+	player_pokemon.pokemon_node.fight_entry()
 	await battleManager._process_text_queue()
 	
 func update_pokemon_info(isally : bool, pokemon_info : PokemonInstance):
