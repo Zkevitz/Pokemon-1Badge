@@ -161,6 +161,7 @@ func _on_move_selected(move_index : int):
 	ui_node.show_main_menu(false)
 	ui_node.show_move(false)
 	ui_node.show_text(true)
+	
 	turn_queue.clear()
 	_queue_turn(player_pokemon, enemy_pokemon, move)
 	_queue_turn(enemy_pokemon, player_pokemon, null)
