@@ -154,7 +154,7 @@ func _on_move_selected(move_index : int):
 	_queue_turn(enemy_pokemon, player_pokemon, actionType.IA, null)
 	await _process_turn_queue()
 
-func _on_pokemon_selected(pokemon_index : int):
+func _on_pokemon_selected(pokemon_index : int, is_switch : bool):
 	current_state = battleState.POKEMON_SELECTION
 	var pokemon = player_team[pokemon_index]
 	
@@ -163,10 +163,14 @@ func _on_pokemon_selected(pokemon_index : int):
 	ui_node.show_pokemon(false)
 	ui_node.show_text(true)
 	
-	turn_queue.clear()
-	_queue_turn(pokemon, enemy_pokemon, actionType.POKEMON)
-	_queue_turn(enemy_pokemon, player_pokemon, actionType.IA, null)
-	await _process_turn_queue()
+	if is_switch : 
+		turn_queue.clear()
+		_queue_turn(pokemon, enemy_pokemon, actionType.POKEMON)
+		_queue_turn(enemy_pokemon, player_pokemon, actionType.IA, null)
+		await _process_turn_queue()
+	else :
+		await switch_pokemon(pokemon)
+		_start_player_turn()
 	
 func _queue_turn(attacker: PokemonInstance, defender: PokemonInstance, action : actionType ,move: CT_data = null):
 	var priority = move.priority if move else 0
@@ -196,7 +200,6 @@ func _process_turn_queue():
 	
 func execute_next_turn():
 	if turn_queue.is_empty():
-		push_error("est ce que je passe la dedans battle manager bizarre")
 		await move_effect_manager.process_end_of_turn_effect(player_pokemon, enemy_pokemon)
 		if player_pokemon.Hp_dict["current"] <= 0 :
 			await _handle_faint(player_pokemon)
@@ -213,9 +216,9 @@ func execute_next_turn():
 		#execute_next_turn()
 		#return
 	if turn_data.action == actionType.POKEMON :
-		await switch_pokemon(turn_data)
-		return
-	if turn_data.move:
+		await switch_pokemon(turn_data["attacker"])
+		execute_next_turn()
+	elif turn_data.move:
 		execute_move(turn_data.attacker, turn_data.defender, turn_data.move)
 	else:
 		var available_moves = checkforAvailableMove(turn_data.attacker)
@@ -226,9 +229,9 @@ func execute_next_turn():
 			var move = available_moves.pick_random()
 			execute_move(turn_data.attacker, turn_data.defender, move)
 
-func switch_pokemon(turn_data : Dictionary):
-	var attacker : PokemonInstance = turn_data["attacker"]
-	var is_opponent = attacker.pokemon_node.is_opponent
+func switch_pokemon(incoming_pokemon : PokemonInstance):
+	var attacker : PokemonInstance = incoming_pokemon
+	var is_opponent = attacker.is_wild
 	
 	var pokemon_to_switch : PokemonInstance
 	var trainer_name : String
@@ -239,10 +242,11 @@ func switch_pokemon(turn_data : Dictionary):
 		pokemon_to_switch = player_pokemon
 		trainer_name = "{nom du joueur}"
 	
-	_queue_text("%s retire %s" % [trainer_name, pokemon_to_switch.pokemon_name])
-	await  _process_text_queue()
+	if pokemon_to_switch.pokemon_node : 
+		_queue_text("%s retire %s" % [trainer_name, pokemon_to_switch.pokemon_name])
+		await  _process_text_queue()
 	
-	await pokemon_to_switch.pokemon_node.fight_exit()
+		await pokemon_to_switch.pokemon_node.fight_exit()
 	
 	if is_opponent:
 		enemy_pokemon = attacker
@@ -251,13 +255,13 @@ func switch_pokemon(turn_data : Dictionary):
 	_queue_text("%s envoie %s" % [trainer_name, attacker.pokemon_name])
 	await _process_text_queue()
 	setup_new_pokemon_node(attacker, !is_opponent)
+	await attacker.pokemon_node.fight_entry()
 	for queu in turn_queue :
 		if queu["attacker"] == pokemon_to_switch :
 			queu["attacker"] = attacker
 		elif queu["defender"] == pokemon_to_switch :
 			queu["defender"] = attacker
-	await get_tree().create_timer(0.5).timeout
-	execute_next_turn()
+	await Game.get_tree().create_timer(0.5).timeout
 	
 func checkforAvailableMove(pokemon : PokemonInstance) -> Array:
 	var available_moves = []
@@ -301,7 +305,6 @@ func execute_move(attacker : PokemonInstance, defender : PokemonInstance, move :
 	else : 
 		# a changer pour faire fonctionner les move degats + status
 		if move.category == "PHYSICS" or move.category == "SPECIAL":
-			print("calcul des degats ??")
 			var damage = calculate_damage(attacker, defender, move, effectiveness)
 			await apply_damage(defender, damage, effectiveness)
 			
@@ -446,7 +449,7 @@ func _handle_faint(pokemon : PokemonInstance):
 	for queu in turn_queue : 
 		if queu["attacker"] == pokemon :
 			turn_queue.erase(queu)
-	pokemon_fainted.emit(pokemon)
+	#pokemon_fainted.emit(pokemon)
 	_queue_text("%s est K.O. !" % pokemon.pokemon_name)
 	await _process_text_queue()
 	await pokemon.faint()
@@ -464,8 +467,8 @@ func _handle_faint(pokemon : PokemonInstance):
 			return
 		else :
 			_queue_text("Choisissez un pokemon !  ")
-			#ui_node.show_pokemon_menu(available_pokemon, true) #A DEV
-			_end_battle(false)
+			await _process_text_queue()
+			ui_node.show_pokemon_menu(player_team, false)
 			return
 	else :
 		available_pokemon = enemy_team.filter(func(p): return p.Hp_dict["current"] > 0)
@@ -502,7 +505,6 @@ func setup_new_pokemon_node(pokemoninstance : PokemonInstance, is_ally : bool) :
 		enemy_pokemon.pokemon_node.animatedSprite.play("idle")
 		enemy_pokemon.pokemon_node.global_position = enemy_pokemon_position
 		ui_node.setup(null, enemy_pokemon)
-	
 	
 func pokemon_participant():
 	var incr = 0

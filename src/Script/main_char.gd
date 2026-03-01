@@ -70,14 +70,14 @@ func _ready() -> void:
 	var pokemon = PokemonInstance.new()
 	var pokemon2 = PokemonInstance.new()
 	pokemon.data = Game.get_pokemon_data(14)
-	pokemon2.data = Game.get_pokemon_data(4)
-	pokemon2.level = 8
+	pokemon2.data = Game.get_pokemon_data(1)
+	pokemon2.level = 5
 	pokemon2.initStats()
 	pokemon.level = 5
 	pokemon.initStats()
 	pokemon.learnMove(10, 3)
 	pokemon.learnMove(16, 3)
-	pokemon.learnMove(3, 3)
+	pokemon.learnMove(17, 3)
 	pokemon.learnMove(12, 3)
 	pokemon.current_xp = 90
 	pokemonTeam.append(pokemon)

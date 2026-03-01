@@ -47,19 +47,18 @@ func sink_into_ground():
 func fight_entry():
 	visible = true
 	scale = Vector2.ZERO
-	modulate = Color(1, 1, 1, 1) 
 	
+	flash_color(Color.WHITE, 1.1)
 	var tween := create_tween()
-	tween.set_parallel(true)
 	tween.tween_property(self, "scale", scale_value, 1.0)\
 		.set_trans(Tween.TRANS_BACK)\
 		.set_ease(Tween.EASE_OUT)
-	tween.tween_property(self, "modulate", original_modulate_color, 1.0)
 	await tween.finished
 
 func fight_exit():
+	flash_color(Color.WHITE, 0.9)
 	var tween := create_tween()
-	tween.tween_property(self, "scale", Vector2(0, 0), 1.0)
+	tween.tween_property(self, "scale", Vector2(0, 0), 0.8)
 	await tween.finished
 	queue_free()
 	

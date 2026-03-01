@@ -6,7 +6,7 @@ enum actionType {FIGHT, POKEMON, BAG, RUN}
 signal action_selected(Type : actionType)
 signal move_selected(move_index: int)
 signal moveReplacementSelected(moveArray: Array[int])
-signal pokemon_selected(pokemon_index : int)
+signal pokemon_selected(pokemon_index : int, is_switch : bool)
 #signal item_selected(item_id : int)
 signal text_finished
 signal choice_made(choice : bool)
@@ -52,10 +52,12 @@ func _ready() -> void:
 func setup(player_pkm : PokemonInstance, enemy_pkm : PokemonInstance):
 	if player_pkm :	
 		update_pokemon_info(true, player_pkm)
+		#player_pkm.fainted.disconnect(remove_pokemon_info.bind(player_info))
 		player_pkm.connect("fainted", remove_pokemon_info.bind(player_info), CONNECT_ONE_SHOT)
 		main_menu.visible = false
 	if enemy_pkm :
 		update_pokemon_info(false, enemy_pkm)
+		#enemy_pkm.fainted.disconnect(remove_pokemon_info.bind(enemy_info))
 		enemy_pkm.connect("fainted", remove_pokemon_info.bind(enemy_info), CONNECT_ONE_SHOT)
 	if not fight_ongoing :
 		fight_ongoing = true
@@ -212,20 +214,15 @@ func show_pokemon(Visible : bool = true):
 func show_text(Visible : bool = true):
 	text_box.visible = Visible
 					
-func disconnect_move_button():
-	for connection in move_button_connections:
-		if connection.button.pressed.is_connected(connection.callable):
-			connection.button.pressed.disconnect(connection.callable)
-	move_button_connections.clear()
 						
 func show_move_menu(pokemon : PokemonInstance):
 	show_text(false)
 	show_pokemon(false)
 	show_move(true)
 
-	disconnect_move_button()
 	for i in range(4):
 		var button = move_menu.get_node("Move%dButton" % (i + 1))
+		Utils.disconnect_all_connections(button)
 		if i < pokemon.moves.size():
 			var move = pokemon.moves[i]
 			print("new move : ", move)
@@ -242,7 +239,9 @@ func show_move_menu(pokemon : PokemonInstance):
 			button.text = "---"
 			button.disabled = true
 
-func show_pokemon_menu(player_team : Array[PokemonInstance]) :
+func show_pokemon_menu(player_team : Array[PokemonInstance], other_option : bool = true) :
+	if not other_option :
+		show_main_menu(false)
 	show_text(false)
 	show_move(false)
 	show_pokemon(true)
@@ -251,12 +250,13 @@ func show_pokemon_menu(player_team : Array[PokemonInstance]) :
 	buttonlist += PokemonMenu.get_node("MarginContainer2/VBoxContainer2").get_children()
 	for i in range(6) :
 		var button = buttonlist[i]
+		Utils.disconnect_all_connections(button)
 		if i < player_team.size():
 			var pokemon = player_team[i]
 			button.icon = player_team[i].data.sprite_frames.get_frame_texture("menu", 0)
 			MenuUi.setup_pokemon_button(button, pokemon)
 			button.disabled = pokemon.Hp_dict["current"] <= 0
-			button.pressed.connect(func() : pokemon_selected.emit(i))
+			button.pressed.connect(func() : pokemon_selected.emit(i, other_option))
 		else : 
 			button.text = "NONE"
 			
@@ -268,6 +268,7 @@ func showLevelUpMoveMenu(pokemon : PokemonInstance, newMoveID: CT_data):
 	
 	for i in range(5):
 		var button = lvlUpMoveContainer.get_node("Move%dButton" % (i + 1))
+		Utils.disconnect_all_connections(button)
 		var move: CT_data
 		var callable
 		if i < pokemon.moves.size():
@@ -297,7 +298,6 @@ func askCustomQuestionForLvlUp(text : String, pokemon: PokemonInstance, moveID: 
 		var moveArray = await moveReplacementSelected
 		var moveIndex = moveArray[0]
 		if moveArray[0] == 4 :
-			disconnect_move_button()
 			lvlUpMoveContainer.visible = false
 			return [false, moveID]
 		oldMove = pokemon.moves[moveIndex]

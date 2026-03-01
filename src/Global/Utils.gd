@@ -49,3 +49,18 @@ static func choose_hp_color(value : int):
 		return Color.ORANGE
 	else:
 		return Color.RED
+
+static func disconnect_all_connections(object: Object) -> void:
+	if object == null:
+		return
+
+	for signal_info in object.get_signal_list():
+		var signal_name: StringName = signal_info.name
+		
+		var connections = object.get_signal_connection_list(signal_name)
+		
+		for connection in connections:
+			object.disconnect(
+				signal_name,
+				connection.callable
+			)

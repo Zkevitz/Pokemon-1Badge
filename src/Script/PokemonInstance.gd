@@ -79,7 +79,7 @@ func initStats(custom_moves : Array = []):
 		pokemon_type2 = data.pokemon_type2
 		pokemon_name = data.pokemon_name
 		setup_random_ivs()
-		Hp_dict["max"] = calculateStat(data.baseHp, level, Hp_dict["ivs"], true)
+		Hp_dict["max"] = calculateStat(data.baseHp, level, Hp_dict["ivs"], Hp_dict["evs"], true)
 		Hp_dict["current"] = Hp_dict["max"]
 		if custom_moves.size() > 0 : 
 			for move in custom_moves : 
@@ -88,14 +88,14 @@ func initStats(custom_moves : Array = []):
 			load_moves(data.learnable_moves)
 	else:
 		var old_max_hp = Hp_dict["max"]
-		Hp_dict["max"] = calculateStat(data.baseHp, level, Hp_dict["ivs"], true)
+		Hp_dict["max"] = calculateStat(data.baseHp, level, Hp_dict["ivs"], Hp_dict["evs"], true)
 		Hp_dict["current"] = Hp_dict["current"] + (Hp_dict["max"] - old_max_hp)
 		
-	Atk_dict["current"] = calculateStat(data.baseAtk, Atk_dict["ivs"], level)
-	AtkSpe_dict["current"] = calculateStat(data.baseSpeAtk, AtkSpe_dict["ivs"], level)
-	Def_dict["current"] = calculateStat(data.baseDef, Def_dict["ivs"], level)
-	DefSpe_dict["current"] = calculateStat(data.baseSpeDef, DefSpe_dict["ivs"], level)
-	Speed_dict["current"] = calculateStat(data.baseSpd, Speed_dict["ivs"], level)
+	Atk_dict["current"] = calculateStat(data.baseAtk, level, Atk_dict["ivs"], Atk_dict["evs"])
+	AtkSpe_dict["current"] = calculateStat(data.baseSpeAtk, level, AtkSpe_dict["ivs"], AtkSpe_dict["evs"])
+	Def_dict["current"] = calculateStat(data.baseDef, level, Def_dict["ivs"], Def_dict["evs"])
+	DefSpe_dict["current"] = calculateStat(data.baseSpeDef, level, DefSpe_dict["ivs"], DefSpe_dict["evs"])
+	Speed_dict["current"] = calculateStat(data.baseSpd, level, Speed_dict["ivs"], Speed_dict["evs"])
 	current_xp = 0
 	xp_to_next_level = get_total_xp_for_level(level + 1) - get_total_xp_for_level(level)
 
@@ -103,7 +103,7 @@ func setup_random_ivs():
 	Hp_dict["ivs"] = randi() % 31
 	Atk_dict["ivs"] = randi() % 31
 	AtkSpe_dict["ivs"] = randi() % 31
-	Def_dict["ivs"] = randi() % 31
+	Def_dict["ivs"] =  randi() % 31
 	DefSpe_dict["ivs"] = randi() % 31
 	Speed_dict["ivs"] = randi() % 31
 	
@@ -143,10 +143,11 @@ func learnMove(moveidx : int, idx : int):
 		moves.append(final_move_data)
 		movesPP[final_move_data.id] = final_move_data.max_pp
 	
-func calculateStat(base : int, lvl : int, IVS : int,  is_hp : bool = false ) -> int :
-	# Formule simplifiée : ((2 * Base + 31) * Level) / 100 + modifier
-	
-	var stat = floor(((2 * base + IVS) * lvl) / 100)
+func calculateStat(base : int, lvl : int, IVS : int, EVS : int, is_hp : bool = false ) -> int :
+	# Formule simplifiée : ((2 * Base + IVS + floor(EVS/4)) * Level) / 100 + modifier
+	var ev_bonus = floor(EVS / 4.0)
+	@warning_ignore("integer_division")
+	var stat = floor(((2 * base + IVS + ev_bonus) * lvl) / 100.0)
 	
 	if is_hp :
 		return stat + lvl + 10
