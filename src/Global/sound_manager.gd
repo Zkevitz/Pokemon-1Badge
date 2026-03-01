@@ -48,11 +48,12 @@ func play_music(stream : AudioStream, fade := true) :
 	music_player.play()
 
 #UTILISATION : AudioManager.play_sfx(preload("res://sfx/step.wav"))
-func play_sfx(stream : AudioStream, volume : int):
+func play_sfx(stream : AudioStream, volume : int, pitch : float = 1.0):
 	var p := AudioStreamPlayer.new()
 	p.stream = stream
-	p.bus = "SFX"
+	p.bus = "SFX" 
 	p.volume_db = volume
+	p.pitch_scale = pitch
 	add_child(p)
 	p.play()
 	p.finished.connect(p.queue_free)

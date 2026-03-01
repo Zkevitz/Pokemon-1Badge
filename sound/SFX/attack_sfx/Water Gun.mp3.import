@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://b4tp0o4bm3l1s"
+path="res://.godot/imported/Water Gun.mp3-bd15e882834c7da48563fa3ade740f3d.mp3str"
+
+[deps]
+
+source_file="res://sound/SFX/attack_sfx/Water Gun.mp3"
+dest_files=["res://.godot/imported/Water Gun.mp3-bd15e882834c7da48563fa3ade740f3d.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

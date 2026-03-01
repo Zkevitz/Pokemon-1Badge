@@ -538,9 +538,8 @@ visible = false
 curve = SubResource("Curve2D_hccg0")
 
 [node name="PathFollow2D" type="PathFollow2D" parent="AnimatedSprite2D/Node/Path2D"]
-position = Vector2(-39, -65)
-rotation = -1.9513026
-progress = 59.030193
+position = Vector2(-10, -15)
+rotation = -2.3932147
 
 [node name="StatusSleep2" type="Sprite2D" parent="AnimatedSprite2D/Node/Path2D/PathFollow2D"]
 rotation = 1.7628784
@@ -551,9 +550,8 @@ texture = ExtResource("7_hccg0")
 curve = SubResource("Curve2D_hccg0")
 
 [node name="PathFollow2D" type="PathFollow2D" parent="AnimatedSprite2D/Node/Path2D2"]
-position = Vector2(-39, -65)
-rotation = -1.9513026
-progress = 59.030193
+position = Vector2(-10, -15)
+rotation = -2.3932147
 
 [node name="StatusSleep2" type="Sprite2D" parent="AnimatedSprite2D/Node/Path2D2/PathFollow2D"]
 rotation = 1.7628784
@@ -564,9 +562,8 @@ texture = ExtResource("7_hccg0")
 curve = SubResource("Curve2D_hccg0")
 
 [node name="PathFollow2D" type="PathFollow2D" parent="AnimatedSprite2D/Node/Path2D3"]
-position = Vector2(-39, -65)
-rotation = -1.9513026
-progress = 59.030193
+position = Vector2(-10, -15)
+rotation = -2.3932147
 
 [node name="StatusSleep2" type="Sprite2D" parent="AnimatedSprite2D/Node/Path2D3/PathFollow2D"]
 rotation = -1.3788102
@@ -582,6 +579,7 @@ sub_emitter = NodePath(".")
 process_material = SubResource("ParticleProcessMaterial_hccg0")
 
 [node name="ParaAnim" type="AnimatedSprite2D" parent="AnimatedSprite2D"]
+visible = false
 position = Vector2(0, -5)
 scale = Vector2(0.5, 0.5)
 sprite_frames = SubResource("SpriteFrames_bxhcl")

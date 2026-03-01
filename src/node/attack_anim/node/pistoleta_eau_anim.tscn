@@ -1,0 +1,46 @@
+[gd_scene load_steps=5 format=3 uid="uid://bokps8e1u0cqh"]
+
+[ext_resource type="Script" uid="uid://cc8bfcw4x2m63" path="res://src/node/attack_anim/script/pistoleta_eau_anim.gd" id="1_vhq6i"]
+
+[sub_resource type="Gradient" id="Gradient_vhq6i"]
+offsets = PackedFloat32Array(0, 0.8, 1)
+colors = PackedColorArray(0.3764706, 0.78431374, 1, 1, 0.376, 0.784, 1, 0, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_dexgq"]
+gradient = SubResource("Gradient_vhq6i")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_ysl7o"]
+particle_flag_disable_z = true
+emission_shape = 6
+emission_ring_axis = Vector3(0, 0, 1)
+emission_ring_height = 1.0
+emission_ring_radius = 1.0
+emission_ring_inner_radius = 0.0
+emission_ring_cone_angle = 90.0
+angle_min = -98.59999
+angle_max = 197.30002
+spread = 1.0
+initial_velocity_min = 400.0
+initial_velocity_max = 450.0
+gravity = Vector3(0, 0, 0)
+scale_min = 6.0
+scale_max = 8.5
+color = Color(0.7294118, 0.90588236, 1, 1)
+color_ramp = SubResource("GradientTexture1D_dexgq")
+turbulence_noise_speed_random = 0.0
+
+[node name="PistoletaEauAnim" type="Node2D"]
+z_index = 1
+script = ExtResource("1_vhq6i")
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="."]
+unique_name_in_owner = true
+emitting = false
+amount = 900
+sub_emitter = NodePath(".")
+lifetime = 2.0
+one_shot = true
+use_fixed_seed = true
+seed = 3125012608
+trail_lifetime = 0.4
+process_material = SubResource("ParticleProcessMaterial_ysl7o")
