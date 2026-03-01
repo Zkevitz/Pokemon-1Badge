@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="CT_data" load_steps=3 format=3 uid="uid://bshcyj272lhyp"]
+
+[ext_resource type="PackedScene" uid="uid://k1v2exwpnkfx" path="res://src/node/attack_anim/node/EclairDePoing-Anim.tscn" id="1_1wdtm"]
+[ext_resource type="Script" uid="uid://khacs4dumku4" path="res://src/ressources/DataSample/CT_data.gd" id="2_fh5nf"]
+
+[resource]
+script = ExtResource("2_fh5nf")
+name = "Eclair de Poing"
+id = 20
+type = 5
+power = 75
+max_pp = 15
+type_effect = 2
+chance = 10
+AnimName = "njnjnjnjdnfdjf"
+AnimNode = ExtResource("1_1wdtm")
+metadata/_custom_type_script = "uid://khacs4dumku4"
