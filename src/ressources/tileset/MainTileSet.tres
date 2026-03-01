@@ -1,10 +1,8 @@
-[gd_resource type="TileSet" load_steps=69 format=3 uid="uid://bhqsmdqna6dfj"]
+[gd_resource type="TileSet" load_steps=64 format=3 uid="uid://bhqsmdqna6dfj"]
 
 [ext_resource type="Texture2D" uid="uid://cro2iivu6mc6i" path="res://assets/npc/MPWSP01/tileset/tileset.png" id="1_oi8ef"]
-[ext_resource type="PackedScene" uid="uid://cp6ndud6l2q0f" path="res://src/node/tileset_node/tallGrass.tscn" id="2_mcyro"]
 [ext_resource type="Texture2D" uid="uid://64h1dlcftand" path="res://assets/Water/ETANG/4.png" id="3_xpfgj"]
 [ext_resource type="Texture2D" uid="uid://6jdc4lwqldob" path="res://assets/Water/ETANG/5.png" id="4_dinnc"]
-[ext_resource type="Texture2D" uid="uid://c4px0drletrt7" path="res://assets/bigtileset/environment.png" id="4_vcdnr"]
 [ext_resource type="Texture2D" uid="uid://iumpu647y527" path="res://assets/Water/ETANG/1.png" id="5_s0nme"]
 [ext_resource type="Texture2D" uid="uid://1vqwlb7yofhf" path="res://assets/Water/ETANG/6.png" id="5_wipqx"]
 [ext_resource type="Texture2D" uid="uid://bbyj7h6s8m0xc" path="res://assets/Water/ETANG/2.png" id="6_xpfgj"]
@@ -16,7 +14,6 @@
 [ext_resource type="Texture2D" uid="uid://c2w7iefsox2q8" path="res://assets/Water/SABLE/2.png" id="10_6ct1a"]
 [ext_resource type="Texture2D" uid="uid://dkw30l57x5oqd" path="res://assets/Water/SABLE/3.png" id="11_s18h7"]
 [ext_resource type="Texture2D" uid="uid://ca23gx776hflm" path="res://assets/npc/cafe__restaurant_and_bar_tiles_by_peekychew_d8t8yh5-375w-2x.jpg" id="11_xntyv"]
-[ext_resource type="Texture2D" uid="uid://lxuk18l186wi" path="res://assets/mytexture/blackTile16x16.png" id="13_1e8un"]
 [ext_resource type="Texture2D" uid="uid://dhcs1eml713is" path="res://assets/Water/SABLE/6.png" id="13_7jenc"]
 [ext_resource type="Texture2D" uid="uid://d1r1mypdp8ug8" path="res://assets/Water/SABLE/7.png" id="15_8553d"]
 [ext_resource type="Texture2D" uid="uid://ctgfc04vtxcx" path="res://assets/Water/SABLE/8.png" id="16_32jlk"]
@@ -25,9 +22,7 @@
 [ext_resource type="Texture2D" uid="uid://c42b1vtuvop37" path="res://assets/mytexture/pixil-frame-0.png" id="18_8lyx2"]
 [ext_resource type="PackedScene" uid="uid://c5daeljxwswq" path="res://src/node/tileset_node/grassBordertileUP.tscn" id="18_60a8p"]
 [ext_resource type="PackedScene" uid="uid://kryo3ui15wk6" path="res://src/node/tileset_node/grassBordertileDOWN.tscn" id="19_5nk55"]
-[ext_resource type="PackedScene" uid="uid://c1yl41c7egc7h" path="res://src/node/waterfallanim.tscn" id="19_8553d"]
 [ext_resource type="Texture2D" uid="uid://c74pp47r06jyh" path="res://assets/bigtileset/bigpart1.png" id="19_q2t7g"]
-[ext_resource type="PackedScene" uid="uid://c4msqjkp4ecm0" path="res://src/node/topwaterfalltile.tscn" id="20_32jlk"]
 [ext_resource type="Texture2D" uid="uid://c28b0qe3oh35d" path="res://assets/Water/SABLE/4.png" id="20_fqpvn"]
 [ext_resource type="PackedScene" uid="uid://2dxhvswajkqv" path="res://src/node/tileset_node/grassBordertileLEFT.tscn" id="20_q2t7g"]
 [ext_resource type="Texture2D" uid="uid://bubpymp5ajunc" path="res://assets/bigtileset/bigpart2.png" id="20_stso7"]
@@ -1415,7 +1410,6 @@ texture = ExtResource("1_oi8ef")
 0:22/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, 8, -1.7985878, 6.2950554, 8, 8, 7.3742085, 14.928274, 0.5395756, 16.00743, -6.2950554, 15.2879925, -8.093643, 11.51096)
 
 [sub_resource type="TileSetScenesCollectionSource" id="TileSetScenesCollectionSource_rljth"]
-scenes/1/scene = ExtResource("2_mcyro")
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_dinnc"]
 resource_name = "centerlefttwater"
@@ -2599,7 +2593,6 @@ texture = ExtResource("13_7jenc")
 0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(1.6187286, -8, 8, -8, 8, 8, 2.1583042, 8)
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_iwb17"]
-texture = ExtResource("13_1e8un")
 0:0/0 = 0
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_15bjq"]
@@ -13083,8 +13076,6 @@ scenes/3/scene = ExtResource("20_q2t7g")
 scenes/4/scene = ExtResource("21_8lyx2")
 
 [sub_resource type="TileSetScenesCollectionSource" id="TileSetScenesCollectionSource_32jlk"]
-scenes/1/scene = ExtResource("19_8553d")
-scenes/2/scene = ExtResource("20_32jlk")
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_s5rfk"]
 texture = ExtResource("21_fqpvn")
@@ -14263,7 +14254,6 @@ texture = ExtResource("1_oi8ef")
 7:0/0 = 0
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_rga86"]
-texture = ExtResource("4_vcdnr")
 0:0/0 = 0
 1:0/0 = 0
 2:0/0 = 0
@@ -16518,18 +16508,14 @@ texture = ExtResource("4_vcdnr")
 17:51/0 = 0
 18:51/0 = 0
 19:51/0 = 0
-34:0/size_in_atlas = Vector2i(2, 1)
 34:0/0 = 0
 34:0/0/y_sort_origin = 3
 34:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -4.13675, 8, -4.6763268, 8, 5.75548, -8, 6.4749146)
-0:2/size_in_atlas = Vector2i(2, 1)
 0:2/0 = 0
 0:2/0/y_sort_origin = 2
 0:2/0/physics_layer_0/polygon_0/points = PackedVector2Array(-14.388699, -1.0791512, -10.431807, -5.036044, 10.791523, -7.733925, 13.669264, 0, -12.949829, 5.5756207)
-2:34/size_in_atlas = Vector2i(1, 2)
 2:34/0 = 0
 2:34/0/physics_layer_0/polygon_0/points = PackedVector2Array(-6.834632, 10.791524, -3.7770329, 9.89223, 2.3381634, 9.712371, 5.3957615, 10.611665, 5.036045, 14.748416, 1.978445, 16.187286, -4.4964676, 16.007427, -6.115197, 13.849122)
-0:33/size_in_atlas = Vector2i(2, 3)
 0:33/0 = 0
 0:33/0/physics_layer_0/polygon_0/points = PackedVector2Array(-10.072088, 14.208839, 10.07209, 14.208839, 11.690819, 17.086578, 11.510958, 22.122623, 5.036043, 23.741352, -5.75548, 23.741352, -12.410254, 19.964317)
 5:36/0 = 0

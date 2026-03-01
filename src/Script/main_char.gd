@@ -77,8 +77,8 @@ func _ready() -> void:
 	pokemon.initStats()
 	pokemon.learnMove(10, 3)
 	pokemon.learnMove(16, 3)
-	pokemon.learnMove(17, 3)
-	pokemon.learnMove(12, 3)
+	pokemon.learnMove(3, 3)
+	pokemon.learnMove(18, 3)
 	pokemon.current_xp = 90
 	pokemonTeam.append(pokemon)
 	pokemonTeam.append(pokemon2)

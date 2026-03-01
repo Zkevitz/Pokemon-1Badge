@@ -1,0 +1,232 @@
+[gd_scene load_steps=12 format=3 uid="uid://vy0xoybdasq1"]
+
+[ext_resource type="Texture2D" uid="uid://bd2xbppqkqeh" path="res://assets/attackSprite/Poing.png" id="1_nhs1w"]
+[ext_resource type="Script" uid="uid://c6vr1j46crwue" path="res://src/node/attack_anim/node/feu_de_poing_anim.gd" id="1_pgg7j"]
+[ext_resource type="Texture2D" uid="uid://b2344cx6eey5n" path="res://assets/attackSprite/Flames.png" id="2_pgg7j"]
+
+[sub_resource type="Animation" id="Animation_r6n2w"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Node/Flemme1:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(96, -96)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Node/Flemme2:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(-96, -96)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Node/Flemme3:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(-96, 96)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Node/Flemme4:position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(96, 96)]
+}
+
+[sub_resource type="Animation" id="Animation_d2oae"]
+resource_name = "play_attack"
+length = 3.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Node/Flemme1:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(),
+"transitions": PackedFloat32Array(),
+"update": 0,
+"values": []
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Node/Flemme2:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(),
+"transitions": PackedFloat32Array(),
+"update": 0,
+"values": []
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Node/Flemme3:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(),
+"transitions": PackedFloat32Array(),
+"update": 0,
+"values": []
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Node/Flemme4:position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(),
+"transitions": PackedFloat32Array(),
+"update": 0,
+"values": []
+}
+tracks/4/type = "method"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath(".")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0.2),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [null, null, null],
+"method": &"play_attack"
+}]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_b2wya"]
+_data = {
+&"RESET": SubResource("Animation_r6n2w"),
+&"play_attack": SubResource("Animation_d2oae")
+}
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_v1dwn"]
+atlas = ExtResource("1_nhs1w")
+region = Rect2(72.07901, 75.578674, 47.794617, 40.784737)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_457nv"]
+atlas = ExtResource("2_pgg7j")
+region = Rect2(0, 0, 192, 192)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2wi6m"]
+atlas = ExtResource("2_pgg7j")
+region = Rect2(192, 0, 192, 192)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qi74p"]
+atlas = ExtResource("2_pgg7j")
+region = Rect2(384, 0, 192, 192)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_rs74n"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_457nv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2wi6m")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qi74p")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="FeuDePoingAnim" type="Node2D"]
+texture_filter = 1
+script = ExtResource("1_pgg7j")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_b2wya")
+}
+
+[node name="Node" type="Node" parent="."]
+
+[node name="LePoing" type="Sprite2D" parent="Node"]
+z_index = 1
+texture = SubResource("AtlasTexture_v1dwn")
+
+[node name="Flemme1" type="AnimatedSprite2D" parent="Node"]
+position = Vector2(96, -96)
+sprite_frames = SubResource("SpriteFrames_rs74n")
+frame_progress = 0.96180975
+
+[node name="Flemme2" type="AnimatedSprite2D" parent="Node"]
+position = Vector2(-96, -96)
+sprite_frames = SubResource("SpriteFrames_rs74n")
+frame_progress = 0.26545665
+
+[node name="Flemme3" type="AnimatedSprite2D" parent="Node"]
+position = Vector2(-96, 96)
+sprite_frames = SubResource("SpriteFrames_rs74n")
+frame_progress = 0.48296198
+
+[node name="Flemme4" type="AnimatedSprite2D" parent="Node"]
+position = Vector2(96, 96)
+sprite_frames = SubResource("SpriteFrames_rs74n")
+frame_progress = 0.22678705
+
+[node name="PetiteFlemme1" type="AnimatedSprite2D" parent="Node"]
+position = Vector2(28, -19)
+rotation = 0.180652
+scale = Vector2(0.59375, 0.59375)
+sprite_frames = SubResource("SpriteFrames_rs74n")
+frame_progress = 0.96180975
+
+[node name="PetiteFlemme2" type="AnimatedSprite2D" parent="Node"]
+position = Vector2(22, 20.000004)
+rotation = 1.1376364
+scale = Vector2(0.35253906, 0.35253906)
+sprite_frames = SubResource("SpriteFrames_rs74n")
+frame_progress = 0.96180975
+
+[node name="PetiteFlemme3" type="AnimatedSprite2D" parent="Node"]
+position = Vector2(-22, -21.000004)
+rotation = 4.9762917
+scale = Vector2(0.3525391, 0.3525391)
+sprite_frames = SubResource("SpriteFrames_rs74n")
+frame_progress = 0.96180975
+
+[node name="PetiteFlemme4" type="AnimatedSprite2D" parent="Node"]
+position = Vector2(-22, 23)
+rotation = 3.2561793
+scale = Vector2(0.59375, 0.59375)
+sprite_frames = SubResource("SpriteFrames_rs74n")
+frame_progress = 0.96180975
+
+[node name="PetiteFlemme5" type="AnimatedSprite2D" parent="Node"]
+z_index = 1
+position = Vector2(1.0000038, -1.0000038)
+rotation = -0.827176
+scale = Vector2(0.59375, 0.59375)
+sprite_frames = SubResource("SpriteFrames_rs74n")
+frame_progress = 0.96180975
