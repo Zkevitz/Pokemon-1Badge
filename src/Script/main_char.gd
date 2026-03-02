@@ -173,6 +173,7 @@ func handle_moving_state(delta : float):
 		emit_signal("movement_finished")
 		var input_direction := get_input_direction()
 		if input_direction != Vector2.ZERO:
+			SPEED = 100 if Input.is_action_pressed("combined") else 70
 			attempt_move(input_direction)
 
 func attempt_move(direction : Vector2) :
