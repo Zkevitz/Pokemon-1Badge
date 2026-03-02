@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="CT_data" load_steps=3 format=3 uid="uid://drlnv6pmqk1s2"]
+
+[ext_resource type="Script" uid="uid://khacs4dumku4" path="res://src/ressources/DataSample/CT_data.gd" id="1_3uc86"]
+[ext_resource type="PackedScene" uid="uid://8ni61u2dgevt" path="res://src/node/attack_anim/node/bulles_d'o_anim.tscn" id="1_07tsb"]
+
+[resource]
+script = ExtResource("1_3uc86")
+name = "Bulles d'O"
+id = 19
+type = 3
+category = "SPECIAL"
+power = 65
+max_pp = 15
+type_effect = 10
+chance = 10
+AnimName = "Done"
+AnimNode = ExtResource("1_07tsb")
+metadata/_custom_type_script = "uid://khacs4dumku4"

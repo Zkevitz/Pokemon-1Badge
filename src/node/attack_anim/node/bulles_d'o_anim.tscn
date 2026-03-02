@@ -1,0 +1,36 @@
+[gd_scene load_steps=7 format=3 uid="uid://8ni61u2dgevt"]
+
+[ext_resource type="Script" uid="uid://dosx1r1yjmd25" path="res://bulles_d'o_anim.gd" id="1_4t4lu"]
+[ext_resource type="Shader" uid="uid://dkrchmuuk6oc5" path="res://BullesDO.gdshader" id="2_rgpbi"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_scahd"]
+shader = ExtResource("2_rgpbi")
+
+[sub_resource type="Curve" id="Curve_t0mls"]
+_data = [Vector2(0.013157889, 0.3820225), 0.0, 0.0, 0, 0, Vector2(0.5986842, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_6isox"]
+curve = SubResource("Curve_t0mls")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_fwx4j"]
+particle_flag_disable_z = true
+spread = 3.0
+initial_velocity_min = 550.0
+initial_velocity_max = 550.0
+gravity = Vector3(0, 0, 0)
+scale_min = 20.0
+scale_max = 25.0
+scale_curve = SubResource("CurveTexture_6isox")
+color = Color(0.6784314, 0.84705883, 0.9019608, 1)
+
+[node name="BullesD\'OAnim" type="Node2D"]
+z_index = 1
+script = ExtResource("1_4t4lu")
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="."]
+unique_name_in_owner = true
+material = SubResource("ShaderMaterial_scahd")
+amount = 40
+sub_emitter = NodePath(".")
+process_material = SubResource("ParticleProcessMaterial_fwx4j")
