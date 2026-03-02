@@ -37,6 +37,7 @@ var is_processing_turn := false
 var newMoveID: int = 0
 
 const CRITICAL_HIT_CHANCE := 0.0625
+const HIGH_CRITICAL_CHANCE := 0.1250
 const TYPE_CHART := {
 	# Format: [attaquant][défenseur] = multiplicateur
 	"Feu": {"Plante": 2.0, "Eau": 0.5, "Feu": 0.5},
@@ -366,7 +367,9 @@ func calculate_damage(attacker : PokemonInstance, defender : PokemonInstance, mo
 	elif effectiveness == 0:
 		_queue_text("Ça n'a aucun effet...")
 	
-	if randf() < CRITICAL_HIT_CHANCE:
+	var crit_rand = randf()
+	var crit_chance = CRITICAL_HIT_CHANCE if move.type_effect != CT_data.Effect.HIGH_CRIT_RATE else HIGH_CRITICAL_CHANCE
+	if crit_rand < crit_chance:
 		damage *= 1.5
 		_queue_text("Coup Critique !")
 		

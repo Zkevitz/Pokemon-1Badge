@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="CT_data" load_steps=3 format=3 uid="uid://dq668ubtaudct"]
+
+[ext_resource type="PackedScene" uid="uid://d3k66g2y5s330" path="res://src/node/attack_anim/node/TrancheHerbeAnim.tscn" id="1_tndml"]
+[ext_resource type="Script" uid="uid://khacs4dumku4" path="res://src/ressources/DataSample/CT_data.gd" id="2_yc2or"]
+
+[resource]
+script = ExtResource("2_yc2or")
+name = "Tranche Herbe"
+id = 21
+type = 4
+power = 55
+accuracy = 95
+max_pp = 20
+type_effect = 16
+AnimName = "Done"
+AnimNode = ExtResource("1_tndml")
+metadata/_custom_type_script = "uid://khacs4dumku4"

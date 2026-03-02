@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="CT_data" load_steps=3 format=3 uid="uid://kd1ymy4yi1iy"]
+
+[ext_resource type="PackedScene" uid="uid://ug7u5gf0embf" path="res://src/node/attack_anim/node/feuille_magik_anim.tscn" id="1_64625"]
+[ext_resource type="Script" uid="uid://khacs4dumku4" path="res://src/ressources/DataSample/CT_data.gd" id="2_a42y1"]
+
+[resource]
+script = ExtResource("2_a42y1")
+name = "Feuille Magik"
+id = 22
+type = 4
+category = "SPECIAL"
+power = 60
+accuracy = 1000
+max_pp = 20
+AnimName = "Done"
+AnimNode = ExtResource("1_64625")
+metadata/_custom_type_script = "uid://khacs4dumku4"

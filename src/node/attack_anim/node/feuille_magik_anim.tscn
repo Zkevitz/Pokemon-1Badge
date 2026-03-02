@@ -1,0 +1,184 @@
+[gd_scene load_steps=18 format=3 uid="uid://ug7u5gf0embf"]
+
+[ext_resource type="Script" uid="uid://cbygpbjh1khvi" path="res://src/node/attack_anim/script/feuille_magik_anim.gd" id="1_orwwa"]
+[ext_resource type="Shader" uid="uid://bfmekjf5qjnje" path="res://src/node/attack_anim/FeuilleMagik.gdshader" id="2_tjsnn"]
+[ext_resource type="Texture2D" uid="uid://dox5imf4pl21r" path="res://assets/attackSprite/grass.png" id="3_wbxjg"]
+
+[sub_resource type="Animation" id="Animation_wklui"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("GPUParticles2D:emitting")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("GPUParticles2D2:emitting")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="Animation" id="Animation_854ht"]
+resource_name = "play_attack"
+length = 4.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("GPUParticles2D:emitting")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1.5333333),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("GPUParticles2D2:emitting")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(1.7333333, 3.4333334),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_d4rci"]
+_data = {
+&"RESET": SubResource("Animation_wklui"),
+&"play_attack": SubResource("Animation_854ht")
+}
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ypgf7"]
+shader = ExtResource("2_tjsnn")
+shader_parameter/speed = 10.0
+shader_parameter/intensity = 1.0
+shader_parameter/scale = 10.0
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_prxli"]
+atlas = ExtResource("3_wbxjg")
+region = Rect2(84, 76, 16, 20)
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_grqmk"]
+particle_flag_disable_z = true
+emission_shape = 1
+emission_sphere_radius = 15.06
+angle_min = -49.99999
+angle_max = 50.00001
+direction = Vector3(0, -1, 0)
+spread = 55.0
+initial_velocity_min = 250.0
+initial_velocity_max = 450.0
+gravity = Vector3(0, 78, 0)
+turbulence_enabled = true
+
+[sub_resource type="Shader" id="Shader_g8n1i"]
+code = "shader_type canvas_item;
+
+uniform float speed = 2.0;
+uniform float intensity = 1.0;
+uniform float scale = 10.0;
+
+void fragment() {
+    vec4 tex = texture(TEXTURE, UV);
+    
+    float wave = sin((UV.x + UV.y) * scale + TIME * speed);
+    
+    vec3 psychedelic;
+    psychedelic.r = sin(TIME * speed + UV.x * scale) * 0.5 + 0.5;
+    psychedelic.g = sin(TIME * speed + UV.y * scale + 2.0) * 0.5 + 0.5;
+    psychedelic.b = sin(TIME * speed + (UV.x + UV.y) * scale + 4.0) * 0.5 + 0.5;
+
+    vec3 final_color = mix(tex.rgb, psychedelic, intensity);
+
+    COLOR = vec4(final_color, tex.a);
+}"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_htl1v"]
+shader = SubResource("Shader_g8n1i")
+shader_parameter/speed = 2.0
+shader_parameter/intensity = 1.0
+shader_parameter/scale = 25.0
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mi2yn"]
+atlas = ExtResource("3_wbxjg")
+region = Rect2(250, 264, 64, 32)
+
+[sub_resource type="Curve" id="Curve_eyykf"]
+_limits = [-360.0, 360.0, 0.0, 1.0]
+_data = [Vector2(0, -4.044922), 0.0, 0.0, 0, 0, Vector2(1, 360), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_3xrbp"]
+curve = SubResource("Curve_eyykf")
+
+[sub_resource type="Curve" id="Curve_lxqfy"]
+_limits = [-360.0, 360.0, 0.0, 1.0]
+_data = [Vector2(0, 4.044983), 0.0, 0.0, 0, 0, Vector2(0.99342096, 360), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_2kpdv"]
+curve = SubResource("Curve_lxqfy")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_kiu1g"]
+particle_flag_disable_z = true
+emission_shape = 1
+emission_sphere_radius = 79.77
+angle_min = 1.0728835e-05
+angle_max = 360.00003
+angle_curve = SubResource("CurveTexture_3xrbp")
+spread = 0.0
+initial_velocity_min = 500.0
+initial_velocity_max = 600.0
+angular_velocity_min = -180.00002
+angular_velocity_max = 179.99998
+angular_velocity_curve = SubResource("CurveTexture_2kpdv")
+gravity = Vector3(0, 0, 0)
+
+[node name="FeuilleMagikAnim" type="Node2D"]
+script = ExtResource("1_orwwa")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+unique_name_in_owner = true
+libraries = {
+&"": SubResource("AnimationLibrary_d4rci")
+}
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="."]
+texture_filter = 1
+material = SubResource("ShaderMaterial_ypgf7")
+emitting = false
+amount = 9
+sub_emitter = NodePath(".")
+texture = SubResource("AtlasTexture_prxli")
+lifetime = 1.5
+one_shot = true
+use_fixed_seed = true
+seed = 692619959
+process_material = SubResource("ParticleProcessMaterial_grqmk")
+
+[node name="GPUParticles2D2" type="GPUParticles2D" parent="."]
+material = SubResource("ShaderMaterial_htl1v")
+emitting = false
+amount = 15
+sub_emitter = NodePath(".")
+texture = SubResource("AtlasTexture_mi2yn")
+lifetime = 1.5
+one_shot = true
+process_material = SubResource("ParticleProcessMaterial_kiu1g")
