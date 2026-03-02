@@ -11,29 +11,27 @@ var player_nearby = false
 func _ready() -> void:
 	dialogueUi = Game.GlobalUI.get_node("DialogueUI")
 
+func _get_starter_pokemon() -> void:
+	playerManager.player_instance.receiveGift(recompense_type, recompense_id)
+	StoryManager.set_flag("has_pokemon")
+	get_parent().visible = false
+	queue_free()
+
 func _input(event):
-	if player_nearby and event.is_action_pressed("interact") :
-		
-		if not DialogueManager.is_active():
-			var img
-			var need_to_free : bool = false
-			if recompense_type == Game.recompenseType.POKEMON :
-				var pokemon_data = Game.get_pokemon_data(recompense_id)
-				need_to_free = true
-				img = pokemon_data.sprite_frames.get_frame_texture("idle", 0)
-				var result = await dialogueUi.askCustomQuestion(question_custom ,img)
-				get_parent().visible = false
-				print(get_parent())
-				if result == true: 
-					playerManager.player_instance.receiveGift(recompense_type, recompense_id)
-					StoryManager.set_flag("has_pokemon")
-					if need_to_free :
-						queue_free()
-						queue_free()
-			elif recompense_type == Game.recompenseType.TEAM_HEALING :
-				var result = await dialogueUi.askCustomQuestion(question_custom)
-				if result :
-					playerManager.player_instance.receiveGift(recompense_type)
+	if not player_nearby or not event.is_action_pressed("interact"):
+		return
+	if DialogueManager.is_active():
+		return
+	match recompense_type:
+		Game.recompenseType.POKEMON:
+			var img = Game.get_pokemon_data(recompense_id).sprite_frames.get_frame_texture("idle", 0)
+			var result = await dialogueUi.askCustomQuestion(question_custom ,img)
+			if result: 
+				self._get_starter_pokemon()
+		Game.recompenseType.TEAM_HEALING:
+			var result = await dialogueUi.askCustomQuestion(question_custom)
+			if result:
+				playerManager.player_instance.receiveGift(recompense_type)
 
 
 func _on_body_entered(body: Node2D) -> void:
