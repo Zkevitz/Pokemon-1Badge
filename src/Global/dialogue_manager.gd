@@ -9,16 +9,24 @@ var current_dialogue = []
 var dialogue_line_index = 0 
 var dialogueisActive = false
 var dialogues = {
-	"professeur Homes" : [
-	{"speaker": "Prof", "text": "Salut {nom du joeur pas encore implementer}, C'est le grand jour pour toi"},
-	{"speaker": "Prof", "text": "tu vas pouvoir choisir un des trois pokemon sur la table"},
-	{"speaker": "Prof", "text": "fais bien attention a ton choix la vie au dela des mur du village est rude"},
-	{"speaker": "Prof", "text": "Vipeliere est un choix horrible"}],
-	"Gate Keeper" : [
-	{"speaker": "Gate Keeper", "text": "Ou penses tu aller comme ca ?"},
-	{"speaker": "Gate Keeper", "text": "Personne n'est autoriser a sortir du village sans Pokemon pour l'accompagner"},
-	{"speaker": "Gate Keeper", "text": "Vas vite recupére un pokemon au labo du professeur Homes (PS : ne prend pas vipeliere)"},
-	]
+	"professeur Homes" : {
+		"default": [
+			{"speaker": "Prof", "text": "Salut {nom du joeur pas encore implementer}, C'est le grand jour pour toi"},
+			{"speaker": "Prof", "text": "tu vas pouvoir choisir un des trois pokemon sur la table"},
+			{"speaker": "Prof", "text": "fais bien attention a ton choix la vie au dela des mur du village est rude"},
+			{"speaker": "Prof", "text": "Vipeliere est un choix horrible"}
+		],
+		"has_pokemon": [
+			{"speaker": "Prof", "text": "C'est bien mon coco mnt vas et perd"}
+		]
+	},
+	"Gate Keeper": {
+		"default": [
+			{"speaker": "Gate Keeper", "text": "Ou penses tu aller comme ca ?"},
+			{"speaker": "Gate Keeper", "text": "Personne n'est autoriser a sortir du village sans Pokemon pour l'accompagner"},
+			{"speaker": "Gate Keeper", "text": "Vas vite recupére un pokemon au labo du professeur Homes (PS : ne prend pas vipeliere)"},
+		]
+	}
 }
 
 func _process(delta: float) -> void:
@@ -30,16 +38,21 @@ func _process(delta: float) -> void:
 func startDialogue(dialogue_id : String):
 	if dialogueisActive == true :
 		return 
-		
+	var raw
 	if not dialogues.has(dialogue_id):
-		current_dialogue = [dialogue_id]
+		raw = dialogue_id
 	else :
-		current_dialogue = dialogues[dialogue_id] 
+		raw = dialogues[dialogue_id] 
 	
+	if raw is Dictionary:
+		current_dialogue = _resolve_variant(raw)
+	elif raw is Array:
+		current_dialogue = raw
+	else:
+		current_dialogue = [raw]
 	
 	dialogue_line_index = 0
 	dialogueisActive = true
-	
 	playerManager.lock_player()
 	emit_signal("dialogue_started")
 	showCurrentLine()
@@ -78,3 +91,11 @@ func end_dialogue():
 func is_active() -> bool :
 	return dialogueisActive
 	
+
+func _resolve_variant(variants: Dictionary) -> Array:
+	for key in variants.keys():
+		if key == "default":
+			continue
+		if StoryManager.has_flag(key):
+			return variants[key]
+	return variants.get("default", [])

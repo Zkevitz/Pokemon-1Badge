@@ -26,6 +26,7 @@ func _input(event):
 				print(get_parent())
 				if result == true: 
 					playerManager.player_instance.receiveGift(recompense_type, recompense_id)
+					StoryManager.set_flag("has_pokemon")
 					if need_to_free :
 						queue_free()
 						queue_free()

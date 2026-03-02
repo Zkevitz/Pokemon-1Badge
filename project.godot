@@ -29,6 +29,7 @@ Game="*res://src/Global/game.gd"
 playerManager="*res://src/Global/player_manager.gd"
 DialogueManager="*res://src/Global/dialogue_manager.gd"
 SoundManager="*res://src/Global/sound_manager.gd"
+StoryManager="*res://src/StoryManager.gd"
 
 [global_group]
 
