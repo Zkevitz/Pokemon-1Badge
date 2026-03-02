@@ -1,5 +1,7 @@
 extends Node2D
 
+var pokemon: PokemonNode
+
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -12,6 +14,7 @@ func _process(delta: float) -> void:
 
 
 func play_attack(sender : PokemonNode, receiver : PokemonNode, battleui : BattleUI):
+	pokemon = receiver
 	global_position = receiver.global_position
 	visible = true
 	$AnimationPlayer.play("RESET")
@@ -21,3 +24,7 @@ func play_attack(sender : PokemonNode, receiver : PokemonNode, battleui : Battle
 
 func setup_anim() ->void :
 	visible = false
+
+
+func change_pokemon_color() -> void:
+	pokemon.flash_color(Color(1, 1, 1), 0.5)

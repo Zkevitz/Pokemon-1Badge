@@ -9,11 +9,11 @@ length = 1.5
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Node/Foudre1:position")
+tracks/0/path = NodePath("Nodes/Foudres/Foudre1:position")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 1),
+"times": PackedFloat32Array(0.5, 1.5),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
 "values": [Vector2(-15, 23), Vector2(-59, 65)]
@@ -21,11 +21,11 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("Node/Foudre2:position")
+tracks/1/path = NodePath("Nodes/Foudres/Foudre2:position")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0, 1),
+"times": PackedFloat32Array(0.5, 1.5),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
 "values": [Vector2(-35, 7.9999995), Vector2(-105.99999, 21.999996)]
@@ -33,11 +33,11 @@ tracks/1/keys = {
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("Node/Foudre3:position")
+tracks/2/path = NodePath("Nodes/Foudres/Foudre3:position")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
-"times": PackedFloat32Array(0, 1),
+"times": PackedFloat32Array(0.5, 1.5),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
 "values": [Vector2(-28, -8.000002), Vector2(-77, -28)]
@@ -45,11 +45,11 @@ tracks/2/keys = {
 tracks/3/type = "value"
 tracks/3/imported = false
 tracks/3/enabled = true
-tracks/3/path = NodePath("Node/Foudre5:position")
+tracks/3/path = NodePath("Nodes/Foudres/Foudre5:position")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
-"times": PackedFloat32Array(0, 1),
+"times": PackedFloat32Array(0.5, 1.5),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
 "values": [Vector2(9.000002, -25.999998), Vector2(14, -50)]
@@ -57,11 +57,11 @@ tracks/3/keys = {
 tracks/4/type = "value"
 tracks/4/imported = false
 tracks/4/enabled = true
-tracks/4/path = NodePath("Node/Foudre6:position")
+tracks/4/path = NodePath("Nodes/Foudres/Foudre6:position")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/keys = {
-"times": PackedFloat32Array(0, 1),
+"times": PackedFloat32Array(0.5, 1.5),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
 "values": [Vector2(28, -12), Vector2(89.00001, -24)]
@@ -69,11 +69,11 @@ tracks/4/keys = {
 tracks/5/type = "value"
 tracks/5/imported = false
 tracks/5/enabled = true
-tracks/5/path = NodePath("Node/Foudre7:position")
+tracks/5/path = NodePath("Nodes/Foudres/Foudre7:position")
 tracks/5/interp = 1
 tracks/5/loop_wrap = true
 tracks/5/keys = {
-"times": PackedFloat32Array(0, 1),
+"times": PackedFloat32Array(0.5, 1.5),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
 "values": [Vector2(36, 9.999998), Vector2(64, 17)]
@@ -81,11 +81,11 @@ tracks/5/keys = {
 tracks/6/type = "value"
 tracks/6/imported = false
 tracks/6/enabled = true
-tracks/6/path = NodePath("Node/Foudre8:position")
+tracks/6/path = NodePath("Nodes/Foudres/Foudre8:position")
 tracks/6/interp = 1
 tracks/6/loop_wrap = true
 tracks/6/keys = {
-"times": PackedFloat32Array(0, 1),
+"times": PackedFloat32Array(0.5, 1.5),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
 "values": [Vector2(13, 23.999998), Vector2(33, 69)]
@@ -93,14 +93,40 @@ tracks/6/keys = {
 tracks/7/type = "value"
 tracks/7/imported = false
 tracks/7/enabled = true
-tracks/7/path = NodePath("Node/Foudre4:position")
+tracks/7/path = NodePath("Nodes/Foudres/Foudre4:position")
 tracks/7/interp = 1
 tracks/7/loop_wrap = true
 tracks/7/keys = {
-"times": PackedFloat32Array(0, 1),
+"times": PackedFloat32Array(0.5, 1.5),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
 "values": [Vector2(-10, -26), Vector2(-30, -92)]
+}
+tracks/8/type = "value"
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/path = NodePath("Nodes/Foudres:visible")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
+tracks/9/type = "method"
+tracks/9/imported = false
+tracks/9/enabled = true
+tracks/9/path = NodePath(".")
+tracks/9/interp = 1
+tracks/9/loop_wrap = true
+tracks/9/keys = {
+"times": PackedFloat32Array(0.3),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"change_pokemon_color"
+}]
 }
 
 [sub_resource type="Animation" id="Animation_d2oae"]
@@ -147,6 +173,7 @@ animations = [{
 }]
 
 [node name="EclairDePoing" type="Node2D"]
+z_index = 1
 texture_filter = 1
 script = ExtResource("1_cg4ct")
 
@@ -155,50 +182,52 @@ libraries = {
 &"": SubResource("AnimationLibrary_b2wya")
 }
 
-[node name="Node" type="Node2D" parent="."]
-z_index = 1
+[node name="Nodes" type="Node2D" parent="."]
 
-[node name="LePoing" type="Sprite2D" parent="Node"]
+[node name="LePoing" type="Sprite2D" parent="Nodes"]
 texture = SubResource("AtlasTexture_v1dwn")
 
-[node name="Foudre1" type="AnimatedSprite2D" parent="Node"]
+[node name="Foudres" type="Node2D" parent="Nodes"]
+visible = false
+
+[node name="Foudre1" type="AnimatedSprite2D" parent="Nodes/Foudres"]
 position = Vector2(-15, 23)
 rotation = 0.7468355
 sprite_frames = SubResource("SpriteFrames_nwmyo")
 
-[node name="Foudre2" type="AnimatedSprite2D" parent="Node"]
+[node name="Foudre2" type="AnimatedSprite2D" parent="Nodes/Foudres"]
 position = Vector2(-35, 7.9999995)
 rotation = -1.9350576
 sprite_frames = SubResource("SpriteFrames_nwmyo")
 
-[node name="Foudre3" type="AnimatedSprite2D" parent="Node"]
+[node name="Foudre3" type="AnimatedSprite2D" parent="Nodes/Foudres"]
 position = Vector2(-28, -8.000002)
 rotation = -1.2207016
 scale = Vector2(0.99999994, 0.99999994)
 sprite_frames = SubResource("SpriteFrames_nwmyo")
 
-[node name="Foudre4" type="AnimatedSprite2D" parent="Node"]
+[node name="Foudre4" type="AnimatedSprite2D" parent="Nodes/Foudres"]
 position = Vector2(-10, -26)
 rotation = -0.33211017
 scale = Vector2(0.99999994, 0.99999994)
 sprite_frames = SubResource("SpriteFrames_nwmyo")
 
-[node name="Foudre5" type="AnimatedSprite2D" parent="Node"]
+[node name="Foudre5" type="AnimatedSprite2D" parent="Nodes/Foudres"]
 position = Vector2(9.000002, -25.999998)
 rotation = -3.041307
 sprite_frames = SubResource("SpriteFrames_nwmyo")
 
-[node name="Foudre6" type="AnimatedSprite2D" parent="Node"]
+[node name="Foudre6" type="AnimatedSprite2D" parent="Nodes/Foudres"]
 position = Vector2(28, -12)
 rotation = 1.2743258
 sprite_frames = SubResource("SpriteFrames_nwmyo")
 
-[node name="Foudre7" type="AnimatedSprite2D" parent="Node"]
+[node name="Foudre7" type="AnimatedSprite2D" parent="Nodes/Foudres"]
 position = Vector2(36, 9.999998)
 rotation = 1.7281076
 sprite_frames = SubResource("SpriteFrames_nwmyo")
 
-[node name="Foudre8" type="AnimatedSprite2D" parent="Node"]
+[node name="Foudre8" type="AnimatedSprite2D" parent="Nodes/Foudres"]
 position = Vector2(13, 23.999998)
 rotation = -0.561069
 sprite_frames = SubResource("SpriteFrames_nwmyo")
