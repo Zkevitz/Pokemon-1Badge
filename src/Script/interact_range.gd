@@ -22,10 +22,12 @@ func _input(event):
 				need_to_free = true
 				img = pokemon_data.sprite_frames.get_frame_texture("idle", 0)
 				var result = await dialogueUi.askCustomQuestion(question_custom ,img)
-				
+				get_parent().visible = false
+				print(get_parent())
 				if result == true: 
 					playerManager.player_instance.receiveGift(recompense_type, recompense_id)
 					if need_to_free :
+						queue_free()
 						queue_free()
 			elif recompense_type == Game.recompenseType.TEAM_HEALING :
 				var result = await dialogueUi.askCustomQuestion(question_custom)

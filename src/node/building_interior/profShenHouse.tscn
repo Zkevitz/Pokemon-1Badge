@@ -3617,7 +3617,6 @@ tile_set = SubResource("TileSet_gi0cs")
 
 [node name="ChangeSceneComponent" parent="floor" instance=ExtResource("4_lr0mh")]
 position = Vector2(160, 149)
-destination_scene = "res://src/node/level_node/main_world.tscn"
 destination_pos = Vector2(3, 9)
 direction_input = "backward"
 
@@ -3637,12 +3636,13 @@ position = Vector2(304, -64)
 texture = ExtResource("8_bx1q0")
 offset = Vector2(0, 24)
 
-[node name="InteractRange" type="Area2D" parent="ysortingnode/Mypokeball3"]
+[node name="InteractRange3" type="Area2D" parent="ysortingnode/Mypokeball3"]
 script = ExtResource("7_qsg0m")
-question_custom = "Voulez vous ce pokemon ?"
+recompense_id = 7
+question_custom = "Voulez vous ce pokemon  ?"
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ysortingnode/Mypokeball3/InteractRange"]
-position = Vector2(-96, 34.125)
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ysortingnode/Mypokeball3/InteractRange3"]
+position = Vector2(1, 35)
 shape = SubResource("RectangleShape2D_lr0mh")
 
 [node name="Mypokeball2" type="Sprite2D" parent="ysortingnode"]
@@ -3669,14 +3669,13 @@ texture_filter = 1
 position = Vector2(208, -40)
 texture = ExtResource("8_bx1q0")
 
-[node name="InteractRange3" type="Area2D" parent="ysortingnode/Mypokeball"]
+[node name="InteractRange" type="Area2D" parent="ysortingnode/Mypokeball"]
 position = Vector2(96, -24)
 script = ExtResource("7_qsg0m")
-recompense_id = 7
-question_custom = "Voulez vous ce pokemon  ?"
+question_custom = "Voulez vous ce pokemon ?"
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ysortingnode/Mypokeball/InteractRange3"]
-position = Vector2(1, 35)
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ysortingnode/Mypokeball/InteractRange"]
+position = Vector2(-96, 34.125)
 shape = SubResource("RectangleShape2D_lr0mh")
 
 [node name="profhomes" parent="ysortingnode" node_paths=PackedStringArray("Walkinggrid", "MovingArea") instance=ExtResource("5_jpo0k")]
@@ -3702,9 +3701,9 @@ tile_set = ExtResource("5_0wjqe")
 [node name="MovingRangeprofhomes" parent="ysortingnode" instance=ExtResource("6_pw0ce")]
 position = Vector2(99, -58)
 
-[connection signal="body_entered" from="ysortingnode/Mypokeball3/InteractRange" to="ysortingnode/Mypokeball3/InteractRange" method="_on_body_entered"]
-[connection signal="body_exited" from="ysortingnode/Mypokeball3/InteractRange" to="ysortingnode/Mypokeball3/InteractRange" method="_on_body_exited"]
+[connection signal="body_entered" from="ysortingnode/Mypokeball3/InteractRange3" to="ysortingnode/Mypokeball3/InteractRange3" method="_on_body_entered"]
+[connection signal="body_exited" from="ysortingnode/Mypokeball3/InteractRange3" to="ysortingnode/Mypokeball3/InteractRange3" method="_on_body_exited"]
 [connection signal="body_entered" from="ysortingnode/Mypokeball2/InteractRange2" to="ysortingnode/Mypokeball2/InteractRange2" method="_on_body_entered"]
 [connection signal="body_exited" from="ysortingnode/Mypokeball2/InteractRange2" to="ysortingnode/Mypokeball2/InteractRange2" method="_on_body_exited"]
-[connection signal="body_entered" from="ysortingnode/Mypokeball/InteractRange3" to="ysortingnode/Mypokeball/InteractRange3" method="_on_body_entered"]
-[connection signal="body_exited" from="ysortingnode/Mypokeball/InteractRange3" to="ysortingnode/Mypokeball/InteractRange3" method="_on_body_exited"]
+[connection signal="body_entered" from="ysortingnode/Mypokeball/InteractRange" to="ysortingnode/Mypokeball/InteractRange" method="_on_body_entered"]
+[connection signal="body_exited" from="ysortingnode/Mypokeball/InteractRange" to="ysortingnode/Mypokeball/InteractRange" method="_on_body_exited"]
