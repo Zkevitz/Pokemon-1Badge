@@ -43,7 +43,7 @@ func play_attack(sender : PokemonNode, receiver : PokemonNode, battleui : Battle
 		flame.visible = true
 	running = true
 	SoundManager.play_sfx(preload("res://sound/SFX/attack_sfx/FireSpin2.mp3"), -10)
-	battleui.flash_red_screen(2)
+	battleui.flash_screen(2, Color(1,0,0,0.0))
 	await get_tree().create_timer(2).timeout
 
 func setup_anim() ->void :
