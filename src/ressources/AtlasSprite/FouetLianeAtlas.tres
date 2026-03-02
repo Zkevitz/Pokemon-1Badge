@@ -1,0 +1,7 @@
+[gd_resource type="AtlasTexture" load_steps=2 format=3 uid="uid://crjculn8waauo"]
+
+[ext_resource type="Texture2D" uid="uid://cqi1pepc3hnfj" path="res://assets/attackSprite/Vine Whip.png" id="1_a8aaw"]
+
+[resource]
+atlas = ExtResource("1_a8aaw")
+region = Rect2(68, 76, 14, 42)

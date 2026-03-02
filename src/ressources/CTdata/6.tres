@@ -1,5 +1,6 @@
-[gd_resource type="Resource" script_class="CT_data" load_steps=2 format=3 uid="uid://dq3gi7oa8rpl5"]
+[gd_resource type="Resource" script_class="CT_data" load_steps=3 format=3 uid="uid://dq3gi7oa8rpl5"]
 
+[ext_resource type="PackedScene" uid="uid://rmghvmogdgmq" path="res://src/node/attack_anim/node/fouet_liane_anim.tscn" id="1_jr40b"]
 [ext_resource type="Script" uid="uid://khacs4dumku4" path="res://src/ressources/DataSample/CT_data.gd" id="1_wu4hc"]
 
 [resource]
@@ -8,4 +9,6 @@ name = "Fouet Lianes"
 id = 6
 type = 4
 power = 45
+AnimName = "Done"
+AnimNode = ExtResource("1_jr40b")
 metadata/_custom_type_script = "uid://khacs4dumku4"

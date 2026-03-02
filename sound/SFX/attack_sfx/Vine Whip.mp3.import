@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://d260c7es4igti"
+path="res://.godot/imported/Vine Whip.mp3-cad84bbfe655b904fa5bbd88b9ea94c4.mp3str"
+
+[deps]
+
+source_file="res://sound/SFX/attack_sfx/Vine Whip.mp3"
+dest_files=["res://.godot/imported/Vine Whip.mp3-cad84bbfe655b904fa5bbd88b9ea94c4.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4
