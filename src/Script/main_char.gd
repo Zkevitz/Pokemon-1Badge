@@ -11,7 +11,7 @@ var currentState = animState.IDLE
 var current_direction := Vector2.DOWN	
 var previous_pos : Vector2
 var target_position := Vector2.ZERO
-var start_position := Vector2(3, -5)
+var StartPosition := Vector2(3, -5)
 var EnableInput := true
 
 var pokemonTeam : Array[PokemonInstance]
@@ -59,8 +59,8 @@ func _draw():
 				1.0
 			)
 func _ready() -> void:
-	global_position = walkgrid.map_to_local(start_position)
-	previous_pos = start_position
+	global_position = walkgrid.map_to_local(StartPosition)
+	previous_pos = StartPosition
 	player_inventory = Inventory.new()
 	player_inventory.add_item(Game.get_item_data("Potion"))
 	player_inventory.add_item(Game.get_item_data("Potion"))

@@ -1,7 +1,7 @@
 extends RayCast2D
 class_name RayCastComponent
 
-enum eventType {LOCK1, BATTLE, GIFT}
+enum eventType {LOCK1, BATTLE, GIFT, RIVAL}
 @onready var pnj = get_parent()
 @export var EventType : eventType = eventType.LOCK1
 var player_detected = false
@@ -35,3 +35,12 @@ func _on_gift() -> void:
 	if StoryManager.get_flag("has_pokemon") and not StoryManager.get_flag("keeper_gift_done"):
 		await pnj.block_player_way(0)
 		StoryManager.set_flag("keeper_gift_done")
+
+
+func _on_rival() -> void:
+	pass
+	# Deactivate player
+	# Activate Rivale visibility
+	# Make Rival goto player
+	# Talk
+	# Combat

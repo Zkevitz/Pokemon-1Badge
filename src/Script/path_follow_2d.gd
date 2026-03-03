@@ -42,7 +42,7 @@ func _process(delta: float) -> void:
 	progress = current_progress
 
 	# Donner une vraie cible au PNJ
-	childpnj.target_position = next_position
+	childpnj.movement.target_position = next_position
 
 	# Laisser le PNJ gérer le mouvement
 	if childpnj.handle_path_moving(delta):

@@ -28,7 +28,7 @@ func start_first_event():
 	
 	await _npc_walk_to_player(npc)
 	npc.move_direction = Vector2.LEFT
-	npc.update_animation("idle")
+	npc.animator.play("idle")
 	await npc.show_exclamation_mark()
 	await _play_dialogue("Gate Keeper")
 	_npc_teleport_to(npc, base_pos)

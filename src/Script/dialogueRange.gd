@@ -30,5 +30,5 @@ func _on_body_exited(body: Node2D) -> void:
 	if body.is_in_group("player"):
 		print("body exited")
 		player_nearby = false
-		if pnjNode.hasToMove == true:
+		if pnjNode.has_to_move == true:
 			pnjNode.set_physics_process(true)
