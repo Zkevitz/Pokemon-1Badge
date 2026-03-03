@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="CT_data" load_steps=3 format=3 uid="uid://ddpj10lqkfplf"]
+
+[ext_resource type="PackedScene" uid="uid://dw2xwoo02g782" path="res://src/node/attack_anim/node/gros_yeux_anim.tscn" id="1_et0qr"]
+[ext_resource type="Script" uid="uid://khacs4dumku4" path="res://src/ressources/DataSample/CT_data.gd" id="1_nao1u"]
+
+[resource]
+script = ExtResource("1_nao1u")
+name = "Gros-yeux"
+id = 23
+category = "STATUS"
+power = 0
+max_pp = 20
+type_effect = 7
+AnimName = "Done"
+AnimNode = ExtResource("1_et0qr")
+metadata/_custom_type_script = "uid://khacs4dumku4"
