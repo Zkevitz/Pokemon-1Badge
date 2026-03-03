@@ -1,7 +1,7 @@
 extends RayCast2D
 class_name RayCastComponent
 
-enum eventType {LOCK1, BATTLE}
+enum eventType {LOCK1, BATTLE, GIFT}
 @onready var pnj = get_parent()
 @export var EventType : eventType = eventType.LOCK1
 var player_detected = false
@@ -24,6 +24,9 @@ func _process(_delta: float) -> void:
 				elif EventType == eventType.BATTLE :
 					print("try to start battle ? ")
 					await pnj.block_player_way(1)
+				elif EventType == eventType.GIFT:
+					await pnj.block_player_way(0)
+					StoryManager.set_flag("keeper_gift_done")
 	else:
 		if player_detected:
 			player_detected = false

@@ -25,6 +25,10 @@ var dialogues = {
 			{"speaker": "Gate Keeper", "text": "Ou penses tu aller comme ca ?"},
 			{"speaker": "Gate Keeper", "text": "Personne n'est autoriser a sortir du village sans Pokemon pour l'accompagner"},
 			{"speaker": "Gate Keeper", "text": "Vas vite recupére un pokemon au labo du professeur Homes (PS : ne prend pas vipeliere)"},
+		],
+		"has_pokemon": [
+			{"speaker": "Gate Keeper", "text": "Ah, tu as enfin un Pokemon ! J'éspère que ce n'est pas vipélière."},
+			{"speaker": "Gate Keeper", "text": "J'imagine que t'es déjà calé en Pokemon. Voici quelques items pour bien débuter."},
 		]
 	}
 }
