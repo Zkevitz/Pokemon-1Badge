@@ -1,10 +1,14 @@
-[gd_scene load_steps=11 format=3 uid="uid://1uakxs0g1ww7"]
+[gd_scene load_steps=15 format=3 uid="uid://1uakxs0g1ww7"]
 
 [ext_resource type="Script" uid="uid://c3p0uj3l0n0kb" path="res://src/Script/base_pnj.gd" id="1_gcfjo"]
 [ext_resource type="SpriteFrames" uid="uid://81478om21fcm" path="res://src/ressources/pnj/pnjskinVillageKeeper.tres" id="2_gga0g"]
 [ext_resource type="SpriteFrames" uid="uid://ppc28xq17ju6" path="res://src/ressources/pnj/profSprite2.tres" id="3_gga0g"]
 [ext_resource type="Script" uid="uid://dp6hj764hcaq5" path="res://src/Script/dialogueRange.gd" id="3_otc5f"]
 [ext_resource type="Texture2D" uid="uid://cqn2mcl45tp4f" path="res://assets/mytexture/exclamationmark2.png" id="4_ssg8f"]
+[ext_resource type="Script" uid="uid://blvt35a5kslws" path="res://src/Script/npc_animation_component.gd" id="6_8nsee"]
+[ext_resource type="Script" uid="uid://cx6tgs5s2o0h4" path="res://src/Script/npc_movement_component.gd" id="7_e10he"]
+[ext_resource type="Script" uid="uid://kmymnlan3fg5" path="res://src/Script/npc_pathfinding_component.gd" id="8_exxnr"]
+[ext_resource type="Script" uid="uid://3i5488y40yw3" path="res://src/Script/npc_event_component.gd" id="9_vb87o"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_otc5f"]
 size = Vector2(7, 5.75)
@@ -102,7 +106,7 @@ y_sort_enabled = true
 script = ExtResource("1_gcfjo")
 spriteframe = ExtResource("2_gga0g")
 
-[node name="Sprite2D" type="AnimatedSprite2D" parent="."]
+[node name="NpcSprite" type="AnimatedSprite2D" parent="."]
 position = Vector2(0, -7)
 scale = Vector2(0.55, 0.6)
 sprite_frames = ExtResource("3_gga0g")
@@ -133,6 +137,18 @@ root_node = NodePath("../..")
 libraries = {
 &"": SubResource("AnimationLibrary_8nwc5")
 }
+
+[node name="NpcAnimationComponent" type="Node" parent="."]
+script = ExtResource("6_8nsee")
+
+[node name="NpcMovementComponent" type="Node" parent="."]
+script = ExtResource("7_e10he")
+
+[node name="NpcPathfindingComponent" type="Node" parent="."]
+script = ExtResource("8_exxnr")
+
+[node name="NpcEventComponent" type="Node" parent="."]
+script = ExtResource("9_vb87o")
 
 [connection signal="body_entered" from="interactRange" to="interactRange" method="_on_body_entered"]
 [connection signal="body_exited" from="interactRange" to="interactRange" method="_on_body_exited"]

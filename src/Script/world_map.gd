@@ -13,15 +13,48 @@ func _ready() -> void:
 	Game.World_Map = self
 	playerManager.World_Map = self
 	scene_memory["MainWorld"] = get_node("MainWorld")
+	if not StoryManager.get_flag("intro_done"):
+		call_deferred("start_first_event")
 	#if is_launched == false :
 		#is_launched = true
 		#start_first_event()
 
+var g_astar
+
 func start_first_event():
 	playerManager.desacPlayer(true)
-	var village_keeper_npc = Game.get_NPC("VillageKeeper")
-	village_keeper_npc.go_to(village_keeper_npc.get_position_in_front_of_player())
+	var npc = Game.get_NPC("VillageKeeper")
+	var base_pos = npc.global_position
 	
+	await _npc_walk_to_player(npc)
+	npc.move_direction = Vector2.LEFT
+	npc.animator.play("idle")
+	await npc.show_exclamation_mark()
+	await _play_dialogue("Gate Keeper")
+	_npc_teleport_to(npc, base_pos)
+	
+	StoryManager.set_flag("intro_done")
+	playerManager.activatePlayer()
+
+
+func _npc_walk_to_player(npc) -> void:
+	var npc_map_pos = npc.Walkinggrid.local_to_map(npc.global_position)
+	var player_map_pos =  npc.Walkinggrid.local_to_map(playerManager.player_instance.global_position)
+	g_astar = npc._setup_AStarGrid(npc_map_pos, 40)
+	await npc.follow_AStar_point(g_astar.get_id_path(npc_map_pos, player_map_pos), 1)
+
+
+func _play_dialogue(dialogue_id: String) -> void:
+	DialogueManager.startDialogue(dialogue_id)
+	await DialogueManager.dialogue_ended
+
+
+func _npc_teleport_to(npc, pos: Vector2) -> void:
+	npc.visible = false
+	npc.global_position = pos
+	npc.visible = true
+
+
 func _exit_tree() -> void:
 	# Nettoyer toutes les scènes en mémoire
 	for scene in scene_memory:

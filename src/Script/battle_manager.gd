@@ -482,7 +482,7 @@ func _handle_faint(pokemon : PokemonInstance):
 			#logique IA de choix pokemon a implementer
 			enemy_pokemon = available_pokemon.pick_random()
 			setup_new_pokemon_node(enemy_pokemon, false)
-			_queue_text("Trainer %s envoie %s !" % [EnemyTrainer.interactRange.dialogue_id, enemy_pokemon.pokemon_name])
+			_queue_text("Trainer %s envoie %s !" % [EnemyTrainer.interact_range.dialogue_id, enemy_pokemon.pokemon_name])
 			await _process_text_queue()
 			execute_next_turn()
 			

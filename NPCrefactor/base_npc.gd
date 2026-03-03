@@ -6,7 +6,7 @@ class_name NPC
 @export var start_direction : Vector2 = Vector2.DOWN
 
 @export_group("Position")
-@export var start_position : Vector2 = Vector2(10, 10)
+@export var StartPosition : Vector2 = Vector2(10, 10)
 @export var Walkgrid : TileMapLayer
 
 @onready var sprite := $AnimatedSprite2D
@@ -27,7 +27,7 @@ func _setup_sprite():
 
 func _setup_position():
 	if Walkgrid :
-		global_position = Walkgrid.map_to_local(start_position)
+		global_position = Walkgrid.map_to_local(StartPosition)
 
 
 func _setup_component():
