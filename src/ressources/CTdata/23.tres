@@ -11,6 +11,7 @@ category = "STATUS"
 power = 0
 max_pp = 20
 type_effect = 7
+chance = 100
 AnimName = "Done"
 AnimNode = ExtResource("1_et0qr")
 metadata/_custom_type_script = "uid://khacs4dumku4"

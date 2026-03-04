@@ -13,8 +13,8 @@ func _ready() -> void:
 	Game.World_Map = self
 	playerManager.World_Map = self
 	scene_memory["MainWorld"] = get_node("MainWorld")
-	if not StoryManager.get_flag("intro_done"):
-		call_deferred("start_first_event")
+	#if not StoryManager.get_flag("intro_done"):
+		#call_deferred("start_first_event")
 	#if is_launched == false :
 		#is_launched = true
 		#start_first_event()

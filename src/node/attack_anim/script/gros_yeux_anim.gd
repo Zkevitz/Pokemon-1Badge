@@ -14,6 +14,6 @@ func play_attack(sender : PokemonNode, receiver : PokemonNode, battle_ui : Battl
 	global_position.x += 20
 	visible = true
 	anim.play("default")
+	battle_ui.flash_screen(1.0 ,Color(0, 0, 0, 0.2))
 	SoundManager.play_sfx(preload("res://sound/SFX/attack_sfx/Leer.mp3"), -15)
 	await anim.animation_finished	
-	

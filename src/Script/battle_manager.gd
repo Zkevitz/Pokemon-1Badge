@@ -344,6 +344,8 @@ func apply_move_effect(move : CT_data, attacker : PokemonInstance, defender : Po
 			await move_effect_manager.lower_target_atk(defender, move.power_effect)
 		CT_data.Effect.BOOST_TARGET_ATK :
 			await move_effect_manager.boost_target_atk(attacker, move.power_effect)
+		CT_data.Effect.LOWER_ENEMY_DEF  :
+			await move_effect_manager.lower_target_defense(defender, move.power_effect)
 	
 	await _process_text_queue()
 	return true

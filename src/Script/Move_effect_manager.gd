@@ -128,7 +128,21 @@ func lower_target_atk(target_pokemon : PokemonInstance, power : int):
 			battleManager._queue_text("l'attaque de %s baisse !" % target_pokemon.pokemon_name)
 		2 :
 			battleManager._queue_text("l'attaque de %s baisse enormement!" % target_pokemon.pokemon_name)
-			
+
+func lower_target_defense(target_pokemon : PokemonInstance, power : int ):
+	if target_pokemon.Def_dict["ratio"] == STAT_STAGES[0]:
+		battleManager._queue_text("la defense de %s est deja au minimum" % target_pokemon.pokemon_name)
+		return
+	target_pokemon.Def_dict["ratio"] = lower_stat(target_pokemon.Def_dict["ratio"], power)
+	target_pokemon.pokemon_node.Drop_stat_anim()
+	SoundManager.play_sfx(preload("res://sound/SFX/status/Stat Down.ogg"), -10)
+	await target_pokemon.pokemon_node.animation_finished
+	match power :
+		1 :
+			battleManager._queue_text("l'attaque de %s baisse !" % target_pokemon.pokemon_name)
+		2 :
+			battleManager._queue_text("l'attaque de %s baisse enormement!" % target_pokemon.pokemon_name)
+	
 func boost_target_atk(target_pokemon : PokemonInstance, power : int):
 	if target_pokemon.Atk_dict["ratio"] == STAT_STAGES[12]:
 		battleManager._queue_text("l'attaque de %s est deja au maximum !" % target_pokemon.pokemon_name)

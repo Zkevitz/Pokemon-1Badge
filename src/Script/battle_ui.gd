@@ -331,17 +331,18 @@ func _on_button_2_pressed() -> void:
 
 
 func flash_screen(duration: float, color: Color) -> void:
-	var red_overlay = ColorRect.new()
-	red_overlay.color = color
-	red_overlay.set_anchors_preset(Control.PRESET_FULL_RECT)
-	add_child(red_overlay)
-	move_child(red_overlay, $PlayerInfo.get_index())
+	var color_overlay = ColorRect.new()
+	color_overlay.color = color
+	color_overlay.set_anchors_preset(Control.PRESET_FULL_RECT)
+	add_child(color_overlay)
+	move_child(color_overlay, $PlayerInfo.get_index())
+	#pourquoi pas direct playerInfo.add_child ? + il y a deja une variable player_info dans ce fichier
 	
 	var fade_time := 0.3
 	var tween = create_tween()
-	var dimmed = color.a + 0.5
-	tween.tween_property(red_overlay, "color", Color(color.r, color.g, color.b, dimmed), fade_time)
+	var dimmed = color.a + 0.5 # autant envoyer ta couleur avec + d'alpha que d'obligé la fonction a augmenté l'a
+	tween.tween_property(color_overlay, "color", Color(color.r, color.g, color.b, dimmed), fade_time)
 	tween.tween_interval(duration - fade_time * 2)
-	tween.tween_property(red_overlay, "color", color, fade_time)
+	tween.tween_property(color_overlay, "color", color, fade_time)
 	await tween.finished
-	red_overlay.queue_free()
+	color_overlay.queue_free()
