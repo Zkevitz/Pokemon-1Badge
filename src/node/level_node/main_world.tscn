@@ -20,14 +20,7 @@ _data = {
 }
 point_count = 26
 
-[sub_resource type="Resource" id="Resource_jlhx3"]
-script = ExtResource("14_xyqvi")
-PokemonIds = 10
-PokemonLevel = 6
-PokemonMoves = Array[int]([8, 3, 5])
-metadata/_custom_type_script = "uid://3kt0w0u1c0o1"
-
-[node name="MainWorld" type="Node2D"]
+[node name="MainWorld" type="Node2D"]   
 texture_filter = 1
 script = ExtResource("1_te5bc")
 metadata/_edit_horizontal_guides_ = [-1099.0]
