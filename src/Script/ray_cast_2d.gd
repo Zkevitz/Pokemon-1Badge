@@ -14,16 +14,19 @@ func _ready() -> void:
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta: float) -> void:
 	if is_colliding() and get_collider().is_in_group("player"):
-			if not player_detected  :
-				match EventType:
-					eventType.LOCK1 : await _on_lock()
-					eventType.BATTLE : await _on_battle()
-					eventType.GIFT : await _on_gift()
+		if not player_detected:
+			player_detected = true
+			match EventType:
+				eventType.LOCK1 : await _on_lock()
+				eventType.BATTLE : await _on_battle()
+				eventType.GIFT : await _on_gift()
+	else:
+		player_detected = false
 
 
 func _on_lock() -> void:
 	if playerManager.player_instance.pokemonTeam.size() == 0:
-		await pnj.block_player_way(1)
+		await pnj.block_player_way(0)
 
 
 func _on_battle() -> void:
@@ -32,8 +35,10 @@ func _on_battle() -> void:
 
 
 func _on_gift() -> void:
-	if StoryManager.get_flag("has_pokemon") and not StoryManager.get_flag("keeper_gift_done"):
-		await pnj.block_player_way(0)
+	if StoryManager.get_flag("keeper_gift_done"):
+		return
+	await pnj.block_player_way(0)
+	if StoryManager.get_flag("has_pokemon"):
 		StoryManager.set_flag("keeper_gift_done")
 
 
