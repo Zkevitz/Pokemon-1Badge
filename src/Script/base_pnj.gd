@@ -19,7 +19,7 @@ enum animState {IDLE, MOVING, NONE, MOVE_TO_PLAYER}
 @export var hasDialogue : bool = true
 
 @export var Walkinggrid : TileMapLayer
-@export var moving_area : Area2D
+@export var MovingArea : Area2D
 @export var start_direction : Vector2 = Vector2.DOWN
 @export var pokemon_team_data : Array[TrainerPokemonData]
 @export var moving_range_size : Vector2 = Vector2(128, 96)
@@ -64,10 +64,10 @@ func _setup_movement() -> void:
 		set_physics_process(false)
 		return
 	if not has_path_follow:
-		if moving_area == null:
+		if MovingArea == null:
 			return
-		var shape = moving_area.get_node("CollisionShape2D").shape as RectangleShape2D
-		movement.area_size = shape.get_rect()
+		var shape = MovingArea.get_node("CollisionShape2D").shape as RectangleShape2D
+		movement.AreaSize = shape.get_rect()
 		movement.target_position = global_position
 		movement.mouvement_timer = movement.TIME_BETWEEN_MOVE
 

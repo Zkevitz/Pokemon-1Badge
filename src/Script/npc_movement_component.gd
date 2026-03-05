@@ -17,7 +17,7 @@ var _moving_area : Area2D
 func setup(npc: CharacterBody2D) -> void:
 	_npc = npc
 	_animator = npc.get_node("NpcAnimationComponent")
-	_moving_area = npc.get_node_or_null("MovingArea")
+	_moving_area = npc.MovingArea
 
 
 func go_to(pos: Vector2) -> void:
