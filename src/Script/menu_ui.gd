@@ -3,6 +3,7 @@ class_name MenuUi
 
 
 var is_open = false
+var in_fight_open = false
 
 @onready var fullMenu := $fullMenu
 @onready var pokemonMenu := $PokemonMenu
@@ -172,6 +173,8 @@ func update_stat_line(value_to_change : Label, value: int):
 	value_to_change.text = str(value)
 	
 func _input(event: InputEvent) :
+	if in_fight_open == true : 
+		return
 	if event.is_action_pressed("openMenu") and is_open == false: 
 		show_global_menu()
 		is_open = true

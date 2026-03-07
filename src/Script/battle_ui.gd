@@ -208,8 +208,11 @@ func show_main_menu(Visible : bool = true):
 func show_move(Visible : bool = true):
 	move_menu.visible = Visible
 
-func show_pokemon(Visible : bool = true):
-	PokemonMenu.visible = Visible
+func hide_pokemon_menu():
+	var menuUi = Game.GlobalUI.get_MenuUi()
+	menuUi.layer -= 1
+	menuUi.in_fight_open = false
+	menuUi.hide_global_menu()
 	
 func show_text(Visible : bool = true):
 	text_box.visible = Visible
@@ -217,7 +220,7 @@ func show_text(Visible : bool = true):
 						
 func show_move_menu(pokemon : PokemonInstance):
 	show_text(false)
-	show_pokemon(false)
+	hide_pokemon_menu()
 	show_move(true)
 
 	for i in range(4):
@@ -249,21 +252,9 @@ func show_pokemon_menu(player_team : Array[PokemonInstance], other_option : bool
 	var menuUi = Game.GlobalUI.get_MenuUi()
 	var callable = pokemonSelected.bind(other_option)
 	menuUi.layer += 1
+	menuUi.in_fight_open = true
 	menuUi.show_pokemon_menu(callable)
-	#var buttonlist = PokemonMenu.get_node("MarginContainer/VBoxContainer").get_children()
-	#buttonlist += PokemonMenu.get_node("MarginContainer2/VBoxContainer2").get_children()
-	#for i in range(6) :
-		#var button = buttonlist[i]
-		#Utils.disconnect_all_connections(button)
-		#if i < player_team.size():
-			#var pokemon = player_team[i]
-			#button.icon = player_team[i].data.sprite_frames.get_frame_texture("menu", 0)
-			#MenuUi.setup_pokemon_button(button, pokemon)
-			#button.disabled = pokemon.Hp_dict["current"] <= 0
-			#button.pressed.connect(func() : pokemon_selected.emit(i, other_option))
-		#else : 
-			#button.text = "NONE"
-			#
+	
 func pokemonSelected(pokemon : PokemonInstance, is_switch : bool):
 	pokemon_selected.emit(pokemon, is_switch)
 	

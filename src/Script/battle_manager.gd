@@ -131,7 +131,7 @@ func _on_action_selected(action : actionType):
 			return
 		actionType.RUN :
 			ui_node.show_move(false)
-			ui_node.show_pokemon(false)
+			ui_node.hide_pokemon_menu()
 			attempt_escape()
 
 func _on_move_selected(move_index : int):
@@ -160,7 +160,7 @@ func _on_pokemon_selected(pokemon : PokemonInstance, is_switch : bool):
 	
 	ui_node.show_main_menu(false)
 	ui_node.show_move(false)	
-	ui_node.show_pokemon(false)
+	ui_node.hide_pokemon_menu()
 	ui_node.show_text(true)
 	
 	if is_switch : 
