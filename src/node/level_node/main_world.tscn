@@ -20,7 +20,7 @@ _data = {
 }
 point_count = 26
 
-[node name="MainWorld" type="Node2D"]
+[node name="MainWorld" type="Node2D"]   
 texture_filter = 1
 script = ExtResource("1_te5bc")
 metadata/_edit_horizontal_guides_ = [-1099.0]
