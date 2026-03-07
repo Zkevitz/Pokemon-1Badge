@@ -155,12 +155,11 @@ func _on_move_selected(move_index : int):
 	_queue_turn(enemy_pokemon, player_pokemon, actionType.IA, null)
 	await _process_turn_queue()
 
-func _on_pokemon_selected(pokemon_index : int, is_switch : bool):
+func _on_pokemon_selected(pokemon : PokemonInstance, is_switch : bool):
 	current_state = battleState.POKEMON_SELECTION
-	var pokemon = player_team[pokemon_index]
 	
 	ui_node.show_main_menu(false)
-	ui_node.show_move(false)
+	ui_node.show_move(false)	
 	ui_node.show_pokemon(false)
 	ui_node.show_text(true)
 	

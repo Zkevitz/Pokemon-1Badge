@@ -6,7 +6,7 @@ enum actionType {FIGHT, POKEMON, BAG, RUN}
 signal action_selected(Type : actionType)
 signal move_selected(move_index: int)
 signal moveReplacementSelected(moveArray: Array[int])
-signal pokemon_selected(pokemon_index : int, is_switch : bool)
+signal pokemon_selected(pokemon : PokemonInstance, is_switch : bool)
 #signal item_selected(item_id : int)
 signal text_finished
 signal choice_made(choice : bool)
@@ -244,22 +244,29 @@ func show_pokemon_menu(player_team : Array[PokemonInstance], other_option : bool
 		show_main_menu(false)
 	show_text(false)
 	show_move(false)
-	show_pokemon(true)
+	#show_pokemon(true)
 	
-	var buttonlist = PokemonMenu.get_node("MarginContainer/VBoxContainer").get_children()
-	buttonlist += PokemonMenu.get_node("MarginContainer2/VBoxContainer2").get_children()
-	for i in range(6) :
-		var button = buttonlist[i]
-		Utils.disconnect_all_connections(button)
-		if i < player_team.size():
-			var pokemon = player_team[i]
-			button.icon = player_team[i].data.sprite_frames.get_frame_texture("menu", 0)
-			MenuUi.setup_pokemon_button(button, pokemon)
-			button.disabled = pokemon.Hp_dict["current"] <= 0
-			button.pressed.connect(func() : pokemon_selected.emit(i, other_option))
-		else : 
-			button.text = "NONE"
-			
+	var menuUi = Game.GlobalUI.get_MenuUi()
+	var callable = pokemonSelected.bind(other_option)
+	menuUi.layer += 1
+	menuUi.show_pokemon_menu(callable)
+	#var buttonlist = PokemonMenu.get_node("MarginContainer/VBoxContainer").get_children()
+	#buttonlist += PokemonMenu.get_node("MarginContainer2/VBoxContainer2").get_children()
+	#for i in range(6) :
+		#var button = buttonlist[i]
+		#Utils.disconnect_all_connections(button)
+		#if i < player_team.size():
+			#var pokemon = player_team[i]
+			#button.icon = player_team[i].data.sprite_frames.get_frame_texture("menu", 0)
+			#MenuUi.setup_pokemon_button(button, pokemon)
+			#button.disabled = pokemon.Hp_dict["current"] <= 0
+			#button.pressed.connect(func() : pokemon_selected.emit(i, other_option))
+		#else : 
+			#button.text = "NONE"
+			#
+func pokemonSelected(pokemon : PokemonInstance, is_switch : bool):
+	pokemon_selected.emit(pokemon, is_switch)
+	
 func showLevelUpMoveMenu(pokemon : PokemonInstance, newMoveID: CT_data):
 	#hide_all_menu()
 	text_box.visible = false

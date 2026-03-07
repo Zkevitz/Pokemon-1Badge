@@ -35,7 +35,7 @@ func hide_pokemon_menu():
 	pokemonMenu.visible = false
 	fullMenu.visible = true
 	
-func show_pokemon_menu(item_data : Item_data = null):
+func show_pokemon_menu(callable : Callable = show_pokemon_stat_menu):
 	fullMenu.visible = false
 	pokemonStatmenuButton.visible = false
 	InventoryMenu.visible = false
@@ -52,10 +52,8 @@ func show_pokemon_menu(item_data : Item_data = null):
 				setup_pokemon_button(button, pokemon)
 				for connection in button.pressed.get_connections():
 					button.pressed.disconnect(connection.callable)
-				if item_data : 
-					button.connect("pressed", use_item_on_pokemon.bind(pokemon, item_data))
-				else :
-					button.connect("pressed", show_pokemon_stat_menu.bind(pokemon))
+				if callable :
+					button.connect("pressed", callable.bind(pokemon))
 			else :
 				button.text = "None"
 			i += 1
@@ -231,8 +229,8 @@ func Show_item_left_part(index: int) -> void:
 	var ItemListNode = InventoryMenu.get_node("ItemList")
 	
 	var item_data = ItemListNode.get_item_metadata(index)
-	
-	UseButton.connect("pressed", show_pokemon_menu.bind(item_data))
+	var callable = use_item_on_pokemon.bind(item_data)
+	UseButton.connect("pressed", show_pokemon_menu.bind(callable))
 	IconHolder.texture = item_data.icon
 	DescriptionHolder.text = item_data.Description
 	ItemName.text = item_data.Item_name
