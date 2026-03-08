@@ -96,7 +96,7 @@ func stop_transition():
 func startBattleUi():
 	battle_ui = battleui.instantiate()
 	print(battle_ui)
-	get_tree().root.add_child(battle_ui)
+	GlobalUI.add_child(battle_ui)
 
 func startBattleManager():
 	battleManager = Battlemanager.new()

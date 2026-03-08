@@ -24,7 +24,6 @@ signal choice_made(choice : bool)
 @onready var EnemyMarker2d := $Marker2D2
 @onready var AllyMarker2d := $Marker2D
 @onready var BackgroundTexture := $TextureRect
-@onready var PokemonMenu := $PokemonMenu
 
 
 var move_button_connections : Array = []
@@ -209,7 +208,7 @@ func show_move(Visible : bool = true):
 
 func hide_pokemon_menu():
 	var menuUi = Game.GlobalUI.get_MenuUi()
-	menuUi.layer -= 1
+	menuUi.layer = 1
 	menuUi.in_fight_open = false
 	var button = menuUi.pokemonMenu.get_node("BackButton")
 	button.disabled = false
@@ -248,16 +247,16 @@ func show_pokemon_menu(player_team : Array[PokemonInstance], other_option : bool
 		show_main_menu(false)
 	show_text(false)
 	show_move(false)
-	#show_pokemon(true)
 	
 	var menuUi = Game.GlobalUI.get_MenuUi()
 	var callable = pokemonSelected.bind(other_option)
-	menuUi.layer += 1
+	menuUi.layer = 2
 	menuUi.in_fight_open = true
 	
 	var button = menuUi.pokemonMenu.get_node("BackButton")
 	button.disabled = true
 	menuUi.show_pokemon_menu(callable)
+	menuUi.pokemonMenu.visible = true
 	
 func pokemonSelected(pokemon : PokemonInstance, is_switch : bool):
 	pokemon_selected.emit(pokemon, is_switch)

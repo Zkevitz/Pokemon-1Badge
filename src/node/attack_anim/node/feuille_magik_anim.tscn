@@ -152,6 +152,7 @@ angular_velocity_curve = SubResource("CurveTexture_2kpdv")
 gravity = Vector3(0, 0, 0)
 
 [node name="FeuilleMagikAnim" type="Node2D"]
+z_index = 1
 script = ExtResource("1_orwwa")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
