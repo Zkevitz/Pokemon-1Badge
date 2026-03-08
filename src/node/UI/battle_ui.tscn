@@ -395,14 +395,13 @@ layout_mode = 2
 text = "Escape"
 
 [node name="movecontainer" type="GridContainer" parent="."]
-visible = false
 offset_left = 108.0
 offset_top = 497.0
 offset_right = 594.0
 offset_bottom = 655.0
 theme_override_constants/h_separation = 50
 theme_override_constants/v_separation = 20
-columns = 2
+columns = 3
 
 [node name="Move1Button" type="Button" parent="movecontainer"]
 custom_minimum_size = Vector2(200, 60)
@@ -414,47 +413,21 @@ custom_minimum_size = Vector2(200, 60)
 layout_mode = 2
 text = "Move2Button"
 
+[node name="Row1Spacer" type="Control" parent="movecontainer"]
+custom_minimum_size = Vector2(200, 60)
+layout_mode = 2
+
 [node name="Move3Button" type="Button" parent="movecontainer"]
 custom_minimum_size = Vector2(200, 60)
 layout_mode = 2
 text = "Move3Button"
 
 [node name="Move4Button" type="Button" parent="movecontainer"]
-layout_mode = 2
-text = "Move4Button
-"
-
-[node name="LvlUpMoveContainer" type="GridContainer" parent="."]
-visible = false
-offset_left = 334.0
-offset_top = 261.0
-offset_right = 786.0
-offset_bottom = 481.0
-theme_override_constants/h_separation = 50
-theme_override_constants/v_separation = 20
-columns = 2
-
-[node name="Move1Button" type="Button" parent="LvlUpMoveContainer"]
 custom_minimum_size = Vector2(200, 60)
 layout_mode = 2
-text = "Move1 Button"
+text = "Move4Button"
 
-[node name="Move2Button" type="Button" parent="LvlUpMoveContainer"]
-custom_minimum_size = Vector2(200, 60)
-layout_mode = 2
-text = "Move2Button"
-
-[node name="Move3Button" type="Button" parent="LvlUpMoveContainer"]
-custom_minimum_size = Vector2(200, 60)
-layout_mode = 2
-text = "Move3Button"
-
-[node name="Move4Button" type="Button" parent="LvlUpMoveContainer"]
-layout_mode = 2
-text = "Move4Button
-"
-
-[node name="Move5Button" type="Button" parent="LvlUpMoveContainer"]
+[node name="Move5Button" type="Button" parent="movecontainer"]
 custom_minimum_size = Vector2(200, 60)
 layout_mode = 2
 text = "Move5 Button"

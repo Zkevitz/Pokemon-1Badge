@@ -16,7 +16,6 @@ signal choice_made(choice : bool)
 @onready var text_box := $textebox
 @onready var main_menu := $MainMenu
 @onready var move_menu := $movecontainer
-@onready var lvlUpMoveContainer: GridContainer = $LvlUpMoveContainer
 @onready var yesNoBox: Panel = $textebox/yes_noBox
 @onready var TransitionAnim := $AnimationPlayer
 @onready var PlayerpokemonContainer := $PlayerInfo/PlayerPokemon
@@ -38,7 +37,7 @@ var battleManager : Battlemanager
 func _ready() -> void:
 	print("info panel : ", player_info)
 	move_menu.visible = false
-	lvlUpMoveContainer.visible = false
+	move_menu.get_node("Move5Button").visible = false
 	yesNoBox.visible = false
 	
 	start_color_info_panel = player_info.modulate
@@ -262,13 +261,12 @@ func pokemonSelected(pokemon : PokemonInstance, is_switch : bool):
 	pokemon_selected.emit(pokemon, is_switch)
 	
 func showLevelUpMoveMenu(pokemon : PokemonInstance, newMoveID: CT_data):
-	#hide_all_menu()
 	text_box.visible = false
-	move_menu.visible = false
-	lvlUpMoveContainer.visible = true
-	
+	move_menu.get_node("Move5Button").visible = true
+	move_menu.visible = true
+
 	for i in range(5):
-		var button = lvlUpMoveContainer.get_node("Move%dButton" % (i + 1))
+		var button = move_menu.get_node("Move%dButton" % (i + 1))
 		Utils.disconnect_all_connections(button)
 		var move: CT_data
 		var callable
@@ -298,12 +296,12 @@ func askCustomQuestionForLvlUp(text : String, pokemon: PokemonInstance, moveID: 
 		showLevelUpMoveMenu(pokemon, moveID)
 		var moveArray = await moveReplacementSelected
 		var moveIndex = moveArray[0]
+		move_menu.get_node("Move5Button").visible = false
+		move_menu.visible = false
 		if moveArray[0] == 4 :
-			lvlUpMoveContainer.visible = false
 			return [false, moveID]
 		oldMove = pokemon.moves[moveIndex]
 		pokemon.learnMove(moveID.id, moveIndex)
-		lvlUpMoveContainer.visible = false
 		return [true, oldMove]
 	return [true, null]
 		
