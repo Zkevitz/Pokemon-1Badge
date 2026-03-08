@@ -121,8 +121,8 @@ func get_position_in_front_of_player() -> Vector2:
 func _setup_AStarGrid(center : Vector2i, radius : int):
 	return pathfinder.setup_astar_grid(center, radius)
 
-func block_player_way(event : int) -> void:
-	await events.block_player_way(event)
+func block_player_way(event : int, let_him_pass: bool) -> void:
+	await events.block_player_way(event, let_him_pass)
 
 			
 func show_exclamation_mark() -> void:

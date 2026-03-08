@@ -20,7 +20,7 @@ func show_exclamation_mark() -> void:
 	sprite.visible = false
 
 
-func block_player_way(event: int) -> void:
+func block_player_way(event: int, let_him_pass: bool) -> void:
 	_npc.raycast.enabled = false
 	playerManager.player_instance.update_direction_to(_npc.global_position)
 	await playerManager.desacPlayer(true)
@@ -41,11 +41,11 @@ func block_player_way(event: int) -> void:
 		_npc.interact_range.player_nearby = false
 		_npc.interact_range.monitoring = false                   
 	match event:
-		0: await _return_to_base(return_pos)
+		0: await _return_to_base(return_pos, let_him_pass)
 		1: await _start_battle(return_pos)
 
 
-func _return_to_base(return_pos: Vector2i) -> void:
+func _return_to_base(return_pos: Vector2i, let_him_pass: bool) -> void:
 	var astar = _npc.pathfinder.setup_astar_grid(
 	_npc.Walkinggrid.local_to_map(_npc.global_position), 10)
 	var path  = astar.get_id_path(
@@ -53,7 +53,8 @@ func _return_to_base(return_pos: Vector2i) -> void:
 	await _npc.pathfinder.follow_path(path)
 	_npc.move_direction = _npc.start_direction
 	_npc.animator.play("idle")
-	playerManager.player_instance.cancel_last_move()
+	if not let_him_pass:
+		playerManager.player_instance.cancel_last_move()
 	await playerManager.activatePlayer()
 	_npc.interact_range.monitoring = false
 	_npc.interact_range.player_nearby = false

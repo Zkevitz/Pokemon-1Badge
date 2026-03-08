@@ -26,20 +26,22 @@ func _process(_delta: float) -> void:
 
 func _on_lock() -> void:
 	if playerManager.player_instance.pokemonTeam.size() == 0:
-		await pnj.block_player_way(0)
+		await pnj.block_player_way(0, false)
 
 
 func _on_battle() -> void:
 	print("try to start battle ?")
-	await pnj.block_player_way(1)
+	await pnj.block_player_way(1, false)
 
 
 func _on_gift() -> void:
 	if StoryManager.get_flag(StoryManager.Flag.KEEPER_GIFT_DONE):
 		return
-	await pnj.block_player_way(0)
 	if StoryManager.get_flag(StoryManager.Flag.HAS_POKEMON):
+		await pnj.block_player_way(0, true)
 		StoryManager.set_flag(StoryManager.Flag.KEEPER_GIFT_DONE)
+	else:
+		await pnj.block_player_way(0, false)
 
 
 func _on_rival() -> void:
