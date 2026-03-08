@@ -26,10 +26,10 @@ buses/default_bus_layout="uid://dpannxm1l5cds"
 [autoload]
 
 Game="*res://src/Global/game.gd"
+StoryManager="*res://src/StoryManager.gd"
 playerManager="*res://src/Global/player_manager.gd"
 DialogueManager="*res://src/Global/dialogue_manager.gd"
 SoundManager="*res://src/Global/sound_manager.gd"
-StoryManager="*res://src/StoryManager.gd"
 
 [global_group]
 

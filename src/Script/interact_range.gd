@@ -13,7 +13,7 @@ func _ready() -> void:
 
 func _get_starter_pokemon() -> void:
 	playerManager.player_instance.receiveGift(recompense_type, recompense_id)
-	StoryManager.set_flag("has_pokemon")
+	StoryManager.set_flag(StoryManager.Flag.HAS_POKEMON)
 	get_parent().visible = false
 	queue_free()
 

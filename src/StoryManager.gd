@@ -1,16 +1,23 @@
 extends Node
 
+enum Flag {
+	HAS_POKEMON,
+	INTRO_DONE,
+	KEEPER_GIFT_DONE,
+}
+
 var flags: Dictionary = {}
 
-func set_flag(key: String, value: bool = true) -> void:
+
+func set_flag(key: Flag, value: bool = true) -> void:
 	flags[key] = value
 
 
-func get_flag(key: String, default: bool = false):
+func get_flag(key: Flag, default: bool = false):
 	return flags.get(key, default)
 
 
-func has_flag(key: String) -> bool:
+func has_flag(key: Flag) -> bool:
 	return flags.has(key)
 
 

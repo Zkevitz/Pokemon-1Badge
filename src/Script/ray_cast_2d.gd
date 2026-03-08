@@ -35,11 +35,11 @@ func _on_battle() -> void:
 
 
 func _on_gift() -> void:
-	if StoryManager.get_flag("keeper_gift_done"):
+	if StoryManager.get_flag(StoryManager.Flag.KEEPER_GIFT_DONE):
 		return
 	await pnj.block_player_way(0)
-	if StoryManager.get_flag("has_pokemon"):
-		StoryManager.set_flag("keeper_gift_done")
+	if StoryManager.get_flag(StoryManager.Flag.HAS_POKEMON):
+		StoryManager.set_flag(StoryManager.Flag.KEEPER_GIFT_DONE)
 
 
 func _on_rival() -> void:

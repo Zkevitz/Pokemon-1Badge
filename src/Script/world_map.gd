@@ -13,9 +13,9 @@ func _ready() -> void:
 	Game.World_Map = self
 	playerManager.World_Map = self
 	scene_memory["MainWorld"] = get_node("MainWorld")
-	if not StoryManager.get_flag("intro_done"):
+	if not StoryManager.get_flag(StoryManager.Flag.INTRO_DONE):
 		#call_deferred("start_first_event")
-		StoryManager.set_flag("intro_done")
+		StoryManager.set_flag(StoryManager.Flag.INTRO_DONE)
 var g_astar
 
 func start_first_event():
@@ -30,7 +30,7 @@ func start_first_event():
 	await _play_dialogue("Gate Keeper")
 	_npc_teleport_to(npc, base_pos)
 	
-	StoryManager.set_flag("intro_done")
+	StoryManager.set_flag(StoryManager.Flag.INTRO_DONE)
 	playerManager.activatePlayer()
 
 
