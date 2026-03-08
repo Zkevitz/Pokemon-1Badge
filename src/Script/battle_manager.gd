@@ -591,7 +591,10 @@ func play_attack_animation(attacker: PokemonInstance, defender : PokemonInstance
 	print("move animName : ", _move.AnimName)
 	if _move.AnimName != "Default" : 
 		attackAnim = _move.AnimNode.instantiate()
-		ui_node.PlayerpokemonContainer.add_child(attackAnim)
+		attackAnim.scale = attackAnim.scale / attacker.pokemon_node.scale
+		attacker.pokemon_node.add_child(attackAnim)
+		
+		#ui_node.PlayerpokemonContainer.add_child(attackAnim)
 	await ui_node.Play_attack_anim(attacker.pokemon_node, defender.pokemon_node, _move, attackAnim)
 
 
