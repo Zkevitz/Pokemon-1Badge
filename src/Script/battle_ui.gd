@@ -41,7 +41,6 @@ func _ready() -> void:
 	move_menu.visible = false
 	lvlUpMoveContainer.visible = false
 	yesNoBox.visible = false
-	PokemonMenu.visible = false
 	
 	start_color_info_panel = player_info.modulate
 	main_menu.get_node("FightButton").pressed.connect(func() : action_selected.emit(actionType.FIGHT))
@@ -212,6 +211,8 @@ func hide_pokemon_menu():
 	var menuUi = Game.GlobalUI.get_MenuUi()
 	menuUi.layer -= 1
 	menuUi.in_fight_open = false
+	var button = menuUi.pokemonMenu.get_node("BackButton")
+	button.disabled = false
 	menuUi.hide_global_menu()
 	
 func show_text(Visible : bool = true):
@@ -253,6 +254,9 @@ func show_pokemon_menu(player_team : Array[PokemonInstance], other_option : bool
 	var callable = pokemonSelected.bind(other_option)
 	menuUi.layer += 1
 	menuUi.in_fight_open = true
+	
+	var button = menuUi.pokemonMenu.get_node("BackButton")
+	button.disabled = true
 	menuUi.show_pokemon_menu(callable)
 	
 func pokemonSelected(pokemon : PokemonInstance, is_switch : bool):
