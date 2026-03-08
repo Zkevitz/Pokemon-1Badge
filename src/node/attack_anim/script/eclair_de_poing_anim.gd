@@ -8,11 +8,6 @@ func _ready() -> void:
 	visible = false
 
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-	pass
-
-
 func play_attack(sender : PokemonNode, receiver : PokemonNode, battleui : BattleUI):
 	pokemon = receiver
 	global_position = receiver.global_position
