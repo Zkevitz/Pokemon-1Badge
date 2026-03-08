@@ -531,7 +531,7 @@ func _end_battle(player_won : bool):
 	battle_ended.emit(player_won)
 	
 	await _process_text_queue()
-	ui_node.queue_free()
+	ui_node.call_deferred("queue_free")
 	resetBattleManager()
 	if player_won == false : 
 		await playerManager.HealingCenterTp()
@@ -552,10 +552,11 @@ func attempt_escape():
 	if randf() * 256 < escape_chance:
 		_queue_text("Vous avez réussi à fuir !")
 		await _process_text_queue()
-		ui_node.queue_free()
+		ui_node.call_deferred("queue_free")
 		resetBattleManager()
 		if playerManager.Is_active() == false :
 			await playerManager.activatePlayer()
+		print("erreur en haut en bas")
 		queue_free()
 		
 	else:

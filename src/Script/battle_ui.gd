@@ -204,7 +204,7 @@ func show_main_menu(Visible : bool = true):
 	
 func show_move(Visible : bool = true):
 	move_menu.visible = Visible
-
+	
 func hide_pokemon_menu():
 	var menuUi = Game.GlobalUI.get_MenuUi()
 	menuUi.layer = 1
@@ -224,7 +224,7 @@ func show_move_menu(pokemon : PokemonInstance):
 
 	for i in range(4):
 		var button = move_menu.get_node("Move%dButton" % (i + 1))
-		Utils.disconnect_all_connections(button)
+		#Utils.disconnect_all_connections(button)
 		if i < pokemon.moves.size():
 			var move = pokemon.moves[i]
 			print("new move : ", move)
@@ -235,8 +235,9 @@ func show_move_menu(pokemon : PokemonInstance):
 			button.disabled = pokemon.movesPP[move.id] <= 0
 			
 			var callable = func() : move_selected.emit(i)
+			Utils.disconnect_all_connections_pressed(button)
 			button.pressed.connect(callable)
-			move_button_connections.append({"button": button, "callable": callable})
+			#move_button_connections.append({"button": button, "callable": callable})
 		else:
 			button.text = "---"
 			button.disabled = true

@@ -55,6 +55,8 @@ func show_pokemon_menu(callable : Callable = show_pokemon_stat_menu):
 					button.pressed.disconnect(connection.callable)
 				if callable :
 					button.connect("pressed", callable.bind(pokemon))
+				if in_fight_open and pokemon.Hp_dict["current"] <= 0 :
+					button.disabled = true
 			else :
 				button.text = "None"
 			i += 1
@@ -77,6 +79,7 @@ static func setup_pokemon_button(button : Button, pokemon : PokemonInstance):
 	print("hp_bar menu value : ", hp_bar.value)
 	lvlLabel.text = "Niv. %d" % pokemon.level
 	button.text = pokemon.pokemon_name
+	
 	
 func setup_ct_button(button : Button, move : CT_data, current_pp : int):
 	var pplabel = button.get_node("PPlabel")
