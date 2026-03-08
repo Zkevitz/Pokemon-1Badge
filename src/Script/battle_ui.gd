@@ -268,7 +268,7 @@ func showLevelUpMoveMenu(pokemon : PokemonInstance, newMoveID: CT_data):
 
 	for i in range(5):
 		var button = move_menu.get_node("Move%dButton" % (i + 1))
-		Utils.disconnect_all_connections(button)
+		Utils.disconnect_all_connections_pressed(button)
 		var move: CT_data
 		var callable
 		if i < pokemon.moves.size():
