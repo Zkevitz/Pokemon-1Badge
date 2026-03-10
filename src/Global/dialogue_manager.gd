@@ -43,6 +43,7 @@ func _process(delta: float) -> void:
 		emit_signal("input_pressed")
 		
 func startDialogue(dialogue_id : String):
+	print("dialogue id : ", dialogue_id)
 	if dialogueisActive == true :
 		return 
 	var raw

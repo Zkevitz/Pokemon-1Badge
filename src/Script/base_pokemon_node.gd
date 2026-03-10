@@ -95,14 +95,6 @@ func flash_color(color : Color, time : float):
 
 	mat.set_shader_parameter("flash_amount", 0.0)
 	
-func flash_red(time : float):
-	var mat = animatedSprite.material
-	mat.set_shader_parameter("red_amount", 1.0)
-	
-	await get_tree().create_timer(time).timeout
-	
-	mat.set_shader_parameter("red_amount", 0.0)
-	
 func vertical_shake():
 	var mat = animatedSprite.material
 	mat.set_shader_parameter("shake_vertical_amount", 0.5)
@@ -156,3 +148,14 @@ func play_poison():
 	await flash_color(Color(0.478, 0.0, 1.0), 1.0)
 	
 	PoisonParticule.visible = false
+
+func play_heal_up_anim():
+	var mat := animatedSprite.material
+	
+	mat.set_shader_parameter("heal_strength", 1.0)
+	animation_player.play("heal_up")
+	SoundManager.play_sfx(preload("res://sound/SFX/status/In-Battle Heal HP Restore.mp3"), -15)
+	
+	await get_tree().create_timer(1.6).timeout
+	mat.set_shader_parameter("heal_strength", 0.0)
+	await  animation_player.animation_finished

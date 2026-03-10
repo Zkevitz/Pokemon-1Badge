@@ -80,11 +80,16 @@ func _ready() -> void:
 	pokemon.learnMove(21, 3)
 	pokemon.learnMove(20, 3)
 	pokemon.current_xp = 90
+	pokemon.Hp_dict["current"] -= 15
+	pokemon2.Hp_dict["current"] -= 10
 	pokemonTeam.append(pokemon)
 	pokemonTeam.append(pokemon2)
 	
 	playerManager.player_instance = self
 	queue_redraw()
+
+#func _exit_tree() -> void:
+	#player_inventory.queue_free()
 	
 func _physics_process(delta: float) -> void:
 	#DEBUG

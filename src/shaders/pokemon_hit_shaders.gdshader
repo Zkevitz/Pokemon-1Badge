@@ -2,12 +2,16 @@ shader_type canvas_item;
 
 uniform sampler2D boost_texture : source_color, repeat_enable;
 uniform sampler2D drop_texture : source_color, repeat_enable;
+uniform sampler2D heal_up_texture : source_color, repeat_enable;
 
 uniform float boost_speed = 1.0;
 uniform float boost_strength : hint_range(0.0, 1.0) = 0.5;
 
 uniform float drop_speed = 1.0;
 uniform float drop_strength : hint_range(0.0, 1.0) = 0.5;
+
+uniform float heal_speed = 1.0;
+uniform float heal_strength : hint_range(0.0, 1.0) = 0.5;
 
 //uniform float white_amount : hint_range(0.0, 1.0) = 1.0;
 //uniform float red_amount : hint_range(0.0, 1.0) = 0.0;
@@ -53,7 +57,13 @@ void fragment() {
 	boost_uv.y = fract(uv.y + TIME * boost_speed);
 
 	vec4 boost = texture(boost_texture, boost_uv);
-
+	
+	// === HEAL TEXTURE ====
+	vec2 heal_uv = uv;
+	heal_uv.y = fract(uv.y + TIME * boost_speed);
+	
+	vec4 heal = texture(heal_up_texture, heal_uv);
+	
 	// ===== DROP TEXTURE =====
 	vec2 drop_uv = uv;
 	drop_uv.y = fract(uv.y - TIME * drop_speed);
@@ -65,6 +75,7 @@ void fragment() {
 
 	combined = mix(combined, boost.rgb, boost.a * boost_strength);
 	combined = mix(combined, drop.rgb,  drop.a  * drop_strength);
+	combined = mix(combined, heal.rgb, heal.a * heal_strength);
 	
 	// Flash de couleur
 	combined = mix(combined.rgb, flash_color.rgb, flash_amount);

@@ -53,9 +53,6 @@ static func choose_hp_color(value : int):
 static func disconnect_all_connections_pressed(object : Object ,signal_name : String = "pressed") -> void:
 	if object == null:
 		return
-	print("Object with signal analyze : ", object)
 	var connections = object.get_signal_connection_list(signal_name)
-	print("connection on signal : ", signal_name)
 	for connection in connections:
-		print("connection in signal : ", connection)
 		object.disconnect(signal_name, connection.callable)

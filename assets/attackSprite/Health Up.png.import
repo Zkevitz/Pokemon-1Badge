@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b7jmag8qg522i"
-path="res://.godot/imported/pixil-frame-0.png-547409043f904414808afc444c54a1bc.ctex"
+uid="uid://fdm7kpe01s3s"
+path="res://.godot/imported/Health Up.png-9909b45d4b9e8c5763cc52b53a368957.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/mytexture/pixil-frame-0.png"
-dest_files=["res://.godot/imported/pixil-frame-0.png-547409043f904414808afc444c54a1bc.ctex"]
+source_file="res://assets/attackSprite/Health Up.png"
+dest_files=["res://.godot/imported/Health Up.png-9909b45d4b9e8c5763cc52b53a368957.ctex"]
 
 [params]
 

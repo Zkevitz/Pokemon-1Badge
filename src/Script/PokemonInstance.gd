@@ -167,10 +167,12 @@ func take_damage(damage : int):
 	if Hp_dict["current"] <= 0:
 		faint()
 
-func heal(amount : int):
+func heal(amount : int) -> int:
+	var heal_value = min(amount, int(Hp_dict["max"] - Hp_dict["current"]))
 	Hp_dict["current"] = min(Hp_dict["max"], Hp_dict["current"] + amount)
 	hp_changed.emit(Hp_dict["current"], Hp_dict["max"])
-
+	return heal_value
+	
 func faint():
 	fainted.emit()
 	if pokemon_node :
@@ -201,7 +203,7 @@ func use_item(item_data : Item_data) -> bool :
 				DialogueManager.startDialogue("Cela n'aura aucun effet")
 				return false
 			else  :
-				heal(int(item_data.effect_power))
-				DialogueManager.startDialogue("%s est soigné de % Hp." % [pokemon_name, item_data.effect_power])
+				var heal_value = heal(int(item_data.effect_power))
+				DialogueManager.startDialogue("%s est soigné de %d Pv." % [pokemon_name, heal_value])
 				return true
 	return false

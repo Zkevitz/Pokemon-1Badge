@@ -67,10 +67,12 @@ func start_fight_entrance():
 	await TransitionAnim.animation_finished
 	
 func remove_pokemon_info(pokemonInfo : Control):
-	if pokemonInfo == enemy_info :
-		await EnemypokemonContainer.get_child(0).animation_finished
-	else :
-		await PlayerpokemonContainer.get_child(0).animation_finished
+	
+	## me souviens plus a quoi ca sert
+	#if pokemonInfo == enemy_info :
+		#await EnemypokemonContainer.get_child(0).animation_finished
+	#else :
+		#await PlayerpokemonContainer.get_child(0).animation_finished
 	print("EnemyPokemonContainer child --> ", EnemypokemonContainer.get_child(0))
 	var start_color = pokemonInfo.modulate
 	var end_color = start_color
@@ -212,6 +214,12 @@ func hide_pokemon_menu():
 	var button = menuUi.pokemonMenu.get_node("BackButton")
 	button.disabled = false
 	menuUi.hide_global_menu()
+
+func hide_bag_menu():
+	var menuUi = Game.GlobalUI.get_MenuUi()
+	menuUi.layer = 1
+	menuUi.in_fight_open = false
+	menuUi.hide_global_menu()
 	
 func show_text(Visible : bool = true):
 	text_box.visible = Visible
@@ -257,6 +265,18 @@ func show_pokemon_menu(player_team : Array[PokemonInstance], other_option : bool
 	button.disabled = true
 	menuUi.show_pokemon_menu(callable)
 	menuUi.pokemonMenu.visible = true
+	
+func show_bag_menu():
+	hide_pokemon_menu()
+	show_text(false)
+	show_move(false)
+	
+	var menuUi = Game.GlobalUI.get_MenuUi()
+	menuUi.layer = 2
+	menuUi.in_fight_open = true
+	menuUi._on_bag_button_pressed(Callable())
+	menuUi.InventoryMenu.visible = true
+	
 	
 func pokemonSelected(pokemon : PokemonInstance, is_switch : bool):
 	pokemon_selected.emit(pokemon, is_switch)

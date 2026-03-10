@@ -15,6 +15,8 @@ func add_item(item : Item_data):
 func use_item(item : Item_data):
 	if items.has(item.Item_name):
 		items[item.Item_name].quantity -= 1
+		if items[item.Item_name].quantity == 0 :
+			items.erase(item.Item_name)
 	else :
 		push_error("try to use item not in inventory")
 

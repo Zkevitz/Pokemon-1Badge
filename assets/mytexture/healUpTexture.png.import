@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b7jmag8qg522i"
-path="res://.godot/imported/pixil-frame-0.png-547409043f904414808afc444c54a1bc.ctex"
+uid="uid://c42b1vtuvop37"
+path="res://.godot/imported/healUpTexture.png-d624776c9b2fe72ee8b0562edd49f5e0.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/mytexture/pixil-frame-0.png"
-dest_files=["res://.godot/imported/pixil-frame-0.png-547409043f904414808afc444c54a1bc.ctex"]
+source_file="res://assets/mytexture/healUpTexture.png"
+dest_files=["res://.godot/imported/healUpTexture.png-d624776c9b2fe72ee8b0562edd49f5e0.ctex"]
 
 [params]
 

@@ -1,7 +1,7 @@
 extends Node
 class_name Battlemanager
 
-enum battleState {INTRO, PLAYER_TURN, ENEMY_TURN, MOVE_SELECTION, POKEMON_SELECTION,
+enum battleState {INTRO, PLAYER_TURN, ENEMY_TURN, MOVE_SELECTION, POKEMON_SELECTION, ITEM_SELECTION,
 	ANIMATION, DIALOG, CATCH, VICTORY, DEFEAT, ESCAPE}
 	
 enum actionType {FIGHT, POKEMON, BAG, RUN ,IA}
@@ -127,7 +127,7 @@ func _on_action_selected(action : actionType):
 			ui_node.show_pokemon_menu(player_team)
 			return
 		actionType.BAG:
-			#ui.show_bag_menu()
+			ui_node.show_bag_menu()
 			return
 		actionType.RUN :
 			ui_node.show_move(false)
@@ -166,19 +166,38 @@ func _on_pokemon_selected(pokemon : PokemonInstance, is_switch : bool):
 	if is_switch : 
 		turn_queue.clear()
 		_queue_turn(pokemon, enemy_pokemon, actionType.POKEMON)
-		_queue_turn(enemy_pokemon, player_pokemon, actionType.IA, null)
+		_queue_turn(enemy_pokemon, player_pokemon, actionType.IA)
 		await _process_turn_queue()
 	else :
 		await switch_pokemon(pokemon)
 		_start_player_turn()
+
+func _on_item_selected(pokemon : PokemonInstance, item_data : Item_data):
+	current_state = battleState.ITEM_SELECTION
 	
-func _queue_turn(attacker: PokemonInstance, defender: PokemonInstance, action : actionType ,move: CT_data = null):
-	var priority = move.priority if move else 0
+	ui_node.show_main_menu(false)
+	ui_node.show_move(false)	
+	ui_node.hide_pokemon_menu()
+	ui_node.show_text(true)
+	
+	_queue_turn(pokemon, enemy_pokemon, actionType.BAG, null, item_data)
+	_queue_turn(enemy_pokemon, player_pokemon, actionType.IA)
+	await  _process_turn_queue()
+	
+func _queue_turn(attacker: PokemonInstance, defender: PokemonInstance, action : actionType ,move: CT_data = null, item : Item_data = null):
+	var priority
+	if item : 
+		priority = 100
+	elif move :
+		priority = move.priority
+	else :
+		priority = 0
 	turn_queue.append({
 		"attacker": attacker,
 		"defender": defender,
 		"action" : action,
 		"move": move,
+		"item": item,
 		"priority": priority,
 		"speed": attacker.Speed_dict["current"],
 		"speed_ratio" : attacker.Speed_dict["ratio"]
@@ -188,10 +207,6 @@ func _process_turn_queue():
 	if turn_queue.is_empty():
 		return
 	turn_queue.sort_custom(func(a, b):
-		if a.action == actionType.POKEMON and b.action != actionType.POKEMON:
-			return true
-		if b.action == actionType.POKEMON and a.action != actionType.POKEMON:
-			return false
 		if a.priority != b.priority:
 			return a.priority > b.priority
 		return ( a.speed * a.speed_ratio ) > (b.speed * b.speed_ratio)
@@ -218,6 +233,9 @@ func execute_next_turn():
 	if turn_data.action == actionType.POKEMON :
 		await switch_pokemon(turn_data["attacker"])
 		execute_next_turn()
+	elif turn_data.action == actionType.BAG :
+		await use_item_on_pokemon(turn_data)
+		execute_next_turn()
 	elif turn_data.move:
 		execute_move(turn_data.attacker, turn_data.defender, turn_data.move)
 	else:
@@ -229,6 +247,27 @@ func execute_next_turn():
 			var move = available_moves.pick_random()
 			execute_move(turn_data.attacker, turn_data.defender, move)
 
+func use_item_on_pokemon(turn_data : Dictionary) :
+	var item = turn_data["item"]
+	var receiver = turn_data["attacker"]
+	
+	if item.Categorie == Item_data.ItemCat.POTION :
+		await handle_medicine_use(item, receiver)
+	elif item.Categorie == Item_data.ItemCat.BALL :
+		pass
+
+func handle_medicine_use(item : Item_data, receiver : PokemonInstance):
+	_queue_text("{introduire nom du joueur} utilise %s" % item.Item_name)
+	await _process_text_queue()
+	if receiver == player_pokemon or receiver == enemy_pokemon : 
+		await receiver.pokemon_node.play_heal_up_anim()
+	match item.effect :
+		Item_data.ItemEffect.PVHEAL :
+			await apply_heal(receiver, int(item.effect_power))
+	var inventory = playerManager.player_instance.player_inventory
+	inventory.use_item(item)
+	await _process_text_queue()
+		
 func switch_pokemon(incoming_pokemon : PokemonInstance):
 	var attacker : PokemonInstance = incoming_pokemon
 	var is_opponent = attacker.is_wild
@@ -398,6 +437,16 @@ func get_type_effectiveness(attack_type : String, def_type1 : PokemonInstance.Ty
 			multiplier *= TYPE_CHART[attack_type][strdef_type2]
 	return multiplier
 
+func apply_heal(target : PokemonInstance, amount : int):
+	var heal_value : int = target.heal(amount)
+	var ally_or_not : bool
+	_queue_text("%s est soigné de %s Pv !" % [target.pokemon_name, heal_value])
+	if player_team.has(target) :
+		ally_or_not = true
+	else :
+		ally_or_not = false
+	await ui_node.update_hp_bar(ally_or_not, target)
+	
 func apply_damage(target : PokemonInstance, damage : int, effectiveness : float = 1.0):
 	const Sound_damage = {
 		2.0 : [

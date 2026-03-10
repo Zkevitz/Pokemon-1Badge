@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="CT_data" load_steps=2 format=3 uid="uid://c5lu6fgwraysg"]
+
+[ext_resource type="Script" uid="uid://khacs4dumku4" path="res://src/ressources/DataSample/CT_data.gd" id="1_qc844"]
+
+[resource]
+script = ExtResource("1_qc844")
+name = "Tonnerre"
+id = 24
+type = 5
+category = "SPECIAL"
+power = 90
+max_pp = 15
+type_effect = 2
+chance = 10
+metadata/_custom_type_script = "uid://khacs4dumku4"

@@ -21,7 +21,7 @@
 [ext_resource type="Texture2D" uid="uid://ctgfc04vtxcx" path="res://assets/Water/SABLE/8.png" id="16_32jlk"]
 [ext_resource type="Texture2D" uid="uid://bmiqve3bqwegg" path="res://assets/Water/SABLE/9.png" id="17_eo4hf"]
 [ext_resource type="Texture2D" uid="uid://i4mwc37ye42i" path="res://assets/Water/SABLE/totry2.png" id="18_5nk55"]
-[ext_resource type="Texture2D" uid="uid://c42b1vtuvop37" path="res://assets/mytexture/pixil-frame-0.png" id="18_8lyx2"]
+[ext_resource type="Texture2D" uid="uid://c42b1vtuvop37" path="res://assets/mytexture/healUpTexture.png" id="18_8lyx2"]
 [ext_resource type="PackedScene" uid="uid://c5daeljxwswq" path="res://src/node/tileset_node/grassBordertileUP.tscn" id="18_60a8p"]
 [ext_resource type="PackedScene" uid="uid://kryo3ui15wk6" path="res://src/node/tileset_node/grassBordertileDOWN.tscn" id="19_5nk55"]
 [ext_resource type="PackedScene" uid="uid://c1yl41c7egc7h" path="res://src/node/waterfallanim.tscn" id="19_8553d"]

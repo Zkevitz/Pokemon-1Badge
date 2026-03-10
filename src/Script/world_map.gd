@@ -2,17 +2,19 @@ extends Node2D
 class_name WorldMap
 
 var scene_memory : Dictionary = {
-	"MainWorld" : "",
+	"MainWorld" : preload("res://src/node/level_node/main_world.tscn"),
 	"FirstForest" : preload("res://src/node/level_node/first_forest.tscn"),
 	"ProfShenHouseInterior" : preload("res://src/node/building_interior/profShenHouse.tscn"),
 	"SimpleHouse1" : preload("res://src/node/building_interior/house_interior.tscn")
 }
 var is_launched := false
 
+#
+#func _process(_delta: float) -> void:
+	#print_orphan_nodes()
 func _ready() -> void:
 	Game.World_Map = self
 	playerManager.World_Map = self
-	scene_memory["MainWorld"] = get_node("MainWorld")
 	if not StoryManager.get_flag(StoryManager.Flag.INTRO_DONE):
 		#call_deferred("start_first_event")
 		StoryManager.set_flag(StoryManager.Flag.INTRO_DONE)
@@ -51,21 +53,25 @@ func _npc_teleport_to(npc, pos: Vector2) -> void:
 	npc.global_position = pos
 	npc.visible = true
 
-
-func _exit_tree() -> void:
+func _notification(what: int) -> void:
+	if what == NOTIFICATION_WM_CLOSE_REQUEST:
+		exit_tree()
+		
+func exit_tree() -> void:
 	# Nettoyer toutes les scènes en mémoire
-	for scene in scene_memory:
-		if is_instance_valid(scene):
-			scene.queue_free()
-	scene_memory.clear()
 	print("Mémoire des scènes nettoyée")
+	for scene in scene_memory:
+		print("scene to see : ", scene_memory[scene])
+		if is_instance_valid(scene_memory[scene]) and scene_memory[scene] is Node2D:
+			print("free")
+			add_child(scene_memory[scene])
+			scene_memory[scene].queue_free()
+	print_orphan_nodes()
+	scene_memory.clear()
+	queue_free()
 	
 func get_scene_in_memory(Scene_id : String ) -> Node2D:
 	var SceneNode = scene_memory[Scene_id]
-	var SceneInstance
-	if SceneNode is Node2D :
-		SceneInstance = SceneNode
-	else : 
-		SceneInstance = SceneNode.instantiate()
-		scene_memory[Scene_id] = SceneInstance
+
+	var SceneInstance = SceneNode.instantiate()
 	return SceneInstance

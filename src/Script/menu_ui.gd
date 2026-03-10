@@ -37,6 +37,8 @@ func hide_pokemon_menu():
 	fullMenu.visible = true
 	
 func show_pokemon_menu(callable : Callable = show_pokemon_stat_menu):
+	print("show_pokemon_menu callable : ", callable)
+	print(callable.get_bound_arguments())
 	fullMenu.visible = false
 	pokemonStatmenuButton.visible = false
 	InventoryMenu.visible = false
@@ -45,18 +47,23 @@ func show_pokemon_menu(callable : Callable = show_pokemon_stat_menu):
 	var buttonlist = pokemonMenu.get_node("MarginContainer/VBoxContainer").get_children()
 	buttonlist += pokemonMenu.get_node("MarginContainer2/VBoxContainer2").get_children()
 	pokemonMenu.visible = true
+	
+	if not in_fight_open : 
+		var backButton = pokemonMenu.get_node("BackButton")
+		backButton.connect("pressed", hide_pokemon_menu)
+	
 	for button in buttonlist :
 		if button is Button :
 			if i < player_pokemon.size():
 				var pokemon = player_pokemon[i]
 				button.icon = pokemon.data.sprite_frames.get_frame_texture("menu", 0)
 				setup_pokemon_button(button, pokemon)
-				for connection in button.pressed.get_connections():
-					button.pressed.disconnect(connection.callable)
-				if callable :
-					button.connect("pressed", callable.bind(pokemon))
+				Utils.disconnect_all_connections_pressed(button)
+				button.connect("pressed", callable.bind(pokemon))
 				if in_fight_open and pokemon.Hp_dict["current"] <= 0 :
 					button.disabled = true
+				else :
+					button.disabled = false
 			else :
 				button.text = "None"
 			i += 1
@@ -64,11 +71,15 @@ func show_pokemon_menu(callable : Callable = show_pokemon_stat_menu):
 func use_item_on_pokemon(pokemon : PokemonInstance, item_data : Item_data):
 	var inventory = playerManager.player_instance.player_inventory
 	pokemonMenu.visible = false
-	var is_used = pokemon.use_item(item_data) # penser a passer use_item dans player cela me semble plus logique 
-	await DialogueManager.dialogue_ended
-	if is_used :
-		inventory.use_item(item_data) # mettre la logique de retrait dans use_item de player 
-	InventoryMenu.visible = true
+	if in_fight_open :
+		Game.battleManager._on_item_selected(pokemon, item_data)
+	else : 
+		var is_used = pokemon.use_item(item_data) # penser a passer use_item dans player cela me semble plus logique 
+		await DialogueManager.dialogue_ended
+		if is_used :
+			inventory.use_item(item_data) # mettre la logique de retrait dans use_item de player 
+		display_ItemList(item_data.Categorie)
+		InventoryMenu.visible = true
 
 static func setup_pokemon_button(button : Button, pokemon : PokemonInstance):
 	
@@ -76,7 +87,6 @@ static func setup_pokemon_button(button : Button, pokemon : PokemonInstance):
 	var lvlLabel = button.get_node("lvlLabel")
 	hp_bar.value = float(pokemon.Hp_dict["current"] * 100 / pokemon.Hp_dict["max"])
 	hp_bar.modulate = Utils.choose_hp_color(hp_bar.value)
-	print("hp_bar menu value : ", hp_bar.value)
 	lvlLabel.text = "Niv. %d" % pokemon.level
 	button.text = pokemon.pokemon_name
 	
@@ -90,7 +100,6 @@ func setup_ct_button(button : Button, move : CT_data, current_pp : int):
 	var color = Utils.get_type_color(move.type)
 	style.bg_color = color
 	button.add_theme_stylebox_override("normal", style)
-	print("Move ", move)
 	var current_pp_move = current_pp
 	var max_pp_move = move["max_pp"]
 	pplabel.text = str(current_pp_move) + "/" + str(max_pp_move)
@@ -117,7 +126,6 @@ func show_pokemon_stat_menu(pokemon : PokemonInstance):
 	var i = 0
 	
 	for button in ctBox.get_children():
-		print("DEBUG: Move size: ", pokemon.moves.size())
 		if button is Button and i < pokemon.moves.size():
 			setup_ct_button(button, pokemon.moves[i], pokemon.movesPP[pokemon.moves[i].id])
 		else :
@@ -172,7 +180,6 @@ func show_pokemon_stat_menu(pokemon : PokemonInstance):
 		
 
 func update_stat_line(value_to_change : Label, value: int):
-	print("value in line: ", value)
 	value_to_change.text = str(value)
 	
 func _input(event: InputEvent) :
@@ -205,13 +212,16 @@ func display_ItemList(category : int):
 			ItemListNode.set_item_custom_fg_color(idx, Color.WHEAT)
 			ItemListNode.set_item_metadata(idx, item_data)
 		
-func _on_bag_button_pressed() -> void:
+func _on_bag_button_pressed(callable : Callable = hide_player_inventory) -> void:
 	reset_item_left_part()
 	fullMenu.visible = false
 	InventoryMenu.visible = true
 	var tabBar = InventoryMenu.get_node("TabBar")
 	var backButton = InventoryMenu.get_node("Button")
-	backButton.connect("pressed", hide_player_inventory)
+	Utils.disconnect_all_connections_pressed(backButton)
+	Utils.disconnect_all_connections_pressed(tabBar, "tab_changed")
+	if callable.is_valid() :
+		backButton.connect("pressed", callable)
 	tabBar.connect("tab_changed", display_ItemList)
 	display_ItemList(Item_data.ItemCat.POTION)
 
@@ -236,7 +246,12 @@ func Show_item_left_part(index: int) -> void:
 	
 	var item_data = ItemListNode.get_item_metadata(index)
 	var callable = use_item_on_pokemon.bind(item_data)
-	UseButton.connect("pressed", show_pokemon_menu.bind(callable))
+	Utils.disconnect_all_connections_pressed(UseButton)
+	if not in_fight_open and item_data.Categorie == Item_data.ItemCat.BALL:
+		UseButton.disabled = true
+	else :
+		UseButton.disabled = false
+		UseButton.connect("pressed", show_pokemon_menu.bind(callable))
 	IconHolder.texture = item_data.icon
 	DescriptionHolder.text = item_data.Description
 	ItemName.text = item_data.Item_name
