@@ -113,13 +113,9 @@ func handle_idle_state( _delta : float ) -> void:
 	if input_direction != Vector2.ZERO :
 		if input_direction != current_direction:
 			current_direction = input_direction
-			update_animation("idle")
+			#update_animation("idle")
 			turnTimer = TURN_TIME
 			return
-		if Input.is_action_pressed("combined") :
-			SPEED = 100
-		else :
-			SPEED = 70
 		attempt_move(input_direction)
 	else :
 		update_animation("idle")
@@ -152,6 +148,7 @@ func add_pokemon_in_team(newPokemon : PokemonInstance):
 	pokemonTeam.append(newPokemon)
 	
 func get_input_direction() -> Vector2 :
+	SPEED = 100 if Input.is_action_pressed("combined") else 70
 	if EnableInput == false :
 		target_position = Vector2.ZERO
 		return Vector2.ZERO
@@ -172,13 +169,13 @@ func handle_moving_state(delta : float):
 		return
 	position = position.move_toward(target_position, SPEED * delta)
 	
-	if position.distance_to(target_position) < 1.0 :
+	if position.distance_to(target_position) < 0.5:
 		position = target_position
+		previous_pos = global_position
 		currentState = animState.IDLE
 		emit_signal("movement_finished")
 		var input_direction := get_input_direction()
-		if input_direction != Vector2.ZERO:
-			SPEED = 100 if Input.is_action_pressed("combined") else 70
+		if input_direction != Vector2.ZERO and playerManager.is_active == true :
 			attempt_move(input_direction)
 
 func attempt_move(direction : Vector2) :
@@ -186,7 +183,6 @@ func attempt_move(direction : Vector2) :
 		
 	if not collisiontest :
 		current_direction = direction
-		previous_pos = global_position
 		target_position = position + direction * Game.tileSize
 		if SPEED == 70 :
 			update_animation("Walking")

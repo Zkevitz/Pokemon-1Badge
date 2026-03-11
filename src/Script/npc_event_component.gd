@@ -21,9 +21,9 @@ func show_exclamation_mark() -> void:
 
 
 func block_player_way(event: int, let_him_pass: bool) -> void:
+	playerManager.desacPlayer(true)
 	_npc.raycast.enabled = false
 	playerManager.player_instance.update_direction_to(_npc.global_position)
-	await playerManager.desacPlayer(true)
 	await show_exclamation_mark()
 	
 	var npc_map_pos    = _npc.Walkinggrid.local_to_map(_npc.global_position)

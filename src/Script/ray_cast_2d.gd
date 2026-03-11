@@ -17,8 +17,8 @@ func _process(_delta: float) -> void:
 		if not player_detected:
 			player_detected = true
 			match EventType:
-				eventType.LOCK1 : await _on_lock()
-				eventType.BATTLE : await _on_battle()
+				eventType.LOCK1 : _on_lock()
+				eventType.BATTLE : _on_battle()
 				eventType.GIFT : await _on_gift()
 	else:
 		player_detected = false
@@ -26,7 +26,7 @@ func _process(_delta: float) -> void:
 
 func _on_lock() -> void:
 	if playerManager.player_instance.pokemonTeam.size() == 0:
-		await pnj.block_player_way(0, false)
+		pnj.block_player_way(0, false)
 
 
 func _on_battle() -> void:
