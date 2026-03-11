@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="TrainerPokemonData" load_steps=2 format=3 uid="uid://burrwvrxoncjj"]
+
+[ext_resource type="Script" uid="uid://3kt0w0u1c0o1" path="res://src/ressources/DataSample/TrainerPokemonData.gd" id="1_op3wy"]
+
+[resource]
+script = ExtResource("1_op3wy")
+PokemonIds = 4
+PokemonLevel = 5
+PokemonMoves = Array[int]([1])
+metadata/_custom_type_script = "uid://3kt0w0u1c0o1"

@@ -33,7 +33,15 @@ func _ready() -> void:
 				{"speaker": "Gate Keeper", "text": "Ah, tu as enfin un Pokemon ! J'éspère que ce n'est pas vipélière."},
 				{"speaker": "Gate Keeper", "text": "J'imagine que t'es déjà calé en Pokemon. Voici quelques items pour bien débuter."},
 			]
-		}
+		},
+		"Rival": [
+			{"speaker": "Rival", "text": "Wesh gros, tu crois vraiment que t'es pret ?"},
+			{"speaker": "Rival", "text": "Moi je suis pret depuis longtemps, voyons voir qui de nous peut partir..."}
+		],
+		"RivalPost": [
+			{"speaker": "Rival", "text": "... t'es pas mal. Mais la prochaine je vais te bz"},
+			{"speaker": "Rival", "text": "Ciao."},
+		]
 	}
 
 func _process(delta: float) -> void:

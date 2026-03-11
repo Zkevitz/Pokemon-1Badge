@@ -69,3 +69,35 @@ func _start_battle(return_pos: Vector2i) -> void:
 		_npc.global_position = _npc.Walkinggrid.map_to_local(return_pos)
 	_npc.interact_range.monitoring = true
 	playerManager.activatePlayer()
+
+
+func rival_encounter() -> void:
+	playerManager.desacPlayer(true)
+	playerManager.player_instance.update_direction_to(_npc.global_position)
+
+	var npc_map_pos = _npc.Walkinggrid.local_to_map(_npc.global_position)
+	var player_map_pos = _npc.Walkinggrid.local_to_map(playerManager.player_instance.global_position)
+
+	await show_exclamation_mark()
+
+	var astar = _npc.pathfinder.setup_astar_grid(npc_map_pos, 15)
+	var path = astar.get_id_path(npc_map_pos, player_map_pos)
+	await _npc.pathfinder.follow_path(path, 1)
+
+	playerManager.player_instance.update_direction_to(_npc.global_position)
+
+	DialogueManager.startDialogue("Rival")
+	await DialogueManager.dialogue_ended
+
+	await Game.start_Trainer_battle(_npc.pokemonTeam, _npc)
+
+	DialogueManager.startDialogue("RivalPost")
+	await DialogueManager.dialogue_ended
+
+	var current_map = _npc.Walkinggrid.local_to_map(_npc.global_position)
+	var start_map = Vector2i(_npc.StartPosition)
+	var return_astar = _npc.pathfinder.setup_astar_grid(current_map, 15)
+	var return_path = return_astar.get_id_path(current_map, start_map)
+	await _npc.pathfinder.follow_path(return_path)
+
+	playerManager.activatePlayer()

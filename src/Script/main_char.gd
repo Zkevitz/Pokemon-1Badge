@@ -119,6 +119,7 @@ func handle_idle_state( _delta : float ) -> void:
 		update_animation("idle")
 		
 func Snap_to_grid():
+	walkgrid = get_tree().get_first_node_in_group("walkgrid")
 	var tilePosition = walkgrid.local_to_map(global_position)
 	global_position = walkgrid.map_to_local(tilePosition)
 	

@@ -4,6 +4,7 @@ enum Flag {
 	HAS_POKEMON,
 	INTRO_DONE,
 	KEEPER_GIFT_DONE,
+	RIVAL_BATTLE_1_DONE,
 }
 
 var flags: Dictionary = {}

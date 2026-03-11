@@ -20,6 +20,7 @@ func _process(_delta: float) -> void:
 				eventType.LOCK1 : _on_lock()
 				eventType.BATTLE : _on_battle()
 				eventType.GIFT : await _on_gift()
+				eventType.RIVAL : await _on_rival()
 	else:
 		player_detected = false
 
@@ -40,14 +41,18 @@ func _on_gift() -> void:
 	if StoryManager.get_flag(StoryManager.Flag.HAS_POKEMON):
 		await pnj.block_player_way(0, true)
 		StoryManager.set_flag(StoryManager.Flag.KEEPER_GIFT_DONE)
+		var rival = Game.get_NPC("rival")
+		if rival:
+			await rival.events.rival_encounter()
+			StoryManager.set_flag(StoryManager.Flag.RIVAL_BATTLE_1_DONE)
 	else:
 		await pnj.block_player_way(0, false)
 
 
 func _on_rival() -> void:
-	pass
-	# Deactivate player
-	# Activate Rivale visibility
-	# Make Rival goto player
-	# Talk
-	# Combat
+	if not StoryManager.has_flag(StoryManager.Flag.KEEPER_GIFT_DONE):
+		return
+	if StoryManager.has_flag(StoryManager.Flag.RIVAL_BATTLE_1_DONE):
+		return
+	await pnj.block_player_way(1, true)
+	StoryManager.set_flag(StoryManager.Flag.RIVAL_BATTLE_1_DONE)
