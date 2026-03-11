@@ -9,7 +9,6 @@ var scene_memory : Dictionary = {
 }
 var is_launched := false
 
-#
 #func _process(_delta: float) -> void:
 	#print_orphan_nodes()
 func _ready() -> void:

@@ -110,7 +110,7 @@ func start_wild_battle():
 	var actual_encounter_zone_level_range = actual_encounter_zone.get_zone_level_range()
 	
 	random_encounter.data = get_pokemon_data(actual_encounter_zone.get_random_encounters("grass"))
-	random_encounter.level = 3 #randi_range(actual_encounter_zone_level_range.x, actual_encounter_zone_level_range.y)
+	random_encounter.level = 8 #randi_range(actual_encounter_zone_level_range.x, actual_encounter_zone_level_range.y)
 	random_encounter.is_wild = true
 	random_encounter.initStats()
 	#random_encounter.learnMove(11, 3)
@@ -172,11 +172,11 @@ func change_scene_with_player(closed_node: Node, open_node: String, destination_
 	get_tree().current_scene.remove_child(closed_node)
 	closed_node.queue_free()
 	
+	current_node = new_scene_instance
 	get_tree().current_scene.add_child(new_scene_instance)
 	if not new_scene_instance.is_node_ready():
 			await new_scene_instance.ready
 	
-	current_node = new_scene_instance
 	
 	await get_tree().process_frame
 	

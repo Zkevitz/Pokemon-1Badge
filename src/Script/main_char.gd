@@ -135,8 +135,10 @@ func receiveGift(recompenseType : Game.recompenseType, recompense_id : int = 0, 
 		newPokemon.level = pokemon_level
 		newPokemon.initStats()
 		add_pokemon_in_team(newPokemon)
+		DialogueManager.startDialogue("{introduire nom du joueur} recois %s" % newPokemon.pokemon_name)
 	elif recompenseType == Game.recompenseType.TEAM_HEALING : 
 		full_heal_team()
+		DialogueManager.startDialogue("Votre équipe est désormais completement soigné")
 	else: 
 		print("object receive a implementer")
 
