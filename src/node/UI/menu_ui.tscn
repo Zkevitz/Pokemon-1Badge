@@ -735,7 +735,7 @@ tab_0/title = "Potion"
 tab_1/title = "Ball"
 tab_2/title = "Held"
 
-[node name="Button" type="Button" parent="InventoryMenu"]
+[node name="BackButton" type="Button" parent="InventoryMenu"]
 layout_mode = 0
 offset_left = 9.0
 offset_top = 335.0

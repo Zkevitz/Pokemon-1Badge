@@ -80,8 +80,6 @@ func _ready() -> void:
 	pokemon.learnMove(21, 3)
 	pokemon.learnMove(20, 3)
 	pokemon.current_xp = 90
-	pokemon.Hp_dict["current"] -= 15
-	pokemon2.Hp_dict["current"] -= 10
 	pokemonTeam.append(pokemon)
 	pokemonTeam.append(pokemon2)
 	

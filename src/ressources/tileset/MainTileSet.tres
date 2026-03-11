@@ -19,9 +19,9 @@
 [ext_resource type="Texture2D" uid="uid://dhcs1eml713is" path="res://assets/Water/SABLE/6.png" id="13_7jenc"]
 [ext_resource type="Texture2D" uid="uid://d1r1mypdp8ug8" path="res://assets/Water/SABLE/7.png" id="15_8553d"]
 [ext_resource type="Texture2D" uid="uid://ctgfc04vtxcx" path="res://assets/Water/SABLE/8.png" id="16_32jlk"]
+[ext_resource type="Texture2D" uid="uid://6ujy0i0bwyaf" path="res://assets/mytexture/Firstforestfloor.png" id="17_8lyx2"]
 [ext_resource type="Texture2D" uid="uid://bmiqve3bqwegg" path="res://assets/Water/SABLE/9.png" id="17_eo4hf"]
 [ext_resource type="Texture2D" uid="uid://i4mwc37ye42i" path="res://assets/Water/SABLE/totry2.png" id="18_5nk55"]
-[ext_resource type="Texture2D" uid="uid://c42b1vtuvop37" path="res://assets/mytexture/healUpTexture.png" id="18_8lyx2"]
 [ext_resource type="PackedScene" uid="uid://c5daeljxwswq" path="res://src/node/tileset_node/grassBordertileUP.tscn" id="18_60a8p"]
 [ext_resource type="PackedScene" uid="uid://kryo3ui15wk6" path="res://src/node/tileset_node/grassBordertileDOWN.tscn" id="19_5nk55"]
 [ext_resource type="PackedScene" uid="uid://c1yl41c7egc7h" path="res://src/node/waterfallanim.tscn" id="19_8553d"]
@@ -2634,7 +2634,7 @@ texture = ExtResource("17_eo4hf")
 0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(1.978445, -2.5180216, 2.3381634, -8, 8, -8, 6.115196, 0.71943474, 2.5180225, 5.215904, -8, 8, -8, 3.7770348, -1.7985878, 3.4173164)
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_stso7"]
-texture = ExtResource("18_8lyx2")
+texture = ExtResource("17_8lyx2")
 0:0/0 = 0
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_q2t7g"]

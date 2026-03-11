@@ -12,6 +12,22 @@ var in_fight_open = false
 @onready var volumeSlider := $fullMenu/VBoxContainer/Panel2/HSlider
 @onready var InventoryMenu := $InventoryMenu
 
+
+const STAT_MAP = {
+		"HPstat":     ["Hp_dict",     "max"],
+		"HPiv":       ["Hp_dict",     "ivs"],
+		"ATKSPEstat": ["AtkSpe_dict", "current"],
+		"ATKSPEiv":   ["AtkSpe_dict", "ivs"],
+		"ATKstat":    ["Atk_dict",    "current"],
+		"ATKiv":      ["Atk_dict",    "ivs"],
+		"DEFSPEstat": ["DefSpe_dict", "current"],
+		"DEFSPEiv":   ["DefSpe_dict", "ivs"],
+		"DEFstat":    ["Def_dict",    "current"],
+		"DEFiv":      ["Def_dict",    "ivs"],
+		"SPEEDstat":  ["Speed_dict",  "current"],
+		"SPEEDiv":    ["Speed_dict",  "ivs"],
+}
+	
 func _ready() -> void:
 	fullMenu.visible = false
 	pokemonMenu.visible = false
@@ -48,9 +64,8 @@ func show_pokemon_menu(callable : Callable = show_pokemon_stat_menu):
 	buttonlist += pokemonMenu.get_node("MarginContainer2/VBoxContainer2").get_children()
 	pokemonMenu.visible = true
 	
-	if not in_fight_open : 
-		var backButton = pokemonMenu.get_node("BackButton")
-		backButton.connect("pressed", hide_pokemon_menu)
+	if not in_fight_open :
+		setup_back_button(pokemonMenu, hide_pokemon_menu)
 	
 	for button in buttonlist :
 		if button is Button :
@@ -85,103 +100,81 @@ static func setup_pokemon_button(button : Button, pokemon : PokemonInstance):
 	
 	var hp_bar = button.get_node("hpBar")
 	var lvlLabel = button.get_node("lvlLabel")
-	hp_bar.value = float(pokemon.Hp_dict["current"] * 100 / pokemon.Hp_dict["max"])
+	hp_bar.value = float(pokemon.Stat_dict["Hp_dict"]["current"] * 100 / pokemon.Stat_dict["Hp_dict"]["max"])
 	hp_bar.modulate = Utils.choose_hp_color(hp_bar.value)
 	lvlLabel.text = "Niv. %d" % pokemon.level
 	button.text = pokemon.pokemon_name
 	
 	
-func setup_ct_button(button : Button, move : CT_data, current_pp : int):
-	var pplabel = button.get_node("PPlabel")
-	var typelabel = button.get_node("typelabel")
+func setup_ct_button(pokemon : PokemonInstance):
+	var ctBox = pokemonStatmenuButton.get_node("VBoxContainer")
+	var i = 0
 	
-	button.text = move["name"]
-	var style = StyleBoxFlat.new()
-	var color = Utils.get_type_color(move.type)
-	style.bg_color = color
-	button.add_theme_stylebox_override("normal", style)
-	var current_pp_move = current_pp
-	var max_pp_move = move["max_pp"]
-	pplabel.text = str(current_pp_move) + "/" + str(max_pp_move)
-	
-	typelabel.text = type_to_string(move["type"])
+	for button in ctBox.get_children() :
+		if button is Button and i < pokemon.moves.size():
+			var pplabel = button.get_node("PPlabel")
+			var typelabel = button.get_node("typelabel")
+			var move = pokemon.moves[i]
+			button.text = move["name"]
+			var style = StyleBoxFlat.new()
+			var color = Utils.get_type_color(move.type)
+			style.bg_color = color
+			button.add_theme_stylebox_override("normal", style)
+			var current_pp_move = pokemon.movesPP[move.id]
+			var max_pp_move = move["max_pp"]
+			pplabel.text = str(current_pp_move) + "/" + str(max_pp_move)
+			
+			typelabel.text = type_to_string(move["type"])
+		else :
+			button.text = "NONE"
+		i += 1
 	
 func type_to_string(t: PokemonInstance.Type) -> String:
 	if t < 0 or t >= PokemonInstance.Type.size():
 		return "Inconnu"
 	return PokemonInstance.Type.keys()[t].capitalize()
+
+func setup_back_button(fromControl : Control, callable : Callable):
+	var returnButton = fromControl.get_node("BackButton")
 	
-func show_pokemon_stat_menu(pokemon : PokemonInstance):
-	pokemonStatmenuButton.visible = true
-	pokemonMenu.visible = false
-	var returnbtn = pokemonStatmenuButton.get_node("BackButton")
-	
-	if returnbtn.pressed.is_connected(show_pokemon_menu):
-		returnbtn.pressed.disconnect(show_pokemon_menu)
-		
-	returnbtn.connect("pressed", show_pokemon_menu)
-	
-	# to handle CTinfoButton
-	var ctBox = pokemonStatmenuButton.get_node("VBoxContainer")
-	var i = 0
-	
-	for button in ctBox.get_children():
-		if button is Button and i < pokemon.moves.size():
-			setup_ct_button(button, pokemon.moves[i], pokemon.movesPP[pokemon.moves[i].id])
-		else :
-			button.text = "NONE"
-		i += 1
-			
+	Utils.disconnect_all_connections_pressed(returnButton)
+	if callable.is_valid() :
+		returnButton.connect("pressed", callable)
+
+func setup_pokemon_stat(pokemon : PokemonInstance) :
 	var pokemonSprite = pokemonStatmenuButton.get_node("pokemonSprite")
 	pokemonSprite.texture = pokemon.data.sprite_frames.get_frame_texture("idle", 0)
 	
+	var type_text := type_to_string(pokemon.pokemon_type1)
+	if pokemon.pokemon_type2 != pokemon.Type.AUCUN:
+		type_text += "/" + type_to_string(pokemon.pokemon_type2)
+		
 	var gridinfo = pokemonStatmenuButton.get_node("GridContainer");
 	gridinfo.get_node("pokemonName").text = "Name : %s" % pokemon.pokemon_name
 	gridinfo.get_node("pokemonLevel").text = "Level : %d" % pokemon.level
 	gridinfo.get_node("pokemonId").text = "ID : %d " % (pokemon.pokemon_id)
-	gridinfo.get_node("pokemonTypes").text = "Type(s) : %s " % (type_to_string(pokemon.pokemon_type1) + "/" + type_to_string(pokemon.pokemon_type2) if pokemon.pokemon_type2 != pokemon.Type.AUCUN else type_to_string(pokemon.pokemon_type1))
-	var statPanel = pokemonStatmenuButton.get_node("StatPanel")
-	var allStats = statPanel.get_node("MarginContainer").get_node("GridContainer")
-	for label in allStats.get_children():
-		if label is Label :
-			print("label name : ", label.name)
-			if label.name.begins_with("HP"):
-				if label.name.begins_with("HPstat"):
-					update_stat_line(label, pokemon.Hp_dict["max"])
-				elif label.name.begins_with("HPiv") :
-					update_stat_line(label, pokemon.Hp_dict["ivs"])
-			elif label.name.begins_with("ATKSPE"):
-				if label.name.begins_with("ATKSPEstat"):
-					update_stat_line(label, pokemon.AtkSpe_dict["current"])
-				elif label.name.begins_with("ATKSPEiv") :
-					update_stat_line(label, pokemon.AtkSpe_dict["ivs"])
-			elif label.name.begins_with("ATK"):
-				if label.name.begins_with("ATKstat"):
-					update_stat_line(label, pokemon.Atk_dict["current"])
-				elif label.name.begins_with("ATKiv") :
-					update_stat_line(label, pokemon.Atk_dict["ivs"])
-			elif label.name.begins_with("DEFSPE"):
-				if label.name.begins_with("DEFSPEstat"):
-					update_stat_line(label, pokemon.DefSpe_dict["current"])
-				elif label.name.begins_with("DEFSPEiv") :
-					update_stat_line(label, pokemon.DefSpe_dict["ivs"])
-			elif label.name.begins_with("DEF"):
-				if label.name.begins_with("DEFstat"):
-					update_stat_line(label, pokemon.Def_dict["current"])
-				elif label.name.begins_with("DEFiv") :
-					update_stat_line(label, pokemon.Def_dict["ivs"])
-			elif label.name.begins_with("SPEED"):
-				if label.name.begins_with("SPEEDstat"):
-					update_stat_line(label, pokemon.Speed_dict["current"])
-				elif label.name.begins_with("SPEEDiv") :
-					update_stat_line(label, pokemon.Speed_dict["ivs"])
-				
+	gridinfo.get_node("pokemonTypes").text = "Type(s) : %s " % type_text
 	
-		
+	var allStatGrid = pokemonStatmenuButton.get_node("StatPanel/MarginContainer/GridContainer")
+	
+	for label in allStatGrid.get_children():
+		if not label is Label : 
+			continue
+		for prefix in STAT_MAP :
+			if label.name.begins_with(prefix):
+				var keys = STAT_MAP[prefix]
+				label.text = str(pokemon.Stat_dict[keys[0]][keys[1]])
+	
+func show_pokemon_stat_menu(pokemon : PokemonInstance):
+	pokemonStatmenuButton.visible = true
+	pokemonMenu.visible = false
+	
+	setup_back_button(pokemonStatmenuButton, show_pokemon_menu)
+	setup_ct_button(pokemon)
+	# to handle CTinfoButto
+	setup_pokemon_stat(pokemon)
+	
 
-func update_stat_line(value_to_change : Label, value: int):
-	value_to_change.text = str(value)
-	
 func _input(event: InputEvent) :
 	if in_fight_open == true : 
 		return
@@ -217,11 +210,8 @@ func _on_bag_button_pressed(callable : Callable = hide_player_inventory) -> void
 	fullMenu.visible = false
 	InventoryMenu.visible = true
 	var tabBar = InventoryMenu.get_node("TabBar")
-	var backButton = InventoryMenu.get_node("Button")
-	Utils.disconnect_all_connections_pressed(backButton)
+	setup_back_button(InventoryMenu, callable)
 	Utils.disconnect_all_connections_pressed(tabBar, "tab_changed")
-	if callable.is_valid() :
-		backButton.connect("pressed", callable)
 	tabBar.connect("tab_changed", display_ItemList)
 	display_ItemList(Item_data.ItemCat.POTION)
 

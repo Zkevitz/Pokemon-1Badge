@@ -157,8 +157,8 @@ func update_hp_bar(isally : bool, pokemon_info : PokemonInstance):
 	var hp_bar = info_panel.get_node("HpBar")
 	var hp_label = info_panel.get_node("hpLabel")
 	
-	var target_value  = pokemon_info.Hp_dict["current"] * 100 / pokemon_info.Hp_dict["max"]
-	hp_label.text = "%d/%d" % [pokemon_info.Hp_dict["current"], pokemon_info.Hp_dict["max"]]
+	var target_value  = pokemon_info.Stat_dict["Hp_dict"]["current"] * 100 / pokemon_info.Stat_dict["Hp_dict"]["max"]
+	hp_label.text = "%d/%d" % [pokemon_info.Stat_dict["Hp_dict"]["current"], pokemon_info.Stat_dict["Hp_dict"]["max"]]
 	var tween = create_tween()
 	tween.tween_property(
 		hp_bar,

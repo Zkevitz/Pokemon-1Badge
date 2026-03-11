@@ -199,8 +199,8 @@ func _queue_turn(attacker: PokemonInstance, defender: PokemonInstance, action : 
 		"move": move,
 		"item": item,
 		"priority": priority,
-		"speed": attacker.Speed_dict["current"],
-		"speed_ratio" : attacker.Speed_dict["ratio"]
+		"speed": attacker.Stat_dict["Speed_dict"]["current"],
+		"speed_ratio" : attacker.Stat_dict["Speed_dict"]["ratio"]
 	})
 
 func _process_turn_queue():
@@ -216,10 +216,10 @@ func _process_turn_queue():
 func execute_next_turn():
 	if turn_queue.is_empty():
 		await move_effect_manager.process_end_of_turn_effect(player_pokemon, enemy_pokemon)
-		if player_pokemon.Hp_dict["current"] <= 0 :
+		if player_pokemon.Stat_dict["Hp_dict"]["current"] <= 0 :
 			await _handle_faint(player_pokemon)
 			return
-		elif enemy_pokemon.Hp_dict["current"] <= 0 :
+		elif enemy_pokemon.Stat_dict["Hp_dict"]["current"] <= 0 :
 			await _handle_faint(enemy_pokemon)
 			return
 		_start_player_turn()
@@ -227,7 +227,7 @@ func execute_next_turn():
 	var turn_data = turn_queue.pop_front()
 	
 	#ME SEMBLE USELESS
-	#if turn_data.attacker.Hp_dict["current"] <= 0:
+	#if turn_data.attacker.Stat_dict["Hp_dict"]["current"] <= 0:
 		#execute_next_turn()
 		#return
 	if turn_data.action == actionType.POKEMON :
@@ -319,7 +319,7 @@ func execute_move(attacker : PokemonInstance, defender : PokemonInstance, move :
 		var result = await move_effect_manager.process_incapacity_status(attacker)
 		if result :
 			await _process_text_queue()
-			if attacker.Hp_dict["current"] <= 0 :
+			if attacker.Stat_dict["Hp_dict"]["current"] <= 0 :
 				await _handle_faint(attacker)
 				return
 			execute_next_turn()
@@ -354,7 +354,7 @@ func execute_move(attacker : PokemonInstance, defender : PokemonInstance, move :
 			
 	await _process_text_queue()
 	await Game.get_tree().create_timer(0.5).timeout
-	if defender.Hp_dict["current"] <= 0:
+	if defender.Stat_dict["Hp_dict"]["current"] <= 0:
 		await _handle_faint(defender)
 	else:
 		execute_next_turn()
@@ -392,9 +392,9 @@ func apply_move_effect(move : CT_data, attacker : PokemonInstance, defender : Po
 func calculate_damage(attacker : PokemonInstance, defender : PokemonInstance, move : CT_data, effectiveness : float) -> int :
 	var level = attacker.level
 	var power = move.power
-	var attack_stat = (attacker.Atk_dict["current"] * attacker.Atk_dict["ratio"]) if move.category == "PHYSICS" else (attacker.AtkSpe_dict["current"] * attacker.AtkSpe_dict["ratio"])
-	var defense_stat = (defender.Def_dict["current"] * defender.Def_dict["ratio"]) if move.category == "PHYSICS" else (defender.DefSpe_dict["current"] * defender.DefSpe_dict["ratio"])
-	print("MON ATTAQUE STAT = ", attack_stat)
+	var attack_stat = (attacker.Stat_dict["Atk_dict"]["current"] * attacker.Stat_dict["Atk_dict"]["ratio"]) if move.category == "PHYSICS" else (attacker.Stat_dict["AtkSpe_dict"]["current"] * attacker.Stat_dict["AtkSpe_dict"]["ratio"])
+	var defense_stat = (defender.Stat_dict["Def_dict"]["current"] * defender.Stat_dict["Def_dict"]["ratio"]) if move.category == "PHYSICS" else (defender.Stat_dict["DefSpe_dict"]["current"] * defender.Stat_dict["DefSpe_dict"]["ratio"])
+	
 	var damage = ((2.0 * level / 5.0 + 2) * power * attack_stat / defense_stat) / 50 + 2.0
 	if move.type == attacker.pokemon_type1 or move.type == attacker.pokemon_type2 :
 		damage *= 1.5
@@ -512,7 +512,7 @@ func _handle_faint(pokemon : PokemonInstance):
 		 
 	var available_pokemon
 	if pokemon == player_pokemon :
-		available_pokemon = player_team.filter(func(p): return p.Hp_dict["current"] > 0)
+		available_pokemon = player_team.filter(func(p): return p.Stat_dict["Hp_dict"]["current"] > 0)
 		if available_pokemon.is_empty() :
 			_queue_text("{introduire nom du joeur} n'a plus de Pokemon pour se battre")
 			_queue_text("{introduire nom du joeur} se hate au Centre Pokemon le plus proche")
@@ -524,7 +524,7 @@ func _handle_faint(pokemon : PokemonInstance):
 			ui_node.show_pokemon_menu(player_team, false)
 			return
 	else :
-		available_pokemon = enemy_team.filter(func(p): return p.Hp_dict["current"] > 0)
+		available_pokemon = enemy_team.filter(func(p): return p.Stat_dict["Hp_dict"]["current"] > 0)
 		if available_pokemon.is_empty():
 			_end_battle(true)
 			return
@@ -596,7 +596,7 @@ func attempt_escape():
 		_start_player_turn()
 		return
 	
-	var escape_chance = (player_pokemon.Speed_dict["current"] * 128) / (enemy_pokemon.Speed_dict["current"] + 1) + 30
+	var escape_chance = (player_pokemon.Stat_dict["Speed_dict"]["current"] * 128) / (enemy_pokemon.Stat_dict["Speed_dict"]["current"] + 1) + 30
 	print("ESCAPE CHANCE = ", escape_chance)
 	if randf() * 256 < escape_chance:
 		_queue_text("Vous avez réussi à fuir !")

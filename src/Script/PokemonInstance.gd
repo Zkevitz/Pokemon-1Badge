@@ -11,43 +11,45 @@ enum Type { AUCUN, NORMAL, FEU, EAU, PLANTE, ELECTRIQUE, GLACE, COMBAT, POISON, 
 var is_wild = false
 var pokemon_name : String
 
-var Hp_dict : Dictionary = {
-	"current" : 0,
-	"max" : 0,
-	"ivs" : 0,
-	"evs" : 0
+var Stat_dict : Dictionary = {
+	"Hp_dict" : {
+		"current" : 0,
+		"max" : 0,
+		"ivs" : 0,
+		"evs" : 0
+	},
+	"Atk_dict" : {
+		"current" : 0,
+		"ratio" : 1,
+		"ivs" : 0,
+		"evs" : 0	
+	},
+	"AtkSpe_dict" : {
+		"current" : 0,
+		"ratio" : 1,
+		"ivs" : 0,
+		"evs" : 0	
+	},
+	"Def_dict" : {
+		"current" : 0,
+		"ratio" : 1,
+		"ivs" : 0,
+		"evs" : 0
+	},
+	"DefSpe_dict" : {
+		"current" : 0,
+		"ratio" : 1,
+		"ivs" : 0,
+		"evs" : 0	
+	},
+	"Speed_dict" : {
+		"current" : 0,
+		"ratio" : 1,
+		"ivs" : 0,
+		"evs" : 0
+	}
 }
 
-var Atk_dict : Dictionary = {
-	"current" : 0,
-	"ratio" : 1,
-	"ivs" : 0,
-	"evs" : 0
-}
-var AtkSpe_dict : Dictionary = {
-	"current" : 0,
-	"ratio" : 1,
-	"ivs" : 0,
-	"evs" : 0
-}
-var Def_dict : Dictionary = {
-	"current" : 0,
-	"ratio" : 1,
-	"ivs" : 0,
-	"evs" : 0
-}
-var DefSpe_dict : Dictionary = {
-	"current" : 0,
-	"ratio" : 1,
-	"ivs" : 0,
-	"evs" : 0
-}
-var Speed_dict : Dictionary = {
-	"current" : 0,
-	"ratio" : 1,
-	"ivs" : 0,
-	"evs" : 0
-}
 
 var base_exp_yield : int
 var current_xp : int
@@ -72,40 +74,40 @@ signal newLevelupMove(move_id: int)
 # Called when the node enters the scene tree for the first time.
 func initStats(custom_moves : Array = []):
 	print(data)
-	if Hp_dict["max"] == 0 :
+	if Stat_dict["Hp_dict"]["max"] == 0 :
 		pokemon_id = data.pokemon_id
 		base_exp_yield = data.base_exp_yield
 		pokemon_type1 = data.pokemon_type1
 		pokemon_type2 = data.pokemon_type2
 		pokemon_name = data.pokemon_name
 		setup_random_ivs()
-		Hp_dict["max"] = calculateStat(data.baseHp, level, Hp_dict["ivs"], Hp_dict["evs"], true)
-		Hp_dict["current"] = Hp_dict["max"]
+		Stat_dict["Hp_dict"]["max"] = calculateStat(data.baseHp, level, Stat_dict["Hp_dict"]["ivs"], Stat_dict["Hp_dict"]["evs"], true)
+		Stat_dict["Hp_dict"]["current"] = Stat_dict["Hp_dict"]["max"]
 		if custom_moves.size() > 0 : 
 			for move in custom_moves : 
 				learnMove(move, 3)
 		else : 
 			load_moves(data.learnable_moves)
 	else:
-		var old_max_hp = Hp_dict["max"]
-		Hp_dict["max"] = calculateStat(data.baseHp, level, Hp_dict["ivs"], Hp_dict["evs"], true)
-		Hp_dict["current"] = Hp_dict["current"] + (Hp_dict["max"] - old_max_hp)
+		var old_max_hp = Stat_dict["Hp_dict"]["max"]
+		Stat_dict["Hp_dict"]["max"] = calculateStat(data.baseHp, level,  Stat_dict["Hp_dict"]["ivs"],  Stat_dict["Hp_dict"]["evs"], true)
+		Stat_dict["Hp_dict"]["current"] = Stat_dict["Hp_dict"]["current"] + (Stat_dict["Hp_dict"]["max"] - old_max_hp)
 		
-	Atk_dict["current"] = calculateStat(data.baseAtk, level, Atk_dict["ivs"], Atk_dict["evs"])
-	AtkSpe_dict["current"] = calculateStat(data.baseSpeAtk, level, AtkSpe_dict["ivs"], AtkSpe_dict["evs"])
-	Def_dict["current"] = calculateStat(data.baseDef, level, Def_dict["ivs"], Def_dict["evs"])
-	DefSpe_dict["current"] = calculateStat(data.baseSpeDef, level, DefSpe_dict["ivs"], DefSpe_dict["evs"])
-	Speed_dict["current"] = calculateStat(data.baseSpd, level, Speed_dict["ivs"], Speed_dict["evs"])
+	Stat_dict["Atk_dict"]["current"] = calculateStat(data.baseAtk, level, Stat_dict["Atk_dict"]["ivs"], Stat_dict["Atk_dict"]["evs"])
+	Stat_dict["AtkSpe_dict"]["current"] = calculateStat(data.baseSpeAtk, level, Stat_dict["AtkSpe_dict"]["ivs"], Stat_dict["AtkSpe_dict"]["evs"])
+	Stat_dict["Def_dict"]["current"] = calculateStat(data.baseDef, level, Stat_dict["Def_dict"]["ivs"], Stat_dict["Def_dict"]["evs"])
+	Stat_dict["DefSpe_dict"]["current"] = calculateStat(data.baseSpeDef, level, Stat_dict["DefSpe_dict"]["ivs"], Stat_dict["DefSpe_dict"]["evs"])
+	Stat_dict["Speed_dict"]["current"] = calculateStat(data.baseSpd, level, Stat_dict["Speed_dict"]["ivs"], Stat_dict["Speed_dict"]["evs"])
 	current_xp = 0
 	xp_to_next_level = get_total_xp_for_level(level + 1) - get_total_xp_for_level(level)
 
 func setup_random_ivs():
-	Hp_dict["ivs"] = randi() % 31
-	Atk_dict["ivs"] = randi() % 31
-	AtkSpe_dict["ivs"] = randi() % 31
-	Def_dict["ivs"] =  randi() % 31
-	DefSpe_dict["ivs"] = randi() % 31
-	Speed_dict["ivs"] = randi() % 31
+	Stat_dict["Hp_dict"]["ivs"] = randi() % 31
+	Stat_dict["Atk_dict"]["ivs"] = randi() % 31
+	Stat_dict["AtkSpe_dict"]["ivs"] = randi() % 31
+	Stat_dict["Def_dict"]["ivs"] =  randi() % 31
+	Stat_dict["DefSpe_dict"]["ivs"] = randi() % 31
+	Stat_dict["Speed_dict"]["ivs"] = randi() % 31
 	
 func get_total_xp_for_level(actuallevel: int) -> int:
 	return int((4.0 * pow(actuallevel, 3)) / 5.0)
@@ -154,23 +156,24 @@ func calculateStat(base : int, lvl : int, IVS : int, EVS : int, is_hp : bool = f
 	return stat + 5
 
 func CenterHealing():
-	Hp_dict["current"] = Hp_dict["max"]
+	Stat_dict["Hp_dict"]["current"] = Stat_dict["Hp_dict"]["max"]
 	status = null
 	for move in moves : 
 		movesPP[move.id] = move["max_pp"]
-	
+
+
 func take_damage(damage : int):
-	Hp_dict["current"] = max(0, Hp_dict["current"] - damage)
-	hp_changed.emit(Hp_dict["current"], Hp_dict["max"])
+	Stat_dict["Hp_dict"]["current"] = max(0, Stat_dict["Hp_dict"]["current"] - damage)
+	hp_changed.emit(Stat_dict["Hp_dict"]["current"], Stat_dict["Hp_dict"]["max"])
 	await pokemon_node.flash_color(Color.WHITE, 0.4)
 	
-	if Hp_dict["current"] <= 0:
+	if Stat_dict["Hp_dict"]["current"] <= 0:
 		faint()
 
 func heal(amount : int) -> int:
-	var heal_value = min(amount, int(Hp_dict["max"] - Hp_dict["current"]))
-	Hp_dict["current"] = min(Hp_dict["max"], Hp_dict["current"] + amount)
-	hp_changed.emit(Hp_dict["current"], Hp_dict["max"])
+	var heal_value = min(amount, int(Stat_dict["Hp_dict"]["max"] - Stat_dict["Hp_dict"]["current"]))
+	Stat_dict["Hp_dict"]["current"] = min(Stat_dict["Hp_dict"]["max"], Stat_dict["Hp_dict"]["current"] + amount)
+	hp_changed.emit(Stat_dict["Hp_dict"]["current"], Stat_dict["Hp_dict"]["max"])
 	return heal_value
 	
 func faint():
@@ -199,7 +202,7 @@ func lvl_up():
 func use_item(item_data : Item_data) -> bool :
 	match item_data.effect :
 		Item_data.ItemEffect.PVHEAL :
-			if Hp_dict["current"] >= Hp_dict["max"]:
+			if Stat_dict["Hp_dict"]["current"] >= Stat_dict["Hp_dict"]["max"]:
 				DialogueManager.startDialogue("Cela n'aura aucun effet")
 				return false
 			else  :
