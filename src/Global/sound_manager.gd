@@ -1,6 +1,5 @@
 extends Node
 
-
 var music_player: AudioStreamPlayer
 var sfx_player: AudioStreamPlayer
 var ui_player: AudioStreamPlayer
@@ -30,7 +29,7 @@ func _ready() -> void:
 	add_child(ui_player)
 	
 	music_player.finished.connect(on_music_finised)
-
+	
 func on_music_finised():
 	music_player.play()
 
@@ -57,6 +56,8 @@ func play_sfx(stream : AudioStream, volume : int, pitch : float = 1.0):
 	add_child(p)
 	p.play()
 	p.finished.connect(p.queue_free)
+	
+	return p.finished
 
 #UTILISATION : AudioManager.play_ui(preload("res://ui/click.wav"))
 func play_ui(Stream : AudioStream) :

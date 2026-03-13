@@ -5,14 +5,6 @@ class_name MenuUi
 var is_open = false
 var in_fight_open = false
 
-@onready var fullMenu := $fullMenu
-@onready var pokemonMenu := $PokemonMenu
-@onready var pokemonmenuButton := $fullMenu/VBoxContainer/PokemonButton
-@onready var pokemonStatmenuButton := $PokemonStatMenu
-@onready var volumeSlider := $fullMenu/VBoxContainer/Panel2/HSlider
-@onready var InventoryMenu := $InventoryMenu
-
-
 const STAT_MAP = {
 		"HPstat":     ["Hp_dict",     "max"],
 		"HPiv":       ["Hp_dict",     "ivs"],
@@ -27,6 +19,13 @@ const STAT_MAP = {
 		"SPEEDstat":  ["Speed_dict",  "current"],
 		"SPEEDiv":    ["Speed_dict",  "ivs"],
 }
+
+@onready var fullMenu := $fullMenu
+@onready var pokemonMenu := $PokemonMenu
+@onready var pokemonmenuButton := $fullMenu/VBoxContainer/PokemonButton
+@onready var pokemonStatmenuButton := $PokemonStatMenu
+@onready var volumeSlider := $fullMenu/VBoxContainer/Panel2/HSlider
+@onready var InventoryMenu := $InventoryMenu
 	
 func _ready() -> void:
 	fullMenu.visible = false
@@ -75,7 +74,7 @@ func show_pokemon_menu(callable : Callable = show_pokemon_stat_menu):
 				setup_pokemon_button(button, pokemon)
 				Utils.disconnect_all_connections_pressed(button)
 				button.connect("pressed", callable.bind(pokemon))
-				if in_fight_open and pokemon.Hp_dict["current"] <= 0 :
+				if in_fight_open and pokemon.Stat_dict["Hp_dict"]["current"] <= 0 :
 					button.disabled = true
 				else :
 					button.disabled = false
@@ -87,7 +86,7 @@ func use_item_on_pokemon(pokemon : PokemonInstance, item_data : Item_data):
 	var inventory = playerManager.player_instance.player_inventory
 	pokemonMenu.visible = false
 	if in_fight_open :
-		Game.battleManager._on_item_selected(pokemon, item_data)
+		Game.battleManager._on_item_selected(item_data, pokemon)
 	else : 
 		var is_used = pokemon.use_item(item_data) # penser a passer use_item dans player cela me semble plus logique 
 		await DialogueManager.dialogue_ended
@@ -124,15 +123,10 @@ func setup_ct_button(pokemon : PokemonInstance):
 			var max_pp_move = move["max_pp"]
 			pplabel.text = str(current_pp_move) + "/" + str(max_pp_move)
 			
-			typelabel.text = type_to_string(move["type"])
+			typelabel.text = Utils.type_to_string(move["type"])
 		else :
 			button.text = "NONE"
 		i += 1
-	
-func type_to_string(t: PokemonInstance.Type) -> String:
-	if t < 0 or t >= PokemonInstance.Type.size():
-		return "Inconnu"
-	return PokemonInstance.Type.keys()[t].capitalize()
 
 func setup_back_button(fromControl : Control, callable : Callable):
 	var returnButton = fromControl.get_node("BackButton")
@@ -145,9 +139,9 @@ func setup_pokemon_stat(pokemon : PokemonInstance) :
 	var pokemonSprite = pokemonStatmenuButton.get_node("pokemonSprite")
 	pokemonSprite.texture = pokemon.data.sprite_frames.get_frame_texture("idle", 0)
 	
-	var type_text := type_to_string(pokemon.pokemon_type1)
+	var type_text := Utils.type_to_string(pokemon.pokemon_type1)
 	if pokemon.pokemon_type2 != pokemon.Type.AUCUN:
-		type_text += "/" + type_to_string(pokemon.pokemon_type2)
+		type_text += "/" + Utils.type_to_string(pokemon.pokemon_type2)
 		
 	var gridinfo = pokemonStatmenuButton.get_node("GridContainer");
 	gridinfo.get_node("pokemonName").text = "Name : %s" % pokemon.pokemon_name
@@ -164,6 +158,7 @@ func setup_pokemon_stat(pokemon : PokemonInstance) :
 			if label.name.begins_with(prefix):
 				var keys = STAT_MAP[prefix]
 				label.text = str(pokemon.Stat_dict[keys[0]][keys[1]])
+				break
 	
 func show_pokemon_stat_menu(pokemon : PokemonInstance):
 	pokemonStatmenuButton.visible = true
@@ -239,6 +234,8 @@ func Show_item_left_part(index: int) -> void:
 	Utils.disconnect_all_connections_pressed(UseButton)
 	if not in_fight_open and item_data.Categorie == Item_data.ItemCat.BALL:
 		UseButton.disabled = true
+	elif in_fight_open and item_data.Categorie == Item_data.ItemCat.BALL :
+		UseButton.connect("pressed", Game.battleManager._on_item_selected.bind(item_data))
 	else :
 		UseButton.disabled = false
 		UseButton.connect("pressed", show_pokemon_menu.bind(callable))

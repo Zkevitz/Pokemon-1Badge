@@ -142,6 +142,7 @@ func receiveGift(recompenseType : Game.recompenseType, recompense_id : int = 0, 
 		print("object receive a implementer")
 
 func full_heal_team():
+	SoundManager.play_sfx(preload("res://sound/SFX/Divers/Pkmn healing.ogg"), -15)
 	for poke in pokemonTeam :
 		poke.CenterHealing()	
 		

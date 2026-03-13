@@ -7,10 +7,9 @@
 script = ExtResource("1_bvch6")
 name = "Rugissement"
 id = 3
-category = "STATUS"
+category = 2
 power = 0
 type_effect = 6
 chance = 100
-AnimName = "Done"
 AnimNode = ExtResource("1_awk5c")
 metadata/_custom_type_script = "uid://khacs4dumku4"

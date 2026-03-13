@@ -10,6 +10,7 @@ enum Type { AUCUN, NORMAL, FEU, EAU, PLANTE, ELECTRIQUE, GLACE, COMBAT, POISON, 
 @export var sprite_frames : SpriteFrames
 @export var pokemon_type1 : Type = Type.NORMAL
 @export var pokemon_type2 : Type = Type.AUCUN
+@export var catch_rate : int = 200
 
 @export_group("Stats de base")
 @export var baseHp : int = 35

@@ -55,12 +55,14 @@ func fight_entry():
 		.set_ease(Tween.EASE_OUT)
 	await tween.finished
 
-func fight_exit():
+func fight_exit(need_to_free : bool = true):
 	flash_color(Color.WHITE, 0.9)
 	var tween := create_tween()
 	tween.tween_property(self, "scale", Vector2(0, 0), 0.8)
+	SoundManager.play_sfx(preload("res://sound/SFX/battleSound/Battle recall.ogg"), -10)
 	await tween.finished
-	queue_free()
+	if need_to_free : 
+		queue_free()
 	
 func apply_status_in_Ui(status : String):
 	var panel_info = get_parent().get_parent()

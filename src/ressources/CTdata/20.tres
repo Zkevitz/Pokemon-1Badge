@@ -12,6 +12,5 @@ power = 75
 max_pp = 15
 type_effect = 2
 chance = 10
-AnimName = "njnjnjnjdnfdjf"
 AnimNode = ExtResource("1_1wdtm")
 metadata/_custom_type_script = "uid://khacs4dumku4"

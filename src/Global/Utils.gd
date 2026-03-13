@@ -1,7 +1,22 @@
 class_name Utils
 
+static func get_catch_bonus_status(pokemon : PokemonInstance) -> float :
+	const one_and_half_rate = ["BRN", "PARA", "PSN"]
+	const two_rate = ["GEL", "SLEEP"]
+	if pokemon.status == null : 
+		return 1
+	elif one_and_half_rate.has(pokemon.status):
+		return 1.5
+	elif two_rate.has(pokemon.status):
+		return 2
+	push_error("catch bonus status not found")
+	return 1
 
-
+static func type_to_string(t: PokemonData.Type) -> String:
+	if t < 0 or t >= PokemonData.Type.size():
+		return "Inconnu"
+	return PokemonData.Type.keys()[t].capitalize()
+	
 static func get_type_color(type : int):
 	var modulate_level :float = 0.75
 	match type :

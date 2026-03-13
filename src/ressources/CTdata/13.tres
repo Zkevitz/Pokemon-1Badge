@@ -11,6 +11,5 @@ type = 13
 power = 50
 accuracy = 90
 max_pp = 15
-AnimName = "Done"
 AnimNode = ExtResource("1_0q73v")
 metadata/_custom_type_script = "uid://khacs4dumku4"
