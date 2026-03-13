@@ -115,48 +115,36 @@ func apply_confusion(target_pokemon : PokemonInstance):
 	await target_pokemon.pokemon_node.play_confusion()
 	battleManager._queue_text("%s est desormais confus !" % target_pokemon.pokemon_name)
 	
-func lower_target_atk(target_pokemon : PokemonInstance, power : int):
-	if target_pokemon.Atk_dict["ratio"] == STAT_STAGES[0]:
-		battleManager._queue_text("l'attaque de %s est deja au minimum" % target_pokemon.pokemon_name)
+func lower_target_stat(target_pokemon : PokemonInstance, power : int, stat : String = "Atk_dict"):
+	var stat_text = BattleUI.ui_stat_message[stat]
+	if target_pokemon.Stat_dict[stat]["ratio"] == STAT_STAGES[0]:
+		battleManager._queue_text("%s de %s est deja au minimum" % [stat_text, target_pokemon.pokemon_name])
 		return
-	target_pokemon.Atk_dict["ratio"] = lower_stat(target_pokemon.Atk_dict["ratio"], power)
+	target_pokemon.Stat_dict[stat]["ratio"] = lower_stat(target_pokemon.Stat_dict[stat]["ratio"], power)
 	target_pokemon.pokemon_node.Drop_stat_anim()
 	SoundManager.play_sfx(preload("res://sound/SFX/status/Stat Down.ogg"), -10)
 	await target_pokemon.pokemon_node.animation_finished
 	match power :
 		1 :
-			battleManager._queue_text("l'attaque de %s baisse !" % target_pokemon.pokemon_name)
+			battleManager._queue_text("%s de %s baisse !" % [stat_text, target_pokemon.pokemon_name])
 		2 :
-			battleManager._queue_text("l'attaque de %s baisse enormement!" % target_pokemon.pokemon_name)
-
-func lower_target_defense(target_pokemon : PokemonInstance, power : int ):
-	if target_pokemon.Def_dict["ratio"] == STAT_STAGES[0]:
-		battleManager._queue_text("la defense de %s est deja au minimum" % target_pokemon.pokemon_name)
-		return
-	target_pokemon.Def_dict["ratio"] = lower_stat(target_pokemon.Def_dict["ratio"], power)
-	target_pokemon.pokemon_node.Drop_stat_anim()
-	SoundManager.play_sfx(preload("res://sound/SFX/status/Stat Down.ogg"), -10)
-	await target_pokemon.pokemon_node.animation_finished
-	match power :
-		1 :
-			battleManager._queue_text("l'attaque de %s baisse !" % target_pokemon.pokemon_name)
-		2 :
-			battleManager._queue_text("l'attaque de %s baisse enormement!" % target_pokemon.pokemon_name)
+			battleManager._queue_text("%s de %s baisse enormement!" % [stat_text, target_pokemon.pokemon_name])
 	
-func boost_target_atk(target_pokemon : PokemonInstance, power : int):
-	if target_pokemon.Atk_dict["ratio"] == STAT_STAGES[12]:
-		battleManager._queue_text("l'attaque de %s est deja au maximum !" % target_pokemon.pokemon_name)
+func boost_target_stat(target_pokemon : PokemonInstance, power : int, stat : String = "Atk_dict"):
+	var stat_text = BattleUI.ui_stat_message[stat]
+	if target_pokemon.Stat_dict[stat]["ratio"] == STAT_STAGES[12]:
+		battleManager._queue_text("%s de %s est deja au maximum" % [stat_text, target_pokemon.pokemon_name])
 		return
-	target_pokemon.Atk_dict["ratio"] = boost_stat(target_pokemon.Atk_dict["ratio"], power)
-	print("BOOST TARGET RATIO is now at :", target_pokemon.Atk_dict["ratio"])
+	target_pokemon.Stat_dict[stat]["ratio"] = boost_stat(target_pokemon.Stat_dict[stat]["ratio"], power)
+	print("BOOST TARGET RATIO is now at :", target_pokemon.Stat_dict[stat]["ratio"])
 	target_pokemon.pokemon_node.Boost_stat_anim()
 	SoundManager.play_sfx(preload("res://sound/SFX/status/Stat Up.ogg"), -10)
 	await target_pokemon.pokemon_node.animation_finished
 	match power :
 		1 :
-			battleManager._queue_text("l'attaque de %s augmente !" % target_pokemon.pokemon_name)
+			battleManager._queue_text("%s de %s augmente !" % [stat_text, target_pokemon.pokemon_name])
 		2 :
-			battleManager._queue_text("l'attaque de %s augmente enormement!" % target_pokemon.pokemon_name)
+			battleManager._queue_text("%s de %s augmente enormement!" % [stat_text, target_pokemon.pokemon_name])
 	
 func lower_stat(stat_ratio: float, step : int) -> float:
 	# trouver le palier le plus proche

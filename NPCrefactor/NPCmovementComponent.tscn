@@ -1,6 +1,0 @@
-[gd_scene load_steps=2 format=3 uid="uid://bkduhjlirv6q5"]
-
-[ext_resource type="Script" uid="uid://bp6omdwfcakx3" path="res://NPCrefactor/NPCmovement.gd" id="1_g2bet"]
-
-[node name="Node2D" type="Node"]
-script = ExtResource("1_g2bet")

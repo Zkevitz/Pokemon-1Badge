@@ -6,8 +6,8 @@
 script = ExtResource("1_ly27k")
 name = "Mimi-Queu"
 id = 4
-category = "STATUS"
 power = 0
-type_effect = 7
+type_effect = 6
+Stat_action = "Def_dict"
 chance = 100
 metadata/_custom_type_script = "uid://khacs4dumku4"

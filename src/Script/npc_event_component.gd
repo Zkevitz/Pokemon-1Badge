@@ -15,7 +15,7 @@ func show_exclamation_mark() -> void:
 	sprite.visible = true
 	sprite.modulate.a = 1.0
 	anim.play("exclamationMark")
-	SoundManager.play_sfx(preload("res://sound/SFX/Exclaim.ogg"), -20)
+	SoundManager.play_sfx(preload("res://sound/SFX/Divers/Exclaim.ogg"), -20)
 	await anim.animation_finished
 	sprite.visible = false
 

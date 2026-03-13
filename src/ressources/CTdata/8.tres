@@ -6,10 +6,11 @@
 script = ExtResource("1_me2s4")
 name = "Danse Lames"
 id = 8
-category = "STATUS"
+category = 2
 power = 0
 max_pp = 15
-type_effect = 11
+type_effect = 7
+target = 0
 power_effect = 2
 chance = 100
 metadata/_custom_type_script = "uid://khacs4dumku4"

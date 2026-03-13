@@ -6,8 +6,7 @@ var level := 5
 
 var moves : Array[CT_data] = []
 var movesPP : Dictionary[int, int] = {}
-enum Type { AUCUN, NORMAL, FEU, EAU, PLANTE, ELECTRIQUE, GLACE, COMBAT, POISON, SOL, VOL,
-	 PSY, INSECTE, ROCHE, SPECTRE, DRAGON, TENEBRES, ACIER, FEE}
+
 var is_wild = false
 var pokemon_name : String
 
@@ -195,6 +194,7 @@ func checkNewMove() -> void:
 	
 func lvl_up():
 	level += 1
+	SoundManager.play_sfx(preload("res://sound/SFX/Divers/Pkmn level up.ogg"), -15)
 	initStats()
 	checkNewMove()
 	#level_up.emit(level)

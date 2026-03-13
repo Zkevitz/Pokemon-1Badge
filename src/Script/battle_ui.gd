@@ -3,6 +3,13 @@ extends CanvasLayer
 
 enum actionType {FIGHT, POKEMON, BAG, RUN}
 
+const ui_stat_message : Dictionary = {
+	"Atk_dict" : "l'attaque",
+	"AtkSpe_dict" : "l'attaque special",
+	"Def_dict" : "la defense",
+	"DefSpe_dict" : "la defense special",
+	"Speed_dict" : "la vitesse"
+}
 signal action_selected(Type : actionType)
 signal move_selected(move_index: int)
 signal moveReplacementSelected(moveArray: Array[int])
@@ -24,6 +31,9 @@ signal choice_made(choice : bool)
 @onready var AllyMarker2d := $Marker2D
 @onready var BackgroundTexture := $TextureRect
 
+@onready var ThrowPokeBallComponent := $ThrowBallAnimComponent
+@onready var CatchingBallMoveComponent := $CatchingBallMoveAnimComponent
+
 
 var move_button_connections : Array = []
 var current_text = ""
@@ -39,6 +49,8 @@ func _ready() -> void:
 	move_menu.visible = false
 	move_menu.get_node("Move5Button").visible = false
 	yesNoBox.visible = false
+	ThrowPokeBallComponent.visible = false
+	CatchingBallMoveComponent.visible = false
 	
 	start_color_info_panel = player_info.modulate
 	main_menu.get_node("FightButton").pressed.connect(func() : action_selected.emit(actionType.FIGHT))
@@ -147,7 +159,32 @@ func animate_xp_bar(xp_bar : ProgressBar, target_value : int ):
 		.set_ease(Tween.EASE_OUT)
 	await tween.finished
 
-
+func throw_pokeball(wild_pokemon : PokemonInstance, capture_chance : int) -> bool:
+	TransitionAnim.play("throw_ball")
+	await TransitionAnim.animation_finished
+	await wild_pokemon.pokemon_node.fight_exit(false)
+	CatchingBallMoveComponent.visible = true
+	var bounce = 0
+	for i in range(3) :
+		var random_number = randi_range(0, 65535)
+		print("random_number : ", random_number)
+		print("capture_ chance : ", capture_chance)
+		await get_tree().create_timer(0.8).timeout
+		if random_number < capture_chance :
+			TransitionAnim.play("catch_ball_move")
+			SoundManager.play_sfx(preload("res://sound/SFX/battleSound/Battle ball shake.ogg"), -15)
+			await TransitionAnim.animation_finished
+		else:
+			await wild_pokemon.pokemon_node.fight_entry()
+			CatchingBallMoveComponent.visible = false
+			break
+		bounce += 1
+	if bounce == 3 :
+		SoundManager.play_sfx(preload("res://sound/SFX/battleSound/Battle catch click.ogg"), -10)
+		CatchingBallMoveComponent.modulate = Color.BLACK
+		return true
+	return false
+	
 func update_hp_bar(isally : bool, pokemon_info : PokemonInstance):
 	var info_panel
 	if isally == true : 

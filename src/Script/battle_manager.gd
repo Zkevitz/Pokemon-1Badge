@@ -172,7 +172,7 @@ func _on_pokemon_selected(pokemon : PokemonInstance, is_switch : bool):
 		await switch_pokemon(pokemon)
 		_start_player_turn()
 
-func _on_item_selected(pokemon : PokemonInstance, item_data : Item_data):
+func _on_item_selected(item_data : Item_data, pokemon : PokemonInstance = null):
 	current_state = battleState.ITEM_SELECTION
 	
 	ui_node.show_main_menu(false)
@@ -180,18 +180,20 @@ func _on_item_selected(pokemon : PokemonInstance, item_data : Item_data):
 	ui_node.hide_pokemon_menu()
 	ui_node.show_text(true)
 	
-	_queue_turn(pokemon, enemy_pokemon, actionType.BAG, null, item_data)
+	var pokemon_selected = pokemon if pokemon else player_pokemon
+	_queue_turn(pokemon_selected, enemy_pokemon, actionType.BAG, null, item_data)
 	_queue_turn(enemy_pokemon, player_pokemon, actionType.IA)
 	await  _process_turn_queue()
 	
 func _queue_turn(attacker: PokemonInstance, defender: PokemonInstance, action : actionType ,move: CT_data = null, item : Item_data = null):
-	var priority
-	if item : 
-		priority = 100
-	elif move :
-		priority = move.priority
-	else :
-		priority = 0
+	var priority : int 
+	match action :
+		actionType.FIGHT :
+			priority = move.priority if move else 0
+		actionType.POKEMON :
+			priority = 50
+		actionType.BAG :
+			priority = 100
 	turn_queue.append({
 		"attacker": attacker,
 		"defender": defender,
@@ -235,7 +237,6 @@ func execute_next_turn():
 		execute_next_turn()
 	elif turn_data.action == actionType.BAG :
 		await use_item_on_pokemon(turn_data)
-		execute_next_turn()
 	elif turn_data.move:
 		execute_move(turn_data.attacker, turn_data.defender, turn_data.move)
 	else:
@@ -253,9 +254,32 @@ func use_item_on_pokemon(turn_data : Dictionary) :
 	
 	if item.Categorie == Item_data.ItemCat.POTION :
 		await handle_medicine_use(item, receiver)
+		execute_next_turn()
 	elif item.Categorie == Item_data.ItemCat.BALL :
-		pass
+		await handle_ball_use(item)
 
+func handle_ball_use(ball_use : Item_data) :
+	var ball_catch_rate = ball_use.effect_power
+	var pokemon_max_hp = enemy_pokemon.Stat_dict["Hp_dict"]["max"]
+	var pokemon_current_hp = enemy_pokemon.Stat_dict["Hp_dict"]["current"]
+	var status_bonus = Utils.get_catch_bonus_status(enemy_pokemon)
+	
+	var base_value = ((3 * pokemon_max_hp - 2 * pokemon_current_hp) * enemy_pokemon.data.catch_rate * ball_catch_rate * status_bonus) / (3 * pokemon_max_hp)
+	base_value = clamp(base_value, 1, 255)
+	#conversion sur 65535
+	var capture_chance = int(1048560.0 / sqrt(sqrt(16711680.0 / base_value)))
+	_queue_text("Vous lancez une %s" % ball_use.Item_name)
+	await _process_text_queue()
+	var result = await ui_node.throw_pokeball(enemy_pokemon, capture_chance)
+	if result :
+		_queue_text("vous avez capturé %s" % enemy_pokemon.pokemon_name)
+		await SoundManager.play_sfx(preload("res://sound/SFX/battleSound/Battle capture success.ogg"), -18)
+		await _end_battle(true)
+	else :
+		_queue_text("Oh non %s c'est liberé !" % enemy_pokemon.pokemon_name)
+		await _process_text_queue()
+		execute_next_turn()
+		
 func handle_medicine_use(item : Item_data, receiver : PokemonInstance):
 	_queue_text("{introduire nom du joueur} utilise %s" % item.Item_name)
 	await _process_text_queue()
@@ -338,19 +362,17 @@ func execute_move(attacker : PokemonInstance, defender : PokemonInstance, move :
 	await play_attack_animation(attacker, defender, move)
 	#await animation_player.animation_finished
 	print("move used : ", move)
-	var effectiveness = get_type_effectiveness(type_to_string(move.type), defender.pokemon_type1, defender.pokemon_type2)
+	var effectiveness = get_type_effectiveness(Utils.type_to_string(move.type), defender.pokemon_type1, defender.pokemon_type2)
 	if effectiveness == 0.0 : 
 		_queue_text("%s est imunisé !")
 	else : 
 		# a changer pour faire fonctionner les move degats + status
-		if move.category == "PHYSICS" or move.category == "SPECIAL":
+		if move.category == CT_data.Categorie.PHYSICS or move.category == CT_data.Categorie.SPECIAL:
 			var damage = calculate_damage(attacker, defender, move, effectiveness)
 			await apply_damage(defender, damage, effectiveness)
 			
-		elif move.category == "STATUS":
+		if move.type_effect != CT_data.Effect.NONE:
 			await apply_move_effect(move, attacker, defender)
-		else :
-			push_error("probleme category du move non trouvé", move)
 			
 	await _process_text_queue()
 	await Game.get_tree().create_timer(0.5).timeout
@@ -360,9 +382,6 @@ func execute_move(attacker : PokemonInstance, defender : PokemonInstance, move :
 		execute_next_turn()
 			
 func apply_move_effect(move : CT_data, attacker : PokemonInstance, defender : PokemonInstance) -> bool:
-	if move.type_effect == move.Effect.NONE :
-		return false
-	
 	if randi() % 100 >= move.chance:
 		return false
 		
@@ -378,12 +397,10 @@ func apply_move_effect(move : CT_data, attacker : PokemonInstance, defender : Po
 			await move_effect_manager.apply_para(defender)
 		CT_data.Effect.SLEEP :
 			await move_effect_manager.apply_sleep(defender)
-		CT_data.Effect.LOWER_ENEMY_ATK :
-			await move_effect_manager.lower_target_atk(defender, move.power_effect)
-		CT_data.Effect.BOOST_TARGET_ATK :
-			await move_effect_manager.boost_target_atk(attacker, move.power_effect)
-		CT_data.Effect.LOWER_ENEMY_DEF  :
-			await move_effect_manager.lower_target_defense(defender, move.power_effect)
+		CT_data.Effect.LOWER_TARGET_STAT :
+			await move_effect_manager.lower_target_stat(defender, move.power_effect, move.Stat_action)
+		CT_data.Effect.BOOST_TARGET_STAT :
+			await move_effect_manager.boost_target_atk(attacker, move.power_effect, move.Stat_action)
 	
 	await _process_text_queue()
 	return true
@@ -392,8 +409,8 @@ func apply_move_effect(move : CT_data, attacker : PokemonInstance, defender : Po
 func calculate_damage(attacker : PokemonInstance, defender : PokemonInstance, move : CT_data, effectiveness : float) -> int :
 	var level = attacker.level
 	var power = move.power
-	var attack_stat = (attacker.Stat_dict["Atk_dict"]["current"] * attacker.Stat_dict["Atk_dict"]["ratio"]) if move.category == "PHYSICS" else (attacker.Stat_dict["AtkSpe_dict"]["current"] * attacker.Stat_dict["AtkSpe_dict"]["ratio"])
-	var defense_stat = (defender.Stat_dict["Def_dict"]["current"] * defender.Stat_dict["Def_dict"]["ratio"]) if move.category == "PHYSICS" else (defender.Stat_dict["DefSpe_dict"]["current"] * defender.Stat_dict["DefSpe_dict"]["ratio"])
+	var attack_stat = (attacker.Stat_dict["Atk_dict"]["current"] * attacker.Stat_dict["Atk_dict"]["ratio"]) if move.category == CT_data.Categorie.PHYSICS else (attacker.Stat_dict["AtkSpe_dict"]["current"] * attacker.Stat_dict["AtkSpe_dict"]["ratio"])
+	var defense_stat = (defender.Stat_dict["Def_dict"]["current"] * defender.Stat_dict["Def_dict"]["ratio"]) if move.category == CT_data.Categorie.PHYSICS else (defender.Stat_dict["DefSpe_dict"]["current"] * defender.Stat_dict["DefSpe_dict"]["ratio"])
 	
 	var damage = ((2.0 * level / 5.0 + 2) * power * attack_stat / defense_stat) / 50 + 2.0
 	if move.type == attacker.pokemon_type1 or move.type == attacker.pokemon_type2 :
@@ -415,21 +432,17 @@ func calculate_damage(attacker : PokemonInstance, defender : PokemonInstance, mo
 		
 	damage *= randf_range(0.85, 1.0)
 	return max(1, int(damage))
-	
-func type_to_string(t: int) -> String:
-	if t < 0 or t >= PokemonInstance.Type.size():
-		return "Inconnu"
-	return PokemonInstance.Type.keys()[t].capitalize()
 
-func get_type_effectiveness(attack_type : String, def_type1 : PokemonInstance.Type, def_type2 : PokemonInstance.Type):
+
+func get_type_effectiveness(attack_type : String, def_type1 : PokemonData.Type, def_type2 : PokemonData.Type):
 	var multiplier = 1.0
 	
 	# DEBUG
 	#print("attack type = ", attack_type)
 	#print("def_type 1 : ", def_type1)
 	#print("def_type 2 : ", def_type2)
-	var strdef_type1 = type_to_string(def_type1)
-	var strdef_type2 = type_to_string(def_type2)
+	var strdef_type1 = Utils.type_to_string(def_type1)
+	var strdef_type2 = Utils.type_to_string(def_type2)
 	if TYPE_CHART.has(attack_type):
 		if TYPE_CHART[attack_type].has(strdef_type1):
 			multiplier *= TYPE_CHART[attack_type][strdef_type1]
@@ -450,11 +463,11 @@ func apply_heal(target : PokemonInstance, amount : int):
 func apply_damage(target : PokemonInstance, damage : int, effectiveness : float = 1.0):
 	const Sound_damage = {
 		2.0 : [
-			preload("res://sound/SFX/damageTaken/Battle damage super.ogg") ],
+			preload("res://sound/SFX/battleSound/damageTaken/Battle damage super.ogg") ],
 		1.0 : [
-			preload("res://sound/SFX/damageTaken/Battle damage normal.ogg") ],
+			preload("res://sound/SFX/battleSound/damageTaken/Battle damage normal.ogg") ],
 		0.5 : [
-			preload("res://sound/SFX/damageTaken/Battle damage weak.ogg") ]
+			preload("res://sound/SFX/battleSound/damageTaken/Battle damage weak.ogg") ]
 	}
 	SoundManager.play_sfx(Sound_damage[effectiveness][0], -10)
 	target.take_damage(damage)
@@ -601,6 +614,7 @@ func attempt_escape():
 	if randf() * 256 < escape_chance:
 		_queue_text("Vous avez réussi à fuir !")
 		await _process_text_queue()
+		SoundManager.play_sfx(preload("res://sound/SFX/battleSound/Battle flee.ogg"), -10)
 		ui_node.call_deferred("queue_free")
 		resetBattleManager()
 		if playerManager.Is_active() == false :
@@ -638,8 +652,8 @@ func use_struggle(attacker: PokemonInstance, defender: PokemonInstance):
 
 func play_attack_animation(attacker: PokemonInstance, defender : PokemonInstance, _move: CT_data):
 	var attackAnim = null
-	print("move animName : ", _move.AnimName)
-	if _move.AnimName != "Default" : 
+	print("move animName : ", _move.AnimNode)
+	if _move.AnimNode : 
 		attackAnim = _move.AnimNode.instantiate()
 		attackAnim.scale = attackAnim.scale / attacker.pokemon_node.scale
 		attacker.pokemon_node.add_child(attackAnim)

@@ -7,11 +7,11 @@
 script = ExtResource("1_nao1u")
 name = "Gros-yeux"
 id = 23
-category = "STATUS"
+category = 2
 power = 0
 max_pp = 20
-type_effect = 7
+type_effect = 6
+Stat_action = "Def_dict"
 chance = 100
-AnimName = "Done"
 AnimNode = ExtResource("1_et0qr")
 metadata/_custom_type_script = "uid://khacs4dumku4"
