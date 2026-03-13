@@ -262,5 +262,9 @@ func play_foot_step():
 func update_direction_to(pos : Vector2) :
 	previous_pos = global_position - (current_direction * Game.tileSize)
 	var motion = pos - global_position
-	var dir = motion.normalized()
-	current_direction = dir.sign()
+	if motion == Vector2.ZERO:
+		return
+	if abs(motion.x) > abs(motion.y):
+		current_direction = Vector2(sign(motion.x), 0)
+	else:
+		current_direction = Vector2(0, sign(motion.y))
