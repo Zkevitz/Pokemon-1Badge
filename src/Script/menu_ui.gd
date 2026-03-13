@@ -140,7 +140,7 @@ func setup_pokemon_stat(pokemon : PokemonInstance) :
 	pokemonSprite.texture = pokemon.data.sprite_frames.get_frame_texture("idle", 0)
 	
 	var type_text := Utils.type_to_string(pokemon.pokemon_type1)
-	if pokemon.pokemon_type2 != pokemon.Type.AUCUN:
+	if pokemon.pokemon_type2 != PokemonData.Type.AUCUN:
 		type_text += "/" + Utils.type_to_string(pokemon.pokemon_type2)
 		
 	var gridinfo = pokemonStatmenuButton.get_node("GridContainer");
