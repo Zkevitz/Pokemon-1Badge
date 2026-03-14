@@ -4,6 +4,7 @@ class_name WorldMap
 var scene_memory : Dictionary = {
 	"MainWorld" : preload("res://src/node/level_node/main_world.tscn"),
 	"FirstForest" : preload("res://src/node/level_node/first_forest.tscn"),
+	"FirstCave" : preload("res://src/node/level_node/first_cave.tscn"),
 	"ProfShenHouseInterior" : preload("res://src/node/building_interior/profShenHouse.tscn"),
 	"SimpleHouse1" : preload("res://src/node/building_interior/house_interior.tscn")
 }

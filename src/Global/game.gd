@@ -165,8 +165,9 @@ func change_scene_with_player(closed_node: Node, open_node: String, destination_
 	await start_transition()
 	
 	var new_scene_instance = World_Map.get_scene_in_memory(open_node)
-
-	playerManager.player_instance.reparent(new_scene_instance.get_node("ysortingnode"))
+	var y_sorting_node = new_scene_instance.get_node("ysortingnode")
+	playerManager.player_instance.reparent(y_sorting_node)
+	y_sorting_node.move_child(playerManager.player_instance, 0)
 	
 	# 4. Retirer et libérer l'ancienne scène
 	get_tree().current_scene.remove_child(closed_node)

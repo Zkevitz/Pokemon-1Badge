@@ -11,7 +11,7 @@ var currentState = animState.IDLE
 var current_direction := Vector2.DOWN	
 var previous_pos : Vector2
 var target_position := Vector2.ZERO
-var StartPosition := Vector2(3, -5)
+var StartPosition := Vector2(-81, -62)
 var EnableInput := true
 
 var pokemonTeam : Array[PokemonInstance]
@@ -268,3 +268,4 @@ func update_direction_to(pos : Vector2) :
 		current_direction = Vector2(sign(motion.x), 0)
 	else:
 		current_direction = Vector2(0, sign(motion.y))
+	update_animation("idle")

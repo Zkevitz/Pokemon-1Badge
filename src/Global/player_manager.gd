@@ -73,7 +73,7 @@ func activatePlayer():
 	player_instance.set_process(true)
 	player_instance.set_process_input(true)
 	player_instance.EnableInput = true
-	
+
 func get_player() -> CharacterBody2D :
 	return player_instance
 
