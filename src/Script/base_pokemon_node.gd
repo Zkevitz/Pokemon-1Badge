@@ -161,3 +161,9 @@ func play_heal_up_anim():
 	await get_tree().create_timer(1.6).timeout
 	mat.set_shader_parameter("heal_strength", 0.0)
 	await  animation_player.animation_finished
+	
+func make_attack_move(attack_dir : int):
+	var tween = create_tween()
+	tween.tween_property(self, "position:x", self.position.x + attack_dir, 0.1)
+	tween.tween_property(self, "position:x", self.position.x, 0.1)
+	await tween.finished

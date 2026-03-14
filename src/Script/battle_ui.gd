@@ -366,17 +366,15 @@ func askCustomQuestionForLvlUp(text : String, pokemon: PokemonInstance, moveID: 
 
 
 func Play_attack_anim(attacker : PokemonNode, defender : PokemonNode, _move_used : CT_data, attackAnim : Node2D):
-	var tween = create_tween()
 	var attack_dir = -20 if attacker.is_opponent else 20
-	tween.tween_property(attacker, "position:x", attacker.position.x + attack_dir, 0.1)
-	tween.tween_property(attacker, "position:x", attacker.position.x, 0.1)
-	await tween.finished
-	
+	# doit finir par disparaitre pour etre appelé par chaque move anim 
+	await attacker.make_attack_move(attack_dir)
 	if attackAnim :
 		attackAnim.setup_anim()
 		print("defender global pos : ", defender.global_position)
 		await attackAnim.play_attack(attacker, defender, self)
-		attackAnim.queue_free() 
+		attackAnim.queue_free()
+	# doit finir dans un else
 	defender.flash_color(Color.WHITE, 0.3)
 
 func _on_button_pressed() -> void:
