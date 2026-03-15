@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://xo07ofhevxcu"
+path="res://.godot/imported/Flame Wheel.mp3-37bbdd3af4bc0b82e7d443cd266b80e7.mp3str"
+
+[deps]
+
+source_file="res://sound/SFX/attack_sfx/Flame Wheel.mp3"
+dest_files=["res://.godot/imported/Flame Wheel.mp3-37bbdd3af4bc0b82e7d443cd266b80e7.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

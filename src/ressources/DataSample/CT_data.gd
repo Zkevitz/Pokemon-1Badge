@@ -14,7 +14,7 @@ enum Categorie {PHYSICS, SPECIAL, STATUS}
 @export var accuracy := 100
 @export var max_pp := 25
 @export var priority := 0
-
+@export var description := "The user cloaks itself in fire and charges at the foe. It may also leave the target with a burn. "
 @export_group("effect")
 @export var type_effect := Effect.NONE
 @export var Stat_action := "Atk_dict"

@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="CT_data" load_steps=3 format=3 uid="uid://4t64a43y5oos"]
+
+[ext_resource type="Script" uid="uid://khacs4dumku4" path="res://src/ressources/DataSample/CT_data.gd" id="1_048uo"]
+[ext_resource type="PackedScene" uid="uid://epl1dgsjys2y" path="res://src/node/attack_anim/node/roue_de_feu_anim.tscn" id="1_xu6e4"]
+
+[resource]
+script = ExtResource("1_048uo")
+name = "Roue de feu"
+id = 25
+type = 2
+power = 60
+max_pp = 20
+type_effect = 1
+chance = 10
+AnimNode = ExtResource("1_xu6e4")
+metadata/_custom_type_script = "uid://khacs4dumku4"
