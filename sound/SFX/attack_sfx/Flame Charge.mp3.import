@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://d22athagbxjb"
+path="res://.godot/imported/Flame Charge.mp3-b535791a36d3a2d55ba25064934c7d36.mp3str"
+
+[deps]
+
+source_file="res://sound/SFX/attack_sfx/Flame Charge.mp3"
+dest_files=["res://.godot/imported/Flame Charge.mp3-b535791a36d3a2d55ba25064934c7d36.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

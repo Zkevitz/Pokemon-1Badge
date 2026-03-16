@@ -63,7 +63,7 @@ func process_damage_effect(pokemon : PokemonInstance, statusType : String):
 	match statusType :
 		"BRN" :
 			await pokemon.pokemon_node.play_burn()
-			battleManager.apply_damage(pokemon, max(pokemon.Hp_dict["max"] / 16, 1))
+			battleManager.apply_damage(pokemon, max(pokemon.Stat_dict["Hp_dict"]["max"] / 16, 1))
 			battleManager._queue_text("%s souffre de sa brulure !" % pokemon.pokemon_name)
 		"PSN" :
 			SoundManager.play_sfx(preload("res://sound/SFX/status/Status Poison.ogg"), -10)

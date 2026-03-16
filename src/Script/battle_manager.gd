@@ -384,23 +384,23 @@ func execute_move(attacker : PokemonInstance, defender : PokemonInstance, move :
 func apply_move_effect(move : CT_data, attacker : PokemonInstance, defender : PokemonInstance) -> bool:
 	if randi() % 100 >= move.chance:
 		return false
-		
+	var target = attacker if move.target == CT_data.TargetChoice.SELF else defender
 	#REVOIR POUR ADMETTRE LES TARGETS DE MANIERE PLUS REFLECHIS
 	match move.type_effect :
 		CT_data.Effect.CFN :
-			await move_effect_manager.apply_confusion(defender)
+			await move_effect_manager.apply_confusion(target)
 		CT_data.Effect.PSN :
-			await move_effect_manager.apply_poison(defender)
+			await move_effect_manager.apply_poison(target)
 		CT_data.Effect.BURN :
-			move_effect_manager.apply_burn(defender)
+			move_effect_manager.apply_burn(target)
 		CT_data.Effect.PARA :
-			await move_effect_manager.apply_para(defender)
+			await move_effect_manager.apply_para(target)
 		CT_data.Effect.SLEEP :
-			await move_effect_manager.apply_sleep(defender)
+			await move_effect_manager.apply_sleep(target)
 		CT_data.Effect.LOWER_TARGET_STAT :
-			await move_effect_manager.lower_target_stat(defender, move.power_effect, move.Stat_action)
+			await move_effect_manager.lower_target_stat(target, move.power_effect, move.Stat_action)
 		CT_data.Effect.BOOST_TARGET_STAT :
-			await move_effect_manager.boost_target_atk(attacker, move.power_effect, move.Stat_action)
+			await move_effect_manager.boost_target_stat(target, move.power_effect, move.Stat_action)
 	
 	await _process_text_queue()
 	return true

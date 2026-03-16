@@ -136,7 +136,6 @@ func load_moves(learnmoves : Array[MoveLearnData]):
 
 func learnMove(moveidx : int, idx : int):
 	var final_move_data = Game.get_move_data(moveidx)
-	print("Final_move_DATA :!!!!!", final_move_data.power)
 	if moves.size() >= 4 :
 		moves[idx] = final_move_data
 		movesPP[final_move_data.id] = final_move_data.max_pp

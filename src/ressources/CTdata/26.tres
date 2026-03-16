@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="CT_data" load_steps=3 format=3 uid="uid://bre3pnmf4rysf"]
+
+[ext_resource type="PackedScene" uid="uid://cvqxf06rbkhms" path="res://src/node/attack_anim/node/nitrocharge_anim.tscn" id="1_6bs4v"]
+[ext_resource type="Script" uid="uid://khacs4dumku4" path="res://src/ressources/DataSample/CT_data.gd" id="2_e6uwm"]
+
+[resource]
+script = ExtResource("2_e6uwm")
+name = "Nitrocharge"
+id = 26
+type = 2
+power = 50
+max_pp = 15
+description = "The user cloaks itself with flame and attacks. Building up more power, it raises the user's Speed stat. "
+type_effect = 7
+Stat_action = "Speed_dict"
+target = 0
+chance = 100
+AnimNode = ExtResource("1_6bs4v")
+metadata/_custom_type_script = "uid://khacs4dumku4"
