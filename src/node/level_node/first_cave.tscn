@@ -1,7 +1,8 @@
-[gd_scene load_steps=15 format=4 uid="uid://g6aeo0exm0fu"]
+[gd_scene load_steps=16 format=4 uid="uid://g6aeo0exm0fu"]
 
 [ext_resource type="TileSet" uid="uid://bhqsmdqna6dfj" path="res://src/ressources/tileset/MainTileSet.tres" id="1_wspec"]
 [ext_resource type="Script" uid="uid://ccp4tgw3peds2" path="res://src/node/level_node/BridgeControl.gd" id="2_g45p3"]
+[ext_resource type="PackedScene" uid="uid://dl6akj6w8t7c8" path="res://src/node/change_scene_component.tscn" id="3_2o272"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_g45p3"]
 size = Vector2(28.999998, 5)
@@ -138,6 +139,11 @@ position = Vector2(63.5, -16)
 shape = SubResource("RectangleShape2D_idhy7")
 
 [node name="building" type="TileMapLayer" parent="ysortingnode"]
+
+[node name="ChangeSceneComponent" parent="." instance=ExtResource("3_2o272")]
+position = Vector2(612, 208)
+destination_pos = Vector2(-86, -62)
+direction_input = "right"
 
 [connection signal="body_shape_entered" from="ysortingnode/bridge/BridgeManager" to="ysortingnode/bridge/BridgeManager" method="_on_body_shape_entered"]
 [connection signal="body_shape_exited" from="ysortingnode/bridge/BridgeManager" to="ysortingnode/bridge/BridgeManager" method="_on_body_shape_exited"]
