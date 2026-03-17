@@ -11,7 +11,7 @@ var currentState = animState.IDLE
 var current_direction := Vector2.DOWN	
 var previous_pos : Vector2
 var target_position := Vector2.ZERO
-var StartPosition := Vector2(-81, -62)
+var StartPosition := Vector2(12, -4)
 var EnableInput := true
 
 var pokemonTeam : Array[PokemonInstance]
@@ -182,9 +182,8 @@ func handle_moving_state(delta : float):
 
 func attempt_move(direction : Vector2) :
 	var collisiontest := move_and_collide(direction * Game.tileSize, true, 0.08, true)
-		
+	current_direction = direction
 	if not collisiontest :
-		current_direction = direction
 		target_position = position + direction * Game.tileSize
 		if SPEED == 70 :
 			update_animation("Walking")
@@ -192,7 +191,6 @@ func attempt_move(direction : Vector2) :
 			update_animation("Run")
 		currentState = animState.MOVING
 	else :
-		current_direction = direction
 		if collisiontest.get_collider().is_in_group("Border") :
 			attempt_border_jump(collisiontest.get_collider())
 		print("collision avec : ", collisiontest.get_collider().name)

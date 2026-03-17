@@ -11,6 +11,7 @@
 [ext_resource type="PackedScene" uid="uid://jeu2uicg2dkb" path="res://src/node/PnjMovingRange.tscn" id="6_pw0ce"]
 [ext_resource type="Script" uid="uid://dhxmid3wi0bnt" path="res://src/Script/pickupBall.gd" id="7_fxw4j"]
 [ext_resource type="PackedScene" uid="uid://mj8mpy0vd62j" path="res://src/node/interactable_object.tscn" id="7_o8rw8"]
+[ext_resource type="Script" uid="uid://bo5d77cuy5wis" path="res://src/Script/interact_range.gd" id="7_qsg0m"]
 [ext_resource type="Texture2D" uid="uid://cvwd1jwk66dsx" path="res://assets/npc/MPWSP01/mypokeball.png" id="8_bx1q0"]
 [ext_resource type="Texture2D" uid="uid://i4mwc37ye42i" path="res://assets/Water/SABLE/totry2.png" id="11_lr0mh"]
 
@@ -1135,11 +1136,8 @@ sources/1 = SubResource("TileSetAtlasSource_3vw7c")
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_fxw4j"]
 size = Vector2(31, 24)
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_lqiqp"]
-size = Vector2(31, 25)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_o8rw8"]
-size = Vector2(30, 25)
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_lr0mh"]
+size = Vector2(32, 59.75)
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_1jgi6"]
 texture = ExtResource("2_jpo0k")
@@ -3643,10 +3641,8 @@ position = Vector2(304, -64)
 texture = ExtResource("8_bx1q0")
 offset = Vector2(0, 24)
 script = ExtResource("7_fxw4j")
-recompenseId = 7
 
 [node name="InteractableObject" parent="ysortingnode/Mypokeball3" instance=ExtResource("7_o8rw8")]
-interactionName = "pickupPokemon"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="ysortingnode/Mypokeball3/InteractableObject"]
 position = Vector2(0.5, 28)
@@ -3658,15 +3654,16 @@ y_sort_enabled = true
 texture_filter = 1
 position = Vector2(256, -41)
 texture = ExtResource("8_bx1q0")
-script = ExtResource("7_fxw4j")
-recompenseId = 4
 
-[node name="InteractableObject" parent="ysortingnode/Mypokeball2" instance=ExtResource("7_o8rw8")]
-interactionName = "pickupPokemon"
+[node name="InteractRange2" type="Area2D" parent="ysortingnode/Mypokeball2"]
+position = Vector2(48, -23)
+script = ExtResource("7_qsg0m")
+recompense_id = 4
+question_custom = "Voulez vous ce pokemon ?"
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ysortingnode/Mypokeball2/InteractableObject"]
-position = Vector2(0.5, 5.5)
-shape = SubResource("RectangleShape2D_lqiqp")
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ysortingnode/Mypokeball2/InteractRange2"]
+position = Vector2(-48, 35)
+shape = SubResource("RectangleShape2D_lr0mh")
 
 [node name="Mypokeball" type="Sprite2D" parent="ysortingnode"]
 z_index = 1
@@ -3674,13 +3671,15 @@ y_sort_enabled = true
 texture_filter = 1
 position = Vector2(208, -40)
 texture = ExtResource("8_bx1q0")
-script = ExtResource("7_fxw4j")
 
-[node name="InteractableObject" parent="ysortingnode/Mypokeball" instance=ExtResource("7_o8rw8")]
+[node name="InteractRange" type="Area2D" parent="ysortingnode/Mypokeball"]
+position = Vector2(96, -24)
+script = ExtResource("7_qsg0m")
+question_custom = "Voulez vous ce pokemon ?"
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ysortingnode/Mypokeball/InteractableObject"]
-position = Vector2(0, 4.5)
-shape = SubResource("RectangleShape2D_o8rw8")
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ysortingnode/Mypokeball/InteractRange"]
+position = Vector2(-96, 34.125)
+shape = SubResource("RectangleShape2D_lr0mh")
 
 [node name="profhomes" parent="ysortingnode" node_paths=PackedStringArray("Walkinggrid", "MovingArea") instance=ExtResource("5_jpo0k")]
 z_index = 1
@@ -3704,3 +3703,8 @@ tile_set = ExtResource("5_0wjqe")
 
 [node name="MovingRangeprofhomes" parent="ysortingnode" instance=ExtResource("6_pw0ce")]
 position = Vector2(99, -58)
+
+[connection signal="body_entered" from="ysortingnode/Mypokeball2/InteractRange2" to="ysortingnode/Mypokeball2/InteractRange2" method="_on_body_entered"]
+[connection signal="body_exited" from="ysortingnode/Mypokeball2/InteractRange2" to="ysortingnode/Mypokeball2/InteractRange2" method="_on_body_exited"]
+[connection signal="body_entered" from="ysortingnode/Mypokeball/InteractRange" to="ysortingnode/Mypokeball/InteractRange" method="_on_body_entered"]
+[connection signal="body_exited" from="ysortingnode/Mypokeball/InteractRange" to="ysortingnode/Mypokeball/InteractRange" method="_on_body_exited"]

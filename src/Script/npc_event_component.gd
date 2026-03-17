@@ -11,7 +11,7 @@ func setup(npc: CharacterBody2D) -> void:
 func show_exclamation_mark() -> void:
 	_npc.currentState = _npc.animState.NONE
 	var sprite = _npc.get_node("Marker2D/Sprite2D")
-	var anim = _npc.get_node("Marker2D/AnimationPlayer")
+	var anim = _npc.get_node("AnimationPlayer")
 	sprite.visible = true
 	sprite.modulate.a = 1.0
 	anim.play("exclamationMark")

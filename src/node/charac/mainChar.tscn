@@ -1,7 +1,8 @@
-[gd_scene load_steps=8 format=3 uid="uid://duyean75fj7dh"]
+[gd_scene load_steps=10 format=3 uid="uid://duyean75fj7dh"]
 
 [ext_resource type="Script" uid="uid://dqvwij6ip3fi7" path="res://src/Script/main_char.gd" id="1_1olwv"]
 [ext_resource type="SpriteFrames" uid="uid://da2i2421igsea" path="res://src/node/charac/main_char2.tres" id="2_1olwv"]
+[ext_resource type="Script" uid="uid://bb0wfjrv40vms" path="res://src/node/charac/interaction_component.gd" id="3_wl7hr"]
 
 [sub_resource type="Animation" id="Animation_mf5gf"]
 length = 0.001
@@ -94,6 +95,9 @@ _data = {
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_eayiw"]
 size = Vector2(8, 4)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_1olwv"]
+size = Vector2(16, 16)
+
 [node name="Node2D" type="CharacterBody2D" groups=["player"]]
 z_as_relative = false
 y_sort_enabled = true
@@ -121,3 +125,14 @@ speed_scale = 0.5
 position = Vector2(-1.2621775e-29, 3.999999)
 scale = Vector2(0.99999994, 1)
 shape = SubResource("RectangleShape2D_eayiw")
+
+[node name="InteractionComponent2" type="Area2D" parent="."]
+script = ExtResource("3_wl7hr")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="InteractionComponent2"]
+position = Vector2(0, -16)
+shape = SubResource("RectangleShape2D_1olwv")
+
+[connection signal="animation_changed" from="Sprite2D" to="InteractionComponent2" method="_on_sprite_2d_animation_changed"]
+[connection signal="area_entered" from="InteractionComponent2" to="InteractionComponent2" method="_on_area_entered"]
+[connection signal="area_exited" from="InteractionComponent2" to="InteractionComponent2" method="_on_area_exited"]

@@ -37,6 +37,7 @@ player=""
 Border=""
 walkgrid=""
 ysortingnode=""
+interactingObject=""
 
 [input]
 
