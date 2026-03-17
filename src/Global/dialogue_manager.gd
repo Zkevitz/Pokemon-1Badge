@@ -45,8 +45,8 @@ func _ready() -> void:
 	}
 
 func _process(delta: float) -> void:
-	if dialogueisActive == false : 
-		return
+	#if dialogueisActive == false : 
+		#return
 	if Input.is_action_just_pressed("interact") :
 		emit_signal("input_pressed")
 		

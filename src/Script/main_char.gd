@@ -127,19 +127,23 @@ func cancel_last_move():
 	global_position = previous_pos
 	Snap_to_grid()
 	
-func receiveGift(recompenseType : Game.recompenseType, recompense_id : int = 0, pokemon_level : int = 5): 
+func receiveGift(recompenseType : Game.recompenseType, recompense_id : Variant = 0, pokemon_level : int = 5): 
 	if recompenseType == Game.recompenseType.POKEMON :
 		var newPokemon = PokemonInstance.new()
 		newPokemon.data = Game.get_pokemon_data(recompense_id)
 		newPokemon.level = pokemon_level
 		newPokemon.initStats()
 		add_pokemon_in_team(newPokemon)
+		SoundManager.play_sfx(preload("res://sound/SFX/Divers/Item get.ogg"), -18)
 		DialogueManager.startDialogue("{introduire nom du joueur} recois %s" % newPokemon.pokemon_name)
 	elif recompenseType == Game.recompenseType.TEAM_HEALING : 
 		full_heal_team()
 		DialogueManager.startDialogue("Votre équipe est désormais completement soigné")
-	else: 
-		print("object receive a implementer")
+	else:
+		var item_data = Game.get_item_data(recompense_id)
+		player_inventory.add_item(item_data)
+		SoundManager.play_sfx(preload("res://sound/SFX/Divers/Item get.ogg"), -18)
+		DialogueManager.startDialogue("Vous recevez %s !" % item_data.Item_name)
 
 func full_heal_team():
 	SoundManager.play_sfx(preload("res://sound/SFX/Divers/Pkmn healing.ogg"), -15)

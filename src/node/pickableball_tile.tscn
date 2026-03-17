@@ -1,0 +1,30 @@
+[gd_scene load_steps=6 format=3 uid="uid://cnt0yxbh2r6mb"]
+
+[ext_resource type="Texture2D" uid="uid://cvwd1jwk66dsx" path="res://assets/npc/MPWSP01/mypokeball.png" id="1_151a6"]
+[ext_resource type="Script" uid="uid://b0pfk0bu2fe3v" path="res://src/Script/pickableball_tile.gd" id="2_vxyip"]
+[ext_resource type="PackedScene" uid="uid://mj8mpy0vd62j" path="res://src/node/interactable_object.tscn" id="3_6opx1"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_151a6"]
+radius = 8.571431
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_t0ex6"]
+radius = 5.7142854
+
+[node name="PickableballTile" type="Sprite2D"]
+texture_filter = 1
+scale = Vector2(0.7, 0.7)
+texture = ExtResource("1_151a6")
+script = ExtResource("2_vxyip")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+scale = Vector2(0.99999976, 0.99999976)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(0, 1.4285718)
+shape = SubResource("CircleShape2D_151a6")
+
+[node name="InteractableObject" parent="." instance=ExtResource("3_6opx1")]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="InteractableObject"]
+position = Vector2(0, 1.4285715)
+shape = SubResource("CircleShape2D_t0ex6")

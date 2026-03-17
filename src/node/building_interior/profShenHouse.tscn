@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=4 uid="uid://cce554nlstiju"]
+[gd_scene load_steps=27 format=4 uid="uid://cce554nlstiju"]
 
 [ext_resource type="Script" uid="uid://bu0s0s0hx2dw1" path="res://src/Script/house_interior.gd" id="1_q60ni"]
 [ext_resource type="Texture2D" uid="uid://cro2iivu6mc6i" path="res://assets/npc/MPWSP01/tileset/tileset.png" id="2_jpo0k"]
@@ -1131,6 +1131,9 @@ texture = ExtResource("3_2ivi2")
 physics_layer_0/collision_layer = 1
 sources/0 = SubResource("TileSetAtlasSource_7ikg8")
 sources/1 = SubResource("TileSetAtlasSource_3vw7c")
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_o8rw8"]
+radius = 12.0415945
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_fxw4j"]
 size = Vector2(31, 24)
@@ -3626,6 +3629,10 @@ tile_set = SubResource("TileSet_gi0cs")
 position = Vector2(160, 149)
 destination_pos = Vector2(3, 9)
 direction_input = "backward"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="floor/ChangeSceneComponent"]
+position = Vector2(0, -3)
+shape = SubResource("CircleShape2D_o8rw8")
 
 [node name="carpet" type="TileMapLayer" parent="."]
 texture_filter = 1
