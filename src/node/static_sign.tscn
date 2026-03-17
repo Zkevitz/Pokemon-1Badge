@@ -1,0 +1,32 @@
+[gd_scene load_steps=7 format=3 uid="uid://besvl8i8y6c1t"]
+
+[ext_resource type="Script" uid="uid://rpl7t3r2roha" path="res://static_sign.gd" id="1_00o2u"]
+[ext_resource type="Texture2D" uid="uid://c4px0drletrt7" path="res://assets/bigtileset/environment.png" id="2_5631t"]
+[ext_resource type="PackedScene" uid="uid://mj8mpy0vd62j" path="res://src/node/interactable_object.tscn" id="3_da66i"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sbx46"]
+atlas = ExtResource("2_5631t")
+region = Rect2(548.9002, 0, 22.25885, 16.364172)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_2rwns"]
+size = Vector2(20, 16)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_3f6ul"]
+size = Vector2(20, 16)
+
+[node name="StaticBody2D" type="StaticBody2D"]
+texture_filter = 1
+script = ExtResource("1_00o2u")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = SubResource("AtlasTexture_sbx46")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 1)
+shape = SubResource("RectangleShape2D_2rwns")
+
+[node name="InteractableObject" parent="." instance=ExtResource("3_da66i")]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="InteractableObject"]
+position = Vector2(0, 1)
+shape = SubResource("RectangleShape2D_3f6ul")
